@@ -82,36 +82,16 @@ config:
             - replace_pattern(name, "\\?.*", "")
             - replace_match(name, "GET /api/products/*", "GET /api/products/{productId}")
   service:
-    extensions:
-      - health_check
+    extensions: [health_check]
     pipelines:
       traces:
-        exporters:
-          - otlp
-          - debug
-          - spanmetrics
-        processors:
-          - k8sattributes
-          - memory_limiter
-          - resource
-          - transform
-          - batch
-        receivers:
-          - otlp
+        exporters: [otlp, debug, spanmetrics]
+        processors: [k8sattributes, memory_limiter, resource, transform, batch]
+        receivers: [otlp]
       metrics:
-        exporters:
-          - prometheus
-          - debug
-        processors:
-          - k8sattributes
-          - memory_limiter
-          - resource
-          - batch
-        receivers:
-          - httpcheck/frontend-proxy
-          - redis
-          - otlp
-          - spanmetrics
+        exporters: [prometheus, debug]
+        processors: [k8sattributes, memory_limiter, resource, batch]
+        receivers: [httpcheck/frontend-proxy, redis, otlp, spanmetrics]
       logs:
         receivers: [otlp]
         processors: []
