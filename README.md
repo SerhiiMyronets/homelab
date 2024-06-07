@@ -33,6 +33,16 @@ A static route to `192.168.100.0/24` must be configured on the developer worksta
 * OpenTelemetry-based observability (Tempo, Loki, Prometheus, Grafana)
 * Demo services with instrumentation for tracing and metrics
 
+## Directory Structure
+
+| Path                 | Description                                                                                |
+| -------------------- | ------------------------------------------------------------------------------------------ |
+| `00-prerequisite/`   | Environment preparation: hardware requirements, dependencies, Proxmox and networking setup |
+| `01-infrastructure/` | Terraform configurations for Proxmox VM provisioning and Talos injection                   |
+| `02-bootstrap/`      | Installs base components (cert-manager, ingress, Argo CD, Longhorn, etc.) using Helmfile   |
+| `03-gitops/`         | Deploys applications via Argo CD, including observability stack and demo workloads         |
+| `README.md`          | Project overview and step-by-step deployment guide                                         |
+
 ## Getting Started
 
-To begin, go to [00-prerequisite](./00-prerequisite/README.md), which describes the initial setup and requirements for your system.
+To begin, go to [00-prerequisite](./homelab/00-prerequisite/README.md), which describes the initial setup and requirements for your system.
