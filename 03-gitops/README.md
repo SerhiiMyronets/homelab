@@ -121,7 +121,7 @@ Service map from Cilium showing network flows.
 
 Distributed trace captured via OpenTelemetry.
 
-<img src="../assets/jaeger.png" width="800"/>
+[<img src="../assets/jaeger.png" width="800"/>](../assets/jaeger.png)
 
 ### Tempo
 
