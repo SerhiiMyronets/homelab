@@ -60,7 +60,7 @@ spec:
               exit 1
           env:
             - name: FRONTEND_ADDR
-              value: "online-boutique.demo"
+              value: "https://online-boutique.demo"
 
       containers:
         - name: main
