@@ -3,9 +3,11 @@ fullnameOverride: otel-collector
 mode: deployment
 serviceMonitor:
   enabled: true
-  endpoints:
+  metricsEndpoints:
     - port: spanmetrics
       interval: 15s
+  extraLabels:
+    release: kube-prometheus-stack
 
 config:
   connectors:
@@ -127,6 +129,8 @@ config:
         processors: []
         exporters: [debug]
 ports:
+  metrics:
+    enabled: false
   spanmetrics:
     enabled: true
     containerPort: 8889
