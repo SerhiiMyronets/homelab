@@ -151,8 +151,6 @@ sudo route -n add 192.168.100.0/24 192.168.1.100
 
 This tells your system to forward all traffic for the cluster (192.168.100.x) through the Proxmox host.
 
-This routes cluster traffic through your Proxmox box.
-
 ---
 
-Ready? ➡️ Move on to [01-infrastructure](../01-infrastructure/) to start deploying your cluster!
+Ready? ➡️ Move on to [01-infrastructure](../01-infrastructure/README.md) to start deploying your cluster!

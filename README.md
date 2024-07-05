@@ -2,11 +2,6 @@
 
 This project sets up a fully automated Kubernetes cluster tailored for homelab environments. It leverages:
 
-## 📦 Prerequisites
-
-Before deploying the Kubernetes cluster, make sure your environment is prepared:
-
-➡️ See [00-prerequisite/README.md](./00-prerequisite/README.md)
 
 * **Talos Linux** — a secure, immutable Kubernetes OS
 * **Terraform** — Infrastructure as Code (IaC) for reproducible deployments
