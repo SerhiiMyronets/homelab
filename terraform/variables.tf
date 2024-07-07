@@ -27,3 +27,9 @@ variable "network" {
   type    = string
   default = "vmbr0"
 }
+
+locals {
+  talos = {
+    version = "v1.9.4"
+  }
+}
