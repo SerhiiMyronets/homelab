@@ -40,6 +40,17 @@ locals {
       name = "argocd"
     }
   })
+  argocd_cm_manifest = yamlencode({
+    apiVersion = "v1"
+    kind       = "ConfigMap"
+    metadata = {
+      name      = "argocd-cm"
+      namespace = "argocd"
+    }
+    data = {
+      "kustomize.buildOptions" = "--enable-helm"
+    }
+  })
   argocd_inline_manifest = {
     cluster = {
       inlineManifests = [
@@ -47,6 +58,7 @@ locals {
           name     = data.helm_template.argocd.namespace
           contents = join("---\n", [
             local.argocd_namespace_manifest,
+            # local.argocd_cm_manifest,
             data.helm_template.argocd.manifest
           ])
         }
@@ -54,3 +66,11 @@ locals {
     }
   }
 }
+
+
+# helm upgrade --install argocd argo/argo-cd \
+# --namespace argocd \
+# --create-namespace \
+# --set "configs.cm.kustomize\.buildOptions=--enable-helm" \
+# --set redis.auth.enabled=false \
+# --set server.service.type=LoadBalancer
