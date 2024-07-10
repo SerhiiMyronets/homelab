@@ -15,7 +15,7 @@ configMapGenerator:
   - name: demo-dashboard
     namespace: monitoring
     files:
-      - dashboards/demo-dashboard-loki.json
+      - dashboards/demo-dashboard-logql.json
     options:
       labels:
         grafana_dashboard: "1"
