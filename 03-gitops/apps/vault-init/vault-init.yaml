@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: vault-init
+  namespace: vault
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    spec:
+      serviceAccountName: vault
+      containers:
+        - name: vault-init
+          image: hashicorp/vault:1.15.2
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "⏳ Waiting for Vault to become reachable..."
+              until curl -sk https://vault.vault.svc:8200/v1/sys/health | grep 'sealed'; do sleep 3; done
+
+              echo "🔐 Initializing Vault..."
+              INIT_OUTPUT=$(vault operator init -key-shares=1 -key-threshold=1 -format=json)
+              UNSEAL_KEY=$(echo "$INIT_OUTPUT" | jq -r '.unseal_keys_b64[0]')
+              ROOT_TOKEN=$(echo "$INIT_OUTPUT" | jq -r '.root_token')
+
+              echo "🔓 Unsealing Vault..."
+              vault operator unseal $UNSEAL_KEY
+
+              echo "💾 Saving keys to Kubernetes Secret..."
+              kubectl create secret generic vault-keys \
+                --from-literal=unseal_key=$UNSEAL_KEY \
+                --from-literal=root_token=$ROOT_TOKEN \
+                --namespace=vault
+
+              echo "✅ Vault initialized and unsealed."
+          env:
+            - name: VAULT_ADDR
+              value: "https://vault.vault.svc:8200"
+          volumeMounts:
+            - name: vault-ca
+              mountPath: /etc/vault/tls
+              readOnly: true
+      restartPolicy: OnFailure
+      volumes:
+        - name: vault-ca
+          secret:
+            secretName: ingress-tls
