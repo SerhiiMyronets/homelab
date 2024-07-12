@@ -3,9 +3,9 @@ kind: Ingress
 metadata:
   name: jaeger-ui
   namespace: monitoring
-#  annotations:
-#    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-#    cert-manager.io/cluster-issuer: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    cert-manager.io/cluster-issuer: ingress
 spec:
   ingressClassName: nginx
   rules:
