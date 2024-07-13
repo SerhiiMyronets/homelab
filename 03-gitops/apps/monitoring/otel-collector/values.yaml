@@ -104,7 +104,7 @@ config:
         exporters: [ spanmetrics, otlp, debug ]
 
       metrics:
-        receivers: [ otlp, redis, httpcheck/frontend-proxy ]
+        receivers: [ spanmetrics, otlp, redis, httpcheck/frontend-proxy ]
         processors: [ k8sattributes, memory_limiter, resource, batch ]
         exporters: [ prometheus, debug ]
 
