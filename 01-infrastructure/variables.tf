@@ -167,7 +167,7 @@ variable "worker_config" {
   default = {
     count  = 1
     cpu    = 4
-    memory = 1024 * 6
+    memory = 1024 * 4
 
     os_disk = {
       size      = 20
