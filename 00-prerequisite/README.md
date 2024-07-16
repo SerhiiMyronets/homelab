@@ -86,7 +86,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/Proxmo
 
 You’ll need to modify the network interface settings on your Proxmox host.
 
-> 🖍️ **Important:** Your real network interface (e.g. `enp3s0`) will likely be **different** from mine.
+> 🖍️ **Important:** Your real network interface (e.g. `enp3s0`) will likely be **different** from mine. Make sure to replace it everywhere — it appears **4 times** in the config below.
 > Run `ip a` or `ip link` on the Proxmox host to find the correct interface and replace `enp3s0` in the config below.
 
 Also, if `192.168.1.100` is available on your home network, **I recommend keeping it**, since the rest of this project assumes that IP by default — this way you'll avoid extra configuration changes later.
