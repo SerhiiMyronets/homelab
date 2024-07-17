@@ -39,7 +39,7 @@ config:
       tls:
         insecure: true
     prometheus:
-      endpoint: ${env:MY_POD_IP}:8888
+      endpoint: ${env:MY_POD_IP}:8889
   extensions:
     health_check:
       endpoint: ${env:MY_POD_IP}:13133
