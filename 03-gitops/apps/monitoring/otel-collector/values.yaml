@@ -113,6 +113,8 @@ config:
           - batch
         receivers:
           - otlp
+          - jaeger
+          - zipkin
       metrics:
         exporters:
           - otlphttp/prometheus
