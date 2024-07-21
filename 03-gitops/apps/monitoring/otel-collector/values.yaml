@@ -29,4 +29,4 @@ config:
       logs:
         receivers: [otlp]
         processors: []
-        exporters: [logging]q
+        exporters: [logging]
