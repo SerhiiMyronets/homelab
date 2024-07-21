@@ -47,7 +47,6 @@ grafana:
   defaultDatasourceEnabled: false
   additionalDataSources:
     - name: Prometheus
-      isDefault: true
       type: prometheus
       uid: webstore-metrics
       access: proxy
