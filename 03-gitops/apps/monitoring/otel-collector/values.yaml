@@ -92,7 +92,7 @@ config:
     pipelines:
       traces:
         receivers: [otlp]
-        processors: [batch]
+        processors: [k8sattributes, memory_limiter, resource, transform, batch]
         exporters: [spanmetrics, otlp, debug]
       metrics:
         receivers: [ spanmetrics ]
@@ -103,7 +103,7 @@ config:
         address: "0.0.0.0:8888"
 
 
-
+##############################################
 
 ports:
   metrics:
