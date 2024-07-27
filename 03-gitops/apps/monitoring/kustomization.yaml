@@ -6,4 +6,4 @@ resources:
   - loki
   - tempo
   - jaeger
-#  - otel-collector
+  - otel-collector
