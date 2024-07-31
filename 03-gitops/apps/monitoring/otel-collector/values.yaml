@@ -112,19 +112,19 @@ config:
         receivers:
           - otlp
 
-        metrics:
-          exporters:
-            - otlphttp/prometheus
-          processors:
-            - k8sattributes
-            - memory_limiter
-            - resource
-            - batch
-          receivers:
-            - httpcheck/frontend-proxy
-            - redis
-            - otlp
-            - spanmetrics
+      metrics:
+        exporters:
+          - otlphttp/prometheus
+        processors:
+          - k8sattributes
+          - memory_limiter
+          - resource
+          - batch
+        receivers:
+          - httpcheck/frontend-proxy
+          - redis
+          - otlp
+          - spanmetrics
       logs:
         receivers: [otlp]
         processors: []
