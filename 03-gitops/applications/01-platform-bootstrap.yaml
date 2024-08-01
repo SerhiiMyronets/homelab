@@ -16,36 +16,67 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-prometheus-stack
+  name: cert-manager
   namespace: argocd
 spec:
   project: platform
   source:
     repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
     targetRevision: main
-    path: 03-gitops/apps/platform/kube-prometheus-stack
+    path: 03-gitops/apps/platform/cert-manager
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
   syncPolicy:
     automated: {}
-
-
-
-
-#apiVersion: argoproj.io/v1alpha1
-#kind: Application
-#metadata:
-#  name: platform-apps
-#  namespace: argocd
-#spec:
-#  project: platform
-#  source:
-#    repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
-#    targetRevision: main
-#    path: 03-gitops/apps/platform
-#  destination:
-#    server: https://kubernetes.default.svc
-#    namespace: argocd
-#  syncPolicy:
-#    automated: {}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium
+  namespace: argocd
+spec:
+  project: platform
+  source:
+    repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
+    targetRevision: main
+    path: 03-gitops/apps/platform/cilium
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated: {}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  project: platform
+  source:
+    repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
+    targetRevision: main
+    path: 03-gitops/apps/platform/argocd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated: {}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+spec:
+  project: platform
+  source:
+    repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
+    targetRevision: main
+    path: 03-gitops/apps/platform/longhorn
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated: {}
