@@ -63,7 +63,7 @@ grafana:
       type: loki
       uid: webstore-logs
       access: proxy
-      url: http://loki-stack.monitoring.svc.cluster.local:3100
+      url: http://loki-stack.monitoring.svc.cluster.local:4317
   sidecar:
     dashboards:
       enabled: true
