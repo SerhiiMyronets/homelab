@@ -36,14 +36,30 @@ A static route to `192.168.100.0/24` must be configured on the developer worksta
 
 ## Directory Structure
 
-| Path                                                 | Description                                                                                |
-|------------------------------------------------------| ------------------------------------------------------------------------------------------ |
-| [`00-prerequisite/`](./00-prerequisite/README.md)    | Environment preparation: hardware requirements, dependencies, Proxmox and networking setup |
-| [`01-infrastructure/`](.01-infrastructure/README.md) | Terraform configurations for Proxmox VM provisioning and Talos injection                   |
-| [`02-bootstrap/`](./02-bootstrap/README.md)          | Installs base components (cert-manager, ingress, Argo CD, Longhorn, etc.) using Helmfile   |
-| [`03-gitops/`](./03-gitops/README.md)                | Deploys applications via Argo CD, including observability stack and demo workloads         |
-| `README.md`                                          | Project overview and step-by-step deployment guide                                         |
+| Path                                                  | Description                                                                                |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [`00-prerequisite/`](./00-prerequisite/README.md)     | Environment preparation: hardware requirements, dependencies, Proxmox and networking setup |
+| [`01-infrastructure/`](./01-infrastructure/README.md) | Terraform configurations for Proxmox VM provisioning and Talos injection                   |
+| [`02-bootstrap/`](./02-bootstrap/README.md)           | Installs base components (cert-manager, ingress, Argo CD, Longhorn, etc.) using Helmfile   |
+| [`03-gitops/`](./03-gitops/README.md)                 | Deploys applications via Argo CD, including observability stack and demo workloads         |
+| `README.md`                                           | Project overview and step-by-step deployment guide                                         |
 
 ## Getting Started
 
 To begin, go to [00-prerequisite](./00-prerequisite/README.md), which describes the initial setup and requirements for your system.
+
+## UI Preview
+
+Below are example UIs from the deployed cluster to showcase the GitOps workflow, observability, and demo workloads.
+
+| Argo CD                        | Grafana                          |
+| ------------------------------ | -------------------------------- |
+| ![argocd](./assets/argocd.png) | ![grafana](./assets/grafana.png) |
+
+| otel-demo                            | Longhorn                           |
+| ------------------------------------ | ---------------------------------- |
+| ![otel-demo](./assets/otel-demo.png) | ![longhorn](./assets/longhorn.png) |
+
+| Lens                       |
+| -------------------------- |
+| ![lens](./assets/lens.png) |
