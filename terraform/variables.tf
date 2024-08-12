@@ -60,13 +60,13 @@ variable "proxmox_network_bridge" {
 variable "talos_version" {
   description = "Talos Linux version."
   type        = string
-  default     = "v1.9.4"
+  default     = "v1.9.5"
 }
 
 variable "talos_qemu_drbd_hash" {
-  description = "SHA256 hash of the Talos Linux image for QEMU/DRBD."
+  description = "SHA256 hash of the Talos Linux image for QEMU/ISCSI."
   type        = string
-  default     = "6adc7e7fba27948460e2231e5272e88b85159da3f3db980551976bf9898ff64b"
+  default     = "dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586"
 }
 
 locals {
