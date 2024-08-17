@@ -46,17 +46,6 @@ locals {
     })))
   ]
 
-  cilium_inline_manifest = {
-    cluster = {
-      inlineManifests = [
-        {
-          name     = "cilium"
-          contents = data.helm_template.cilium.manifest
-        }
-      ]
-    }
-  }
-
   config_patches_worker = concat(
     local.shared_patches,
     local.worker_patches
