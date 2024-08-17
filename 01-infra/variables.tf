@@ -5,20 +5,17 @@
 variable "proxmox_endpoint" {
   description = "Proxmox API endpoint URL."
   type        = string
-  default     = "https://10.1.1.100:8006/"
 }
 
 variable "proxmox_username" {
   description = "Proxmox API username."
   type        = string
-  default     = "root@pam"
 }
 
 variable "proxmox_password" {
   description = "Proxmox API password."
   type        = string
   sensitive   = true
-  default     = "tata3846" // Replace with your actual Proxmox password before deploying.
 }
 
 // ==============================================================================
@@ -78,8 +75,6 @@ variable "kubernetes_version" {
   type    = string
   default = "1.32.0"
 }
-
-
 
 // ==============================================================================
 // Cluster Network Settings
