@@ -26,6 +26,6 @@ spec:
     path: 03-gitops/apps/monitoring
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: monitoring
   syncPolicy:
     automated: {}

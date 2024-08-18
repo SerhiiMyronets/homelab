@@ -1,0 +1,62 @@
+ipam:
+  mode: kubernetes
+kubeProxyReplacement: true
+k8sServiceHost: localhost
+k8sServicePort: 7445
+
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+
+devices:
+  - eth0
+
+routingMode: tunnel
+tunnelProtocol: vxlan
+
+envoy:
+  enabled: false
+
+l2announcements:
+  enabled: true
+
+operator:
+  replicas: 1
+  prometheus:
+    enabled: true
+
+prometheus:
+  enabled: true
+
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+
+hubble:
+  relay:
+    enabled: true
+    tls:
+      auto:
+        enabled: true
+  ui:
+    enabled: true
+    frontend:
+      enabled: true
+    backend:
+      enabled: true
