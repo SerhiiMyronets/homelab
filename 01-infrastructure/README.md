@@ -70,7 +70,7 @@ This screenshot shows Talos VMs created in the Proxmox Virtual Environment, incl
 
 > ⚠️ The screenshot shows a 5-node cluster. The default configuration provisions 2 nodes (1 control-plane, 1 worker).
 
-<img src="../assets/proxmox.png" width="1200"/>
+<img src="../assets/proxmox.png" width="1000"/>
 
 ### Talos Cluster Status
 
