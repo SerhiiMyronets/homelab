@@ -16,7 +16,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: online-boutique
+  name: online-boutique-demo
   namespace: argocd
 spec:
   project: online-boutique-demo
