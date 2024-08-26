@@ -165,7 +165,7 @@ variable "worker_config" {
   default = {
     count         = 2
     cpu           = 2
-    memory        = 4096 // 4 GB
+    memory        = 8192 // 8 GB
     disk_os       = 40   // 40 GB
     disk-longhorn = 60   // 60 GB
   }
