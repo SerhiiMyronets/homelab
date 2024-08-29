@@ -10,9 +10,9 @@ serviceMonitor:
     release: kube-prometheus-stack
 
 config:
-  connectors:
-    spanmetrics: { }
   receivers:
+    spanmetrics:
+      endpoint: ${env:MY_POD_IP}:8889
     httpcheck/frontend-proxy:
       targets:
         - endpoint: http://frontend-proxy:8080
@@ -96,38 +96,19 @@ config:
       - health_check
     pipelines:
       traces:
-        exporters:
-          - otlp
-          - debug
-          - spanmetrics
-        processors:
-          - k8sattributes
-          - memory_limiter
-          - resource
-          - transform
-          - batch
-        receivers:
-          - otlp
-          - jaeger
-          - zipkin
-      metrics:
-        exporters:
-          - prometheus
-          - debug
-        processors:
-          - k8sattributes
-          - memory_limiter
-          - resource
-          - batch
-        receivers:
-          - httpcheck/frontend-proxy
-          - redis
-          - otlp
-          - spanmetrics
-      logs:
-        receivers: [otlp]
-        processors: []
-        exporters: [debug]
+        receivers: [ otlp, jaeger, zipkin ]
+        processors: [ k8sattributes, memory_limiter, resource, transform, batch ]
+        exporters: [ spanmetrics, otlp, debug ]
+
+        metrics:
+          receivers: [ otlp, redis, httpcheck/frontend-proxy ]
+          processors: [ k8sattributes, memory_limiter, resource, batch ]
+          exporters: [ prometheus, debug ]
+
+        logs:
+          receivers: [ otlp ]
+          processors: [ ]
+          exporters: [ debug ]
 ports:
   metrics:
     enabled: false
