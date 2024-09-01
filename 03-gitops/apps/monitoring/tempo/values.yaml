@@ -4,6 +4,8 @@ persistence:
   size: 10Gi
 
 tempo:
+  search:
+    enabled: true
   otlp:
     grpc:
       enabled: true
