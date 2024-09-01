@@ -57,10 +57,21 @@ variable "proxmox_network_bridge" {
 // Talos Settings
 // ==============================================================================
 
+variable "talos_version" {
+  description = "Talos Linux version."
+  type        = string
+  default     = "v1.9.4"
+}
+
+variable "talos_qemu_drbd_hash" {
+  description = "SHA256 hash of the Talos Linux image for QEMU/DRBD."
+  type        = string
+  default     = "6adc7e7fba27948460e2231e5272e88b85159da3f3db980551976bf9898ff64b"
+}
+
 locals {
-  talos = {
-    version = "v1.9.4" // Talos Linux version to provision.
-  }
+  talos_image_url      = "https://factory.talos.dev/image/${var.talos_qemu_drbd_hash}/${var.talos_version}/nocloud-amd64.raw.gz"
+  talos_image_filename = "talos-${var.talos_version}-nocloud-amd64.img"
 }
 
 // ==============================================================================
@@ -143,8 +154,6 @@ variable "cluster_vip" {
   default     = "10.1.1.50"
 }
 
-variable "cluster_endpoint" {
-  description = "The Kubernetes API server endpoint address, typically matching the VIP."
-  type        = string
-  default     = "https://10.1.1.50:6443"
+locals {
+  cluster_endpoint = "https://${var.cluster_vip}:6443"
 }

@@ -26,7 +26,7 @@ resource "talos_cluster_kubeconfig" "kubeconfig" {
 
 data "talos_machine_configuration" "controller" {
   cluster_name     = var.cluster_name
-  cluster_endpoint = var.cluster_endpoint
+  cluster_endpoint = local.cluster_endpoint
   machine_type     = "controlplane"
   machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
   config_patches   = local.config_patches_controller
@@ -47,7 +47,7 @@ resource "talos_machine_configuration_apply" "controller" {
 
 data "talos_machine_configuration" "worker" {
   cluster_name     = var.cluster_name
-  cluster_endpoint = var.cluster_endpoint
+  cluster_endpoint = local.cluster_endpoint
   machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
   config_patches   = local.config_patches_worker
