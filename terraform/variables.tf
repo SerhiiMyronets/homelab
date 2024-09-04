@@ -138,16 +138,18 @@ variable "controller_config" {
 variable "worker_config" {
   description = "Resource configuration for worker nodes."
   type = object({
-    count  = number
-    cpu    = number
-    memory = number
-    disk   = number
+    count         = number
+    cpu           = number
+    memory        = number
+    disk_os       = number
+    disk_longhorn = number
   })
   default = {
-    count  = 2
-    cpu    = 2
-    memory = 4096 // 4 GB
-    disk   = 40   // 40 GB
+    count         = 2
+    cpu           = 2
+    memory        = 4096 // 4 GB
+    disk_os       = 40   // 40 GB
+    disk_longhorn = 60   // 60 GB
   }
 }
 
