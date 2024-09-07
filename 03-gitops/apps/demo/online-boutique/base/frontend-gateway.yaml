@@ -15,7 +15,7 @@ spec:
         mode: SIMPLE
         credentialName: online-boutique-tls
       hosts:
-        - "online-boutique.cluster"
+        - "online-boutique.demo"
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -26,7 +26,7 @@ spec:
   gateways:
     - online-boutique-gateway
   hosts:
-    - online-boutique.cluster
+    - online-boutique.demo
   http:
     - match:
         - uri:
