@@ -74,8 +74,48 @@ kubectl apply -f applications/03-otel-demo.yaml
   * Deploys the `otel-demo`, an OpenTelemetry example application representing a 21-microservice online store
   * Exposes the frontend and load generator via Ingress resources
 
-Once all applications are synced, your cluster will be fully equipped with GitOps management, observability, and demo workloads for instrumentation testing.
+## UI Previews
+
+Below are sample screenshots of key components once the cluster is fully deployed.
+
+### Argo CD
+
+GitOps view with synced applications.
+
+<img src="../../assets/file-NMMdxtFURuxefSZAic5dRR.jpeg" width="800"/>
+
+### Grafana
+
+Dashboards for service-level latency and metrics.
+
+<img src="../../assets/file-YXTPFkGNXv2qYqYiXvD65V.jpeg" width="800"/>
+
+### Longhorn
+
+Storage status and volume health.
+
+<img src="../../assets/file-6boSrXdxuM3mSmm6pWjrck.jpeg" width="800"/>
+
+### Hubble
+
+Service map from Cilium showing network flows.
+
+<img src="../../assets/file-2HrzYyJVFX3oojk9vYqgnv.jpeg" width="800"/>
+
+### Talos Cluster Status
+
+Cluster status as seen via `k9s`.
+
+<img src="../../assets/file-4hTgGiS1cnvhwn72wUhqT9.png" width="800"/>
+
+### Proxmox VM view
+
+Talos VMs running in the Proxmox Virtual Environment.
+
+<img src="../../assets/file-CWh6EXmEdbZ5Bt3VyzZFyy.jpeg" width="800"/>
 
 ## Navigation
 
-* [← Back to 02-bootstrap](../02-bootstrap/README.md)
+[← 02-bootstrap](../02-bootstrap/README.md) • [↑ Main project README](../../README.md)
+
+Once all applications are synced, your cluster will be fully equipped with GitOps management, observability, and demo workloads for instrumentation testing. with GitOps management, observability, and demo workloads for instrumentation testing.
