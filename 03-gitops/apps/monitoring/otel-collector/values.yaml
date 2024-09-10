@@ -27,7 +27,7 @@ config:
     pipelines:
       traces:
         receivers: [otlp]
-        processors: [batch]
+        processors: [spanmetrics, batch]
         exporters: [spanmetrics, otlp, logging]
       metrics:
         receivers: [ spanmetrics ]
