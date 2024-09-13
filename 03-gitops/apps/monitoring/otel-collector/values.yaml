@@ -3,10 +3,12 @@ fullnameOverride: otel-collector
 mode: deployment
 
 image:
-  repository: otel/opentelemetry-collector-contrib
+  repository: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib
   tag: 0.120.0
 
 config:
+  connectors:
+    spanmetrics: { }
   receivers:
     otlp:
       protocols:
@@ -14,8 +16,6 @@ config:
         http: {}
   processors:
     batch: { }
-    spanmetrics:
-      metrics_exporter: prometheus
   exporters:
     otlp:
       endpoint: jaeger-collector.monitoring:4317
@@ -23,14 +23,13 @@ config:
         insecure: true
     prometheus:
       endpoint: "0.0.0.0:8889"
-    logging:
-      loglevel: debug
+    debug: {}
   service:
     pipelines:
       traces:
         receivers: [otlp]
-        processors: [batch, spanmetrics]
-        exporters: [otlp, logging]
+        processors: [batch]
+        exporters: [spanmetrics, otlp, debug]
       metrics:
         receivers: [ spanmetrics ]
         processors: [ batch ]
