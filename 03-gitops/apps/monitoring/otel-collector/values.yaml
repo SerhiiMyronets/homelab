@@ -49,6 +49,9 @@ config:
           statements:
             - replace_pattern(name, "\\?.*", "")
             - replace_match(name, "GET /api/products/*", "GET /api/products/{productId}")
+  extensions:
+    health_check:
+      endpoint: ${env:MY_POD_IP}:13133
   exporters:
     logging: {}
     otlp:
