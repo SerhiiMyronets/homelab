@@ -1,11 +1,11 @@
 # 03-gitops
 
-This stage defines and manages the full application lifecycle in the Kubernetes cluster using GitOps principles.
+In this stage, your Kubernetes cluster becomes fully GitOps-driven with automated deployment of platform services, observability stack, and demo workloads.
 Through Argo CD, all components—including platform services, observability tools, and workloads—are deployed in a declarative and reproducible manner.
 
 ## Purpose
 
-This layer defines the full GitOps deployment model for the cluster. It separates applications into logical stages—platform services, observability stack, and demo workloads—each managed by Argo CD Applications.
+This layer turns your cluster into a fully GitOps-managed platform, enabling reproducible deployments, real-time observability, and traceable demo applications.
 
 Argo CD Applications are bootstrapped in a controlled order to ensure service readiness and interdependency handling. This approach enables reproducible, declarative deployment of all Kubernetes workloads via Git.
 
@@ -37,7 +37,7 @@ You can then add this certificate to your system trust store:
 * **macOS**: open Keychain Access → drag the file into "System" → set trust to "Always Trust"
 * **Linux**: copy to `/usr/local/share/ca-certificates/` and run `sudo update-ca-certificates`.
 
-To make Ingress hosts resolvable, you can:
+To access services via domain names, you can:
 
 * Update your local `/etc/hosts` file (example below):
 
@@ -87,7 +87,7 @@ kubectl apply -f applications/03-otel-demo.yaml
   * Deploys the `otel-demo`, an OpenTelemetry example application representing a 21-microservice online store
   * Exposes the frontend and load generator via Ingress resources
 
-Once all applications are synced, your cluster will be fully equipped with GitOps management, observability, and demo workloads for instrumentation testing.
+After applying all stages, you’ll have a fully observable, GitOps-driven cluster with traceable demo workloads ready for exploration.
 
 ## UI Previews
 
@@ -146,6 +146,8 @@ The main frontend page of the otel-demo microservices-based e-commerce applicati
 Locust UI that generates synthetic traffic to simulate real user behavior.
 
 <img src="../assets/load-gen.png" width="1100"/>
+
+All components shown above are deployed declaratively and updated automatically via Argo CD.
 
 ## Navigation
 
