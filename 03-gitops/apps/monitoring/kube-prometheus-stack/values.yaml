@@ -1,0 +1,43 @@
+crds:
+  enabled: true
+
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 2Gi
+
+grafana:
+  defaultDatasourceUid: prometheus
+  additionalDataSources:
+    - name: Prometheus
+      type: prometheus
+      uid: prometheus
+      access: proxy
+      url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+    - name: Tempo
+      type: tempo
+      uid: tempo
+      access: proxy
+      url: http://tempo.monitoring.svc.cluster.local:3100
+    - name: Loki
+      type: loki
+      uid: loki
+      access: proxy
+      url: http://loki-stack.monitoring.svc.cluster.local:3100
