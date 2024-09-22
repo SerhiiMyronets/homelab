@@ -7,9 +7,4 @@ spec:
   template:
     metadata:
       annotations:
-        proxy.istio.io/config: |
-          tracing:
-            custom_tags:
-              service:
-                literal:
-                  value: frontend
+        proxy.istio.io/config: '{"tracing":{"custom_tags":{"service":{"literal":{"value":"frontend"}}}}}'
