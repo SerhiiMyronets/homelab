@@ -149,4 +149,4 @@ Locust UI that generates synthetic traffic to simulate real user behavior.
 
 ## Navigation
 
-[← 02-bootstrap](../02-bootstrap/README.md) • [↑ Main project README](../../README.md)
+[← 02-bootstrap](../02-bootstrap/README.md) • [↑ Main project README](../README.md)
