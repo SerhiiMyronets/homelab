@@ -133,6 +133,8 @@ Replace `192.168.1.100` with your Proxmox host's IP address.
 
 ---
 
-## Next Step
+**Next steps:**
 
-Once the environment is ready, proceed to [`01-infrastructure`](../01-infrastructure/README.md) to provision the cluster infrastructure using Terraform.
+* [← Back to root readme](../README.md)
+* [→ Continue to 01-infrastructure](../01-infrastructure/README.md)
+
