@@ -93,18 +93,6 @@ Once all applications are synced, your cluster will be fully equipped with GitOp
 
 Below are sample screenshots of key components once the cluster is fully deployed.
 
-### Proxmox VM view
-
-Talos VMs running in the Proxmox Virtual Environment.
-
-<img src="../assets/proxmox.png" width="800"/>
-
-### Talos Cluster Status
-
-Cluster status as seen via `k9s`.
-
-<img src="../assets/k9s.png" width="800"/>
-
 ### Argo CD
 
 GitOps view with synced applications.
