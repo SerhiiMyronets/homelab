@@ -1,6 +1,7 @@
 nameOverride: otel-collector
 fullnameOverride: otel-collector
 mode: deployment
+
 serviceMonitor:
   enabled: true
   metricsEndpoints:
@@ -11,7 +12,8 @@ serviceMonitor:
 
 config:
   connectors:
-    spanmetrics: { }
+    spanmetrics: {}
+
   receivers:
     httpcheck/frontend-proxy:
       targets:
@@ -29,6 +31,7 @@ config:
     redis:
       collection_interval: 10s
       endpoint: valkey-cart:6379
+
   exporters:
     debug: {}
     otlp:
@@ -37,11 +40,13 @@ config:
         insecure: true
     prometheus:
       endpoint: ${env:MY_POD_IP}:8889
+
   extensions:
     health_check:
       endpoint: ${env:MY_POD_IP}:13133
+
   processors:
-    batch: { }
+    batch: {}
     k8sattributes:
       extract:
         metadata:
@@ -81,40 +86,25 @@ config:
           statements:
             - replace_pattern(name, "\\?.*", "")
             - replace_match(name, "GET /api/products/*", "GET /api/products/{productId}")
+
   service:
-    extensions:
-      - health_check
+    extensions: [health_check]
     pipelines:
       traces:
-        exporters:
-          - otlp
-          - debug
-          - spanmetrics
-        processors:
-          - k8sattributes
-          - memory_limiter
-          - resource
-          - transform
-          - batch
-        receivers:
-          - otlp
+        receivers: [otlp]
+        processors: [k8sattributes, memory_limiter, resource, transform, batch]
+        exporters: [spanmetrics, otlp, debug]
+
       metrics:
-        exporters:
-          - prometheus
-          - debug
-        processors:
-          - k8sattributes
-          - memory_limiter
-          - resource
-          - batch
-        receivers:
-          - httpcheck/frontend-proxy
-          - redis
-          - otlp
+        receivers: [httpcheck/frontend-proxy, redis, otlp, spanmetrics]
+        processors: [k8sattributes, memory_limiter, resource, batch]
+        exporters: [prometheus, debug]
+
       logs:
         receivers: [otlp]
         processors: []
         exporters: [debug]
+
 ports:
   metrics:
     enabled: false
