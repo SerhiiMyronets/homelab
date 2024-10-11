@@ -121,3 +121,16 @@ config:
         receivers: [otlp]
         processors: []
         exporters: [debug]
+service:
+  enabled: true
+  type: ClusterIP
+  ports:
+    - name: otlp-grpc
+      port: 4317
+      targetPort: 4317
+    - name: otlp-http
+      port: 4318
+      targetPort: 4318
+    - name: spanmetrics
+      port: 8889
+      targetPort: 8889
