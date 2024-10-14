@@ -1,3 +1,16 @@
+ports:
+  metrics:
+    enabled: false
+  spanmetrics:
+    enabled: true
+    containerPort: 8889
+    servicePort: 8889
+    protocol: TCP
+
+service:
+  enabled: true
+  type: ClusterIP
+
 nameOverride: otel-collector
 fullnameOverride: otel-collector
 mode: deployment
@@ -36,7 +49,7 @@ config:
       tls:
         insecure: true
     prometheus:
-      endpoint: ${env:MY_POD_IP}:8889
+      endpoint: 0:0:0:0:8889
   extensions:
     health_check:
       endpoint: ${env:MY_POD_IP}:13133
@@ -96,15 +109,3 @@ config:
         receivers: [otlp]
         processors: []
         exporters: [debug]
-ports:
-  metrics:
-    enabled: false
-  spanmetrics:
-    enabled: true
-    containerPort: 8889
-    servicePort: 8889
-    protocol: TCP
-
-service:
-  enabled: true
-  type: ClusterIP
