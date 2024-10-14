@@ -2,7 +2,7 @@ loki:
   persistence:
     enabled: true
     storageClassName: longhorn
-    size: 5Gi
+    size: 10Gi
 
 promtail:
   enabled: true

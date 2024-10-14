@@ -175,7 +175,7 @@ variable "worker_config" {
     }
 
     longhorn_disk = {
-      size      = 20
+      size      = 40
       datastore = "local-lvm"
     }
   }
