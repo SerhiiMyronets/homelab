@@ -23,7 +23,19 @@ Argo CD Applications are bootstrapped in a controlled order to ensure service re
 All Ingress resources created in this stage are configured to work with the NGINX Ingress Controller.
 They receive static IPs from the Cilium LoadBalancer IP pool. By default, services are exposed via `192.168.100.80`.
 
-TLS configuration blocks are included in the manifests but commented out. You can enable them if you want to secure access with HTTPS.
+TLS configuration blocks are included in the manifests but commented out. To enable TLS for Ingress resources, uncomment the relevant sections in the Ingress manifests. Then, download the self-signed certificate and add it to your local trust store (e.g., macOS Keychain):
+
+```bash
+./03-gitops/scripts/extract-root-cert.sh
+```
+
+This script checks the `ca.crt` field in the `ingress-tls` secret under the `cert-manager` namespace.
+If not found, it falls back to `tls.crt`. The output is saved to `local-cluster-root-ca.crt`.
+
+You can then add this certificate to your system trust store:
+
+* **macOS**: open Keychain Access → drag the file into "System" → set trust to "Always Trust"
+* **Linux**: copy to `/usr/local/share/ca-certificates/` and run `sudo update-ca-certificates`.
 
 To make Ingress hosts resolvable, you can:
 
@@ -35,7 +47,7 @@ To make Ingress hosts resolvable, you can:
                 otel-demo.cluster otel-demo-loadgen.cluster
 ```
 
-* Or configure wildcard DNS entries (e.g., `*.homelab.local`) pointing to the Ingress IP.
+* Or configure wildcard DNS entries (e.g., \*.cluster) pointing to the Ingress IP.
 
 ## Usage
 
@@ -82,7 +94,7 @@ Below are sample screenshots of key components once the cluster is fully deploye
 
 GitOps view with synced applications.
 
-<img src="../../assets/file-NMMdxtFURuxefSZAic5dRR.jpeg" width="800"/>
+<img src="../../assets/argocd.png" width="800"/>
 
 ### Grafana
 
