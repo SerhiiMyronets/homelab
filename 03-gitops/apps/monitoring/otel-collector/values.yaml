@@ -13,8 +13,6 @@ config:
   connectors:
     spanmetrics: { }
   receivers:
-    spanmetrics:
-      endpoint: ${env:MY_POD_IP}:8889
     httpcheck/frontend-proxy:
       targets:
         - endpoint: http://frontend-proxy:8080
@@ -102,15 +100,15 @@ config:
         processors: [ k8sattributes, memory_limiter, resource, transform, batch ]
         exporters: [ spanmetrics, otlp, debug ]
 
-        metrics:
-          receivers: [ otlp, redis, httpcheck/frontend-proxy ]
-          processors: [ k8sattributes, memory_limiter, resource, batch ]
-          exporters: [ prometheus, debug ]
+      metrics:
+        receivers: [ otlp, redis, httpcheck/frontend-proxy ]
+        processors: [ k8sattributes, memory_limiter, resource, batch ]
+        exporters: [ prometheus, debug ]
 
-        logs:
-          receivers: [ otlp ]
-          processors: [ ]
-          exporters: [ debug ]
+      logs:
+        receivers: [ otlp ]
+        processors: [ ]
+        exporters: [ debug ]
 ports:
   metrics:
     enabled: false
