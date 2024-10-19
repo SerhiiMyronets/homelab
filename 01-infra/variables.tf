@@ -63,14 +63,14 @@ variable "talos_version" {
   default     = "v1.9.5"
 }
 
-variable "talos_qemu_drbd_hash" {
+variable "talos_qemu_iscsi_hash" {
   description = "SHA256 hash of the Talos Linux image for QEMU/ISCSI."
   type        = string
   default     = "dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586"
 }
 
 locals {
-  talos_image_url      = "https://factory.talos.dev/image/${var.talos_qemu_drbd_hash}/${var.talos_version}/nocloud-amd64.raw.gz"
+  talos_image_url      = "https://factory.talos.dev/image/${var.talos_qemu_iscsi_hash}/${var.talos_version}/nocloud-amd64.raw.gz"
   talos_image_filename = "talos-${var.talos_version}-nocloud-amd64.img"
 }
 
@@ -148,8 +148,8 @@ variable "controller_config" {
   default = {
     count  = 1
     cpu    = 4
-    memory = 4096 * 2 // 4 GB
-    disk   = 40   // 40 GB
+    memory = 4096 * 2
+    disk   = 40
   }
 }
 
@@ -165,9 +165,9 @@ variable "worker_config" {
   default = {
     count         = 1
     cpu           = 16
-    memory        = 16384 * 3 // 8 GB
-    disk_os       = 40   // 40 GB
-    disk-longhorn = 60   // 60 GB
+    memory        = 16384 * 3
+    disk_os       = 40
+    disk-longhorn = 60
   }
 }
 

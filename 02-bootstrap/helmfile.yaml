@@ -47,6 +47,9 @@ releases:
       - configs:
           cm:
             kustomize.buildOptions: "--enable-helm"
+      - server:
+          extraArgs:
+            - --disable-auth
 
   - name: longhorn
     namespace: longhorn-system
