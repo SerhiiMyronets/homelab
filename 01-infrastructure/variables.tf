@@ -140,7 +140,7 @@ variable "controller_config" {
   default = {
     count          = 1
     cpu            = 2
-    memory         = 2048
+    memory         = 1024 * 2
 
     os_disk = {
       size      = 20
@@ -167,7 +167,7 @@ variable "worker_config" {
   default = {
     count  = 1
     cpu    = 4
-    memory = 8192
+    memory = 1024 * 6
 
     os_disk = {
       size      = 20
