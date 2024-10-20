@@ -22,6 +22,9 @@ config:
       endpoint: http://prometheus.monitoring:9090/api/v1/otlp
       tls:
         insecure: true
+  extensions:
+    health_check:
+      endpoint: ${env:MY_POD_IP}:13133
   service:
     pipelines:
       traces:
