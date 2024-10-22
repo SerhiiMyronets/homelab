@@ -20,3 +20,4 @@ resources:
   - shipping.yaml
   - valkey-cart.yaml
   - opensearch.yaml
+  - ingress.yaml
