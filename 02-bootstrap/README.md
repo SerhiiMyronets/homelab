@@ -56,5 +56,4 @@ longhorn-ui                2/2     2            2           3m21s
 
 ## Navigation
 
-* [← Back to 01-infrastructure](../01-infrastructure/README.md)
-* [→ Continue to 03-gitops](../03-gitops/README.md)
+[← Back to 01-infrastructure](../01-infrastructure/README.md) • [→ Continue to 03-gitops](../03-gitops/README.md)
