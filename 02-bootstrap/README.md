@@ -36,6 +36,24 @@ This command installs all defined charts with their default or overridden config
 
 Note: After applying, it may take 1–2 minutes for Longhorn to become fully ready as it initializes its internal components.
 
+You can check the status with:
+
+```bash
+kubectl get deployments -n longhorn-system
+```
+
+Example output when ready:
+
+```
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+csi-attacher               3/3     3            3           2m13s
+csi-provisioner            3/3     3            3           2m12s
+csi-resizer                3/3     3            3           2m12s
+csi-snapshotter            3/3     3            3           2m12s
+longhorn-driver-deployer   1/1     1            1           3m21s
+longhorn-ui                2/2     2            2           3m21s
+```
+
 ## Next steps
 
 * [← Back to 01-infrastructure](../01-infrastructure/README.md)

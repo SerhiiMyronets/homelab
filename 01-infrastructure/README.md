@@ -11,7 +11,7 @@ It creates control plane and worker node virtual machines, injects machine confi
 * Apply Talos patches for control plane, workers, and Cilium mode
 * Output all required data for the bootstrap phase
 
-## Files
+## Directory Structure
 
 * `providers.tf` – defines Terraform providers
 * `proxmox_nodes.tf` – VM resource definitions
@@ -23,27 +23,31 @@ It creates control plane and worker node virtual machines, injects machine confi
 
 ## Usage
 
-1. Before applying Terraform, provide your Proxmox connection details (endpoint, username, password, and node name) in `terraform.tfvars`.
+Before you begin, add your Proxmox connection details to `terraform.tfvars`.
 
-2. Optional cluster settings such as Talos version, VM resources, and network configuration are defined in `variables.tf` and can be overridden as needed.
-
-3. Initialize and apply the configuration:
+Additional cluster settings such as Talos version, VM resources, and network configuration are defined in `variables.tf` and can be overridden if needed.
 
 ```bash
 terraform init
 terraform apply
+
+# Save kubeconfig locally to access the cluster
+terraform output -raw kubeconfig > ~/.kube/config
 ```
 
-Terraform will provision the VMs, generate Talos configurations, and return the required outputs for the next deployment stage.
+Terraform will provision the VMs, generate Talos configurations, and return the required outputs for the next deployment stage. Wait until all nodes become `Ready` before proceeding. You can verify this using:
 
-This stage provides the following outputs:
+```bash
+kubectl get nodes
+```
 
-* `talosconfig` – Talos client configuration in raw format
-* `kubeconfig` – Kubernetes kubeconfig used to access the cluster
-* `talosconfig_command` – shell command to save Talos config locally
-* `kubeconfig_command` – shell command to save kubeconfig locally
+Expected output:
 
-These outputs are used in the next stage (`02-bootstrap`) to initialize and interact with the Talos-based cluster.
+```
+NAME                    STATUS   ROLES           AGE     VERSION
+talos-controlplane-01   Ready    control-plane   3m24s   v1.32.0
+talos-worker-01         Ready    <none>          3m8s    v1.32.0
+```
 
 **Next steps:**
 
