@@ -68,7 +68,7 @@ spec:
                   apiVersion: v1
                   fieldPath: metadata.labels['app.kubernetes.io/component']
             - name: OTEL_COLLECTOR_NAME
-              value: otel-collector.monitoring.svc.cluster.local
+              value: otel-collector.monitoring
             - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
               value: cumulative
             - name: LOCUST_WEB_HOST
@@ -80,7 +80,7 @@ spec:
             - name: LOCUST_SPAWN_RATE
               value: "1"
             - name: LOCUST_HOST
-              value: http://frontend-proxy:8080
+              value: http://frontend-proxy.otel-demo:8080
             - name: LOCUST_HEADLESS
               value: "false"
             - name: LOCUST_AUTOSTART

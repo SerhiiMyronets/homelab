@@ -211,6 +211,8 @@ releases:
     version: 0.82.0
     createNamespace: true
     values:
+      - nameOverride: otel-collector
+      - fullnameOverride: otel-collector
       - mode: deployment
       - config:
           receivers:
