@@ -32,7 +32,7 @@ A static route to `192.168.100.0/24` must be configured on the developer worksta
 * Cilium CNI with kube-proxy disabled
 * Longhorn for persistent volumes
 * Full observability stack with OpenTelemetry Collector (metrics, logs, traces via Tempo, Loki, Prometheus, Grafana)
-* *Demo microservices instrumented for end-to-end tracing and performance metrics collection*
+*Demo microservices instrumented for end-to-end tracing and performance metrics collection*
 
 ## Directory Structure
 
@@ -44,14 +44,15 @@ A static route to `192.168.100.0/24` must be configured on the developer worksta
 | [`03-gitops/`](./03-gitops/README.md)                 | Deploys applications via Argo CD, including observability stack and demo workloads         |
 | `README.md`                                           | Main entry point with project overview and deployment workflow                             |
 
+
 ## UI Preview
 
 Below is a preview of the cluster after deployment. For a complete set of UI screenshots, see the [03-gitops UI Previews](./03-gitops/README.md#ui-previews).
 
-| Tool    | Preview |
-| ------- | ------- |
-| Argo CD |         |
-| Grafana |         |
+| Tool    | Preview                                       |
+| ------- | --------------------------------------------- |
+| Argo CD | <img src="./assets/argocd.png" width="300"/>  |
+| Grafana | <img src="./assets/grafana.png" width="300"/> |
 
 ## Getting Started
 
