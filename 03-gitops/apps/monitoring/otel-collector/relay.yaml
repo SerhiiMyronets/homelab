@@ -1,0 +1,66 @@
+:
+spanmetrics: {}
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+  redis:
+    endpoint: valkey-cart:6379
+    collection_interval: 10s
+  httpcheck/frontend-proxy:
+    targets:
+      - endpoint: http://frontend-proxy:8080
+
+processors:
+  batch: {}
+  memory_limiter:
+    check_interval: 5s
+    limit_percentage: 80
+    spike_limit_percentage: 25
+  k8sattributes:
+    extract:
+      metadata:
+        - k8s.namespace.name
+        - k8s.pod.name
+    pod_association:
+      - sources:
+          - from: resource_attribute
+            name: k8s.pod.ip
+  resource:
+    attributes:
+      - action: insert
+        from_attribute: k8s.pod.uid
+        key: service.instance.id
+
+exporters:
+  prometheus:
+    endpoint: 0.0.0.0:8889
+  otlp:
+    endpoint: jaeger-collector.monitoring:4317
+    tls:
+      insecure: true
+  debug: {}
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, k8sattributes, resource, batch]
+      exporters: [otlp, spanmetrics, debug]
+    metrics:
+      receivers: [otlp, redis, httpcheck/frontend-proxy, spanmetrics]
+      processors: [memory_limiter, k8sattributes, resource, batch]
+      exporters: [prometheus, debug]
+    logs:
+      receivers: [otlp]
+      processors: []
+      exporters: [debug]
