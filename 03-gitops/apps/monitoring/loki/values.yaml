@@ -1,0 +1,11 @@
+loki:
+  persistence:
+    enabled: true
+    storageClassName: longhorn
+    size: 10Gi
+
+promtail:
+  enabled: true
+
+grafana:
+  enabled: false

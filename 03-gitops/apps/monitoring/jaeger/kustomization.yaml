@@ -1,2 +1,10 @@
 resources:
   - jaeger-ingress.yaml
+
+helmCharts:
+  - name: jaeger
+    releaseName: jaeger
+    version: 3.4.1
+    repo: https://jaegertracing.github.io/helm-charts
+    namespace: monitoring
+    valuesFile: values.yaml
