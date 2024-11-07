@@ -117,6 +117,18 @@ Service map from Cilium showing network flows.
 
 <img src="../assets/hubble.png" width="800"/>
 
+### Jaeger
+
+Distributed trace captured via OpenTelemetry.
+
+<img src="../assets/jaeger.png" width="800"/>
+
+### Tempo
+
+Trace timeline visualized inside Grafana Explore (Tempo datasource).
+
+<img src="../assets/tempo.png" width="800"/>
+
 ### OpenTelemetry Demo
 
 Main frontend page of the demo application.
@@ -132,5 +144,3 @@ Locust UI generating traffic to the demo.
 ## Navigation
 
 [← 02-bootstrap](../02-bootstrap/README.md) • [↑ Main project README](../../README.md)
-
-
