@@ -1,3 +1,22 @@
+// ==============================================================================
+// Talos Proxmox Image Download
+// ==============================================================================
+
+resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
+  content_type             = "iso"
+  datastore_id             = "local"
+  node_name                = var.proxmox_node_name
+  file_name                = "talos-${local.talos.version}-nocloud-amd64.img"
+  url                      = "https://factory.talos.dev/image/6adc7e7fba27948460e2231e5272e88b85159da3f3db980551976bf9898ff64b/${local.talos.version}/nocloud-amd64.raw.gz"
+  decompression_algorithm  = "gz"
+  overwrite                = true
+  overwrite_unmanaged      = true
+}
+
+// ==============================================================================
+// Talos Control Plane Virtual Machines
+// ==============================================================================
+
 resource "proxmox_virtual_environment_vm" "control_plane" {
   count           = var.controller_config.count
   name            = "${var.prefix}-${local.controller_nodes[count.index].name}"
@@ -45,6 +64,10 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
   }
 }
 
+// ==============================================================================
+// Talos Worker Virtual Machines
+// ==============================================================================
+
 resource "proxmox_virtual_environment_vm" "talos_worker_01" {
   depends_on = [proxmox_virtual_environment_vm.control_plane]
   count      = var.worker_config.count
@@ -90,16 +113,4 @@ resource "proxmox_virtual_environment_vm" "talos_worker_01" {
       }
     }
   }
-}
-
-resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
-  content_type = "iso"
-  datastore_id = "local"
-  node_name    = "proxmox"
-
-  file_name               = "talos-${local.talos.version}-nocloud-amd64.img"
-  url                     = "https://factory.talos.dev/image/6adc7e7fba27948460e2231e5272e88b85159da3f3db980551976bf9898ff64b/${local.talos.version}/nocloud-amd64.raw.gz"
-  decompression_algorithm = "gz"
-  overwrite               = true
-  overwrite_unmanaged     = true
 }

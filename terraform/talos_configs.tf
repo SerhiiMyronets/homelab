@@ -1,3 +1,7 @@
+// ==============================================================================
+// Talos Machine Secrets and Client Configuration
+// ==============================================================================
+
 resource "talos_machine_secrets" "machine_secrets" {}
 
 data "talos_client_configuration" "talosconfig" {
@@ -6,12 +10,19 @@ data "talos_client_configuration" "talosconfig" {
   endpoints            = [for node in local.controller_nodes : node.address]
 }
 
-resource "talos_cluster_kubeconfig" "kubeconfig" {
-  depends_on = [talos_machine_bootstrap.bootstrap]
+// ==============================================================================
+// Talos Cluster Kubeconfig
+// ==============================================================================
 
+resource "talos_cluster_kubeconfig" "kubeconfig" {
+  depends_on           = [talos_machine_bootstrap.bootstrap]
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   node                 = local.controller_nodes[0].address
 }
+
+// ==============================================================================
+// Talos Controlplane Node Configuration
+// ==============================================================================
 
 data "talos_machine_configuration" "controller" {
   cluster_name     = var.cluster_name
@@ -30,6 +41,10 @@ resource "talos_machine_configuration_apply" "controller" {
   node                        = local.controller_nodes[count.index].address
 }
 
+// ==============================================================================
+// Talos Worker Node Configuration
+// ==============================================================================
+
 data "talos_machine_configuration" "worker" {
   cluster_name     = var.cluster_name
   cluster_endpoint = var.cluster_endpoint
@@ -46,6 +61,10 @@ resource "talos_machine_configuration_apply" "worker" {
   endpoint                    = local.worker_nodes[count.index].address
   node                        = local.worker_nodes[count.index].address
 }
+
+// ==============================================================================
+// Talos Cluster Bootstrap
+// ==============================================================================
 
 resource "talos_machine_bootstrap" "bootstrap" {
   depends_on           = [talos_machine_configuration_apply.controller]
