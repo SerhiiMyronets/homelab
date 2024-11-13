@@ -100,12 +100,12 @@ config:
       - health_check
     pipelines:
       traces:
-        receivers: [ otlp, jaeger, zipkin ]
+        receivers: [ otlp, jaeger, zipkin, spanmetrics ]
         processors: [ k8sattributes, memory_limiter, resource, transform, batch ]
         exporters: [ spanmetrics, otlp, debug ]
 
       metrics:
-        receivers: [ spanmetrics, otlp, redis, httpcheck/frontend-proxy ]
+        receivers: [ spanmetrics ]
         processors: [ k8sattributes, memory_limiter, resource, batch ]
         exporters: [ prometheus, debug ]
 
