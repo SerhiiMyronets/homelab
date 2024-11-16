@@ -31,6 +31,10 @@ grafana:
       uid: webstore-metrics
       access: proxy
       url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+      jsonData:
+        exemplarTraceIdDestinations:
+          - datasourceUid: webstore-traces
+            name: trace_id
     - name: Jaeger
       type: jaeger
       uid: webstore-traces
@@ -43,7 +47,7 @@ grafana:
       url: http://tempo.monitoring.svc.cluster.local:3200
     - name: Loki
       type: loki
-      uid: loki
+      uid: webstore-logs
       access: proxy
       url: http://loki-stack.monitoring.svc.cluster.local:3100
   sidecar:
