@@ -147,7 +147,7 @@ variable "controller_config" {
   })
   default = {
     count  = 3
-    cpu    = 4
+    cpu    = 2
     memory = 4096 // 4 GB
     disk   = 40   // 40 GB
   }
@@ -164,8 +164,8 @@ variable "worker_config" {
   })
   default = {
     count         = 2
-    cpu           = 2
-    memory        = 8192 // 8 GB
+    cpu           = 6
+    memory        = 16384 // 8 GB
     disk_os       = 40   // 40 GB
     disk-longhorn = 60   // 60 GB
   }
