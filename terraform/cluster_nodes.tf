@@ -3,7 +3,7 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
   name            = "${var.prefix}-${local.controller_nodes[count.index].name}"
   tags            = sort(["talos", "control_plane", "terraform"])
   stop_on_destroy = true
-  node_name       = var.proxmox_pve_node_name
+  node_name       = var.proxmox_node_name
   on_boot         = true
 
   cpu {
@@ -20,7 +20,7 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
   }
 
   network_device {
-    bridge = var.network
+    bridge = var.proxmox_network_bridge
   }
 
   disk {
@@ -50,7 +50,7 @@ resource "proxmox_virtual_environment_vm" "talos_worker_01" {
   count      = var.worker_config.count
   name       = "${var.prefix}-${local.worker_nodes[count.index].name}"
   tags       = sort(["talos", "worker", "terraform"])
-  node_name  = var.proxmox_pve_node_name
+  node_name  = var.proxmox_node_name
   on_boot    = true
 
   cpu {
@@ -67,7 +67,7 @@ resource "proxmox_virtual_environment_vm" "talos_worker_01" {
   }
 
   network_device {
-    bridge = var.network
+    bridge = var.proxmox_network_bridge
   }
 
   disk {
