@@ -15,8 +15,18 @@ repositories:
     url: https://istio-release.storage.googleapis.com/charts
   - name: metallb
     url: https://metallb.github.io/metallb
+  - name: metrics-server
+    url: https://kubernetes-sigs.github.io/metrics-server
 
 releases:
+  - name: metrics-server
+    namespace: kube-system
+    chart: metrics-server/metrics-server
+    version: 3.12.1
+    values:
+      - args:
+          - --kubelet-insecure-tls
+
   - name: cert-manager
     namespace: cert-manager
     chart: jetstack/cert-manager
@@ -126,3 +136,33 @@ releases:
     createNamespace: true
     chart: metallb/metallb
     version: 0.14.9
+
+  - name: istio-base
+    namespace: istio-system
+    chart: istio/base
+    version: 1.26.0
+    createNamespace: true
+
+  - name: istiod
+    namespace: istio-system
+    chart: istio/istiod
+    version: 1.26.0
+    values:
+      - meshConfig:
+          accessLogFile: /dev/stdout
+        global:
+          proxy:
+            autoInject: enabled
+            resources:
+              requests:
+                cpu: 10m
+                memory: 40Mi
+
+  - name: istio-ingressgateway
+    namespace: istio-ingress
+    chart: istio/gateway
+    version: 1.26.0
+    createNamespace: true
+    values:
+      - image:
+          tag: 1.26.0
