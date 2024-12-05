@@ -52,9 +52,9 @@ Below is a preview of the cluster after deployment. For a complete set of UI scr
 
 |                    Proxmox                    |                    Argocd                    |
 |:---------------------------------------------:|:--------------------------------------------:|
-| <img src="./assets/proxmox.png" width="400"/> | <img src="./assets/argocd.png" width="300"/> |
+| <img src="./assets/proxmox.png" width="400"/> | <img src="./assets/argocd.png" width="400"/> |
 |                   HubbleUI                    |                    Tempo                     |
-| <img src="./assets/hubble.png" width="400"/>  | <img src="./assets/tempo.png" width="300"/>  |
+| <img src="./assets/hubble.png" width="400"/>  | <img src="./assets/tempo.png" width="400"/>  |
 
 ## Getting Started
 
