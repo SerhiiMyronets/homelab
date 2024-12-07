@@ -74,6 +74,13 @@ locals {
   talos_image_filename = "talos-${var.talos_version}-nocloud-amd64.img"
 }
 
+variable "kubernetes_version" {
+  type    = string
+  default = "1.32.0"
+}
+
+
+
 // ==============================================================================
 // Cluster Network Settings
 // ==============================================================================
@@ -156,4 +163,17 @@ variable "cluster_vip" {
 
 locals {
   cluster_endpoint = "https://${var.cluster_vip}:6443"
+}
+/// comment to be defined
+
+variable "cluster_node_network_load_balancer_first_hostnum" {
+  description = "The hostnum of the first load balancer host"
+  type        = number
+  default     = 130
+}
+
+variable "cluster_node_network_load_balancer_last_hostnum" {
+  description = "The hostnum of the last load balancer host"
+  type        = number
+  default     = 230
 }
