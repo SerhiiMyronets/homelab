@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-ingress
+  name: hubble-ui-ingress
   namespace: argocd
 spec:
   destination:
-    namespace: argocd
+    namespace: kube-system
     server: https://kubernetes.default.svc
   project: default
   source:
     repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform
-    path: 03-gitops/apps/argocd-ingress
+    path: 03-gitops/apps/ingress/hubble-ui
     targetRevision: HEAD
     directory:
       recurse: true

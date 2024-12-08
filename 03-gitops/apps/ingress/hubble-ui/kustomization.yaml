@@ -1,0 +1,2 @@
+resources:
+  - hubble-ui-ingress.yaml
