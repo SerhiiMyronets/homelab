@@ -11,6 +11,9 @@ prometheus:
           resources:
             requests:
               storage: 10Gi
+    additionalScrapeConfigs:
+      name: additional-scrape-configs
+      key: additional-scrape-configs.yaml
 
 alertmanager:
   alertmanagerSpec:
