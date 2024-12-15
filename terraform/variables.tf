@@ -115,6 +115,24 @@ variable "cluster_node_network_first_worker_hostnum" {
   default     = 90
 }
 
+variable "cluster_node_network_load_balancer_first_hostnum" {
+  description = <<-EOT
+    Host number for the first IP address allocated to LoadBalancer services.
+    Example: If the network is 10.1.1.0/24 and this is set to 130, the IP will be 10.1.1.130.
+  EOT
+  type    = number
+  default = 130
+}
+
+variable "cluster_node_network_load_balancer_last_hostnum" {
+  description = <<-EOT
+    Host number for the last IP address allocated to LoadBalancer services.
+    Example: If this is set to 230, the last IP will be 10.1.1.230.
+  EOT
+  type    = number
+  default = 230
+}
+
 // ==============================================================================
 // Node Resource Configuration
 // ==============================================================================
@@ -142,12 +160,14 @@ variable "worker_config" {
     cpu           = number
     memory        = number
     disk_os       = number
+    disk_sci = number
   })
   default = {
     count         = 2
     cpu           = 2
     memory        = 4096 // 4 GB
     disk_os       = 40   // 40 GB
+    disk_sci = 60  // 60 GB
   }
 }
 
@@ -163,17 +183,4 @@ variable "cluster_vip" {
 
 locals {
   cluster_endpoint = "https://${var.cluster_vip}:6443"
-}
-/// comment to be defined
-
-variable "cluster_node_network_load_balancer_first_hostnum" {
-  description = "The hostnum of the first load balancer host"
-  type        = number
-  default     = 130
-}
-
-variable "cluster_node_network_load_balancer_last_hostnum" {
-  description = "The hostnum of the last load balancer host"
-  type        = number
-  default     = 230
 }
