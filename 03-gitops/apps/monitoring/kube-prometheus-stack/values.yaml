@@ -24,7 +24,7 @@ alertmanager:
               storage: 2Gi
 
 grafana:
-  defaultDatasourceUid: prometheus
+  defaultDatasourceUid: webstore-metrics
   additionalDataSources:
     - name: Prometheus
       type: prometheus
@@ -40,7 +40,7 @@ grafana:
       type: tempo
       uid: tempo
       access: proxy
-      url: http://tempo.monitoring.svc.cluster.local:3100
+      url: http://tempo.monitoring.svc.cluster.local:3200
     - name: Loki
       type: loki
       uid: loki
