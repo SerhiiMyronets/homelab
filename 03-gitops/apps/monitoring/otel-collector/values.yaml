@@ -3,6 +3,8 @@ fullnameOverride: otel-collector
 mode: deployment
 
 config:
+  connectors:
+    spanmetrics: { }
   receivers:
     otlp:
       protocols:
