@@ -1,6 +1,3 @@
-resources:
-  - otel-collector-config.yaml
-
 helmCharts:
   - name: opentelemetry-collector
     releaseName: otel-collector
