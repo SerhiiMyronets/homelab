@@ -80,7 +80,7 @@ spec:
           image: us-central1-docker.pkg.dev/google-samples/microservices-demo/loadgenerator:v0.10.2
           env:
             - name: FRONTEND_ADDR
-              value: "frontend:80"
+              value: "https://online-boutique.demo"
             - name: USERS
               value: "10"
             - name: RATE
