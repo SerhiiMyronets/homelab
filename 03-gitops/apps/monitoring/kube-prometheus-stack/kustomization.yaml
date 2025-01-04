@@ -10,3 +10,17 @@ helmCharts:
     repo: https://prometheus-community.github.io/helm-charts
     namespace: monitoring
     valuesFile: values.yaml
+
+configMapGenerator:
+  - name: otel-dashboard
+    namespace: monitoring
+    files:
+      - dashboards/demo-dashboard.json
+      - dashboards/exemplars-dashboard.json
+      - dashboards/opentelemetry-collector.json
+      - dashboards/spanmetrics-dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+generatorOptions:
+  disableNameSuffixHash: true
