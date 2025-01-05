@@ -6,19 +6,20 @@ image:
   repository: otel/opentelemetry-collector-contrib
   tag: 0.98.0
 
-command:
-  extraArgs:
-    - "--config=/etc/otel-custom/relay.yaml"
-
-extraVolumes:
-  - name: otel-collector-config
-    configMap:
-      name: otel-collector-config
-
-extraVolumeMounts:
-  - name: otel-collector-config
-    mountPath: /etc/otel-custom
-    subPath: relay.yaml
+config:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+        http:
+  exporters:
+    logging:
+      loglevel: debug
+  service:
+    pipelines:
+      traces:
+        receivers: [otlp]
+        exporters: [logging]
 
 ports:
   metrics:
@@ -30,12 +31,20 @@ ports:
     containerPort: 8889
     servicePort: 8889
 
+service:
+  enabled: true
+  type: ClusterIP
+
 serviceMonitor:
   enabled: true
   metricsEndpoints:
     - port: metrics
       interval: 15s
-    - port: spanmetrics
-      interval: 15s
   extraLabels:
     release: kube-prometheus-stack
+
+resources:
+  limits:
+    memory: 300Mi
+  requests:
+    memory: 150Mi
