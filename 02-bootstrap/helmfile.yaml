@@ -155,7 +155,7 @@ releases:
             tracing:
               sampling: 100.0
               zipkin:
-                address: jaeger-collector.observability.svc.cluster.local:9411
+                address: jaeger-collector.monitoring.svc.cluster.local:9411
           accessLogFile: /dev/stdout
         global:
           proxy:
