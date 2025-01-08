@@ -15,6 +15,10 @@ config:
         grpc: {}
         http: {}
   exporters:
+    otlp:
+      endpoint: jaeger-collector.monitoring:4317
+      tls:
+        insecure: true
     prometheus:
       endpoint: "0.0.0.0:8889"
     logging:
@@ -24,7 +28,7 @@ config:
       traces:
         receivers: [otlp]
         processors: [batch]
-        exporters: [spanmetrics, logging]
+        exporters: [spanmetrics, otlp, logging]
       metrics:
         receivers: [ spanmetrics ]
         processors: [ batch ]
