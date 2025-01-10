@@ -69,22 +69,34 @@ Download the ISO here: [https://www.proxmox.com/en/downloads](https://www.proxmo
 
 ---
 
-## 🌐 Proxmox Network Setup & Tips
+## ⚙️ Post-Install Configuration for Proxmox
 
-To make the Kubernetes cluster work in a separate and clean environment, I recommend creating an **isolated bridge with NAT**. This keeps your home network untouched and avoids changing router settings.
+After installing Proxmox, it's a good idea to run a quick setup script that configures repositories, enables community features, and sets up basic networking defaults.
 
-💡 **Quick setup script:**
-Right after installing Proxmox, run this script to configure repositories and enable basic networking:
+💡 This will save time and avoid common issues with missing packages or unconfigured interfaces.
+
+### 🔧 Run Post-Install Script
+
+You can execute the following script directly on your Proxmox host:
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh)"
 ```
 
+This script will:
+
+* Enable community repositories
+* Update package lists
+* Fix subscription-related prompts in the UI
+* Configure basic system settings
+
+Once done, continue with the network configuration below.
+
 ---
 
 ### 🧩 Network Interface Configuration
 
-You’ll need to modify the network interface settings on your Proxmox host.
+To make the Kubernetes cluster work in a separate and clean environment, I recommend creating an **isolated bridge with NAT**. This keeps your home network untouched and avoids changing router settings. You’ll need to modify the network interface settings on your Proxmox host.
 
 > 🖍️ **Important:** Your real network interface (e.g. `enp3s0`) will likely be **different** from mine. Make sure to replace it everywhere — it appears **4 times** in the config below.
 > Run `ip a` or `ip link` on the Proxmox host to find the correct interface and replace `enp3s0` in the config below.
