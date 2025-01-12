@@ -97,55 +97,55 @@ Below are sample screenshots of key components that become available after deplo
 
 Cluster workloads and sync events visualized in Lens — a Kubernetes dashboard for developers and operators.
 
-<img src="../assets/lens.png" width="800"/>
+<img src="../assets/lens.png" width="1100"/>
 
 ### Argo CD
 
 Argo CD web interface showing synced applications and their health/status.
 
-<img src="../assets/argocd.png" width="800"/>
+<img src="../assets/argocd.png" width="1100"/>
 
 ### Grafana
 
 Observability dashboards with real-time service-level metrics and performance data.
 
-<img src="../assets/grafana.png" width="800"/>
+<img src="../assets/grafana.png" width="1100"/>
 
 ### Longhorn
 
 Web UI displaying storage volumes, replicas, and system health status.
 
-<img src="../assets/longhorn.png" width="800"/>
+<img src="../assets/longhorn.png" width="1100"/>
 
 ### Hubble
 
 Cilium-powered service map visualizing real-time network traffic flows.
 
-<img src="../assets/hubble.png" width="800"/>
+<img src="../assets/hubble.png" width="1100"/>
 
 ### Jaeger
 
 UI for exploring distributed traces captured by the OpenTelemetry instrumentation.
 
-<img src="../assets/jaeger.png" width="800"/>
+<img src="../assets/jaeger.png" width="1100"/>
 
 ### Tempo
 
 Trace timeline visualization inside Grafana using the Tempo datasource.
 
-<img src="../assets/tempo.png" width="800"/>
+<img src="../assets/tempo.png" width="1100"/>
 
 ### OpenTelemetry Demo
 
 The main frontend page of the otel-demo microservices-based e-commerce application.
 
-<img src="../assets/otel-demo.png" width="800"/>
+<img src="../assets/otel-demo.png" width="1100"/>
 
 ### Load Generator
 
 Locust UI that generates synthetic traffic to simulate real user behavior.
 
-<img src="../assets/load-gen.png" width="800"/>
+<img src="../assets/load-gen.png" width="1100"/>
 
 ## Navigation
 
