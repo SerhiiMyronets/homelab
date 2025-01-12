@@ -1,17 +1,18 @@
 resource "proxmox_virtual_environment_vm" "control_plane" {
-  name            = "control-plane"
+  count           = var.controller_config.count
+  name            = "${var.prefix}-${local.controller_nodes[count.index].name}"
   tags            = sort(["talos", "control_plane", "terraform"])
   stop_on_destroy = true
   node_name       = var.proxmox_pve_node_name
   on_boot         = true
 
   cpu {
-    cores = 4
+    cores = var.controller_config.cpu
     type  = "x86-64-v2-AES"
   }
 
   memory {
-    dedicated = 8192
+    dedicated = var.controller_config.memory
   }
 
   agent {
@@ -27,7 +28,7 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
     file_id      = proxmox_virtual_environment_download_file.talos_nocloud_image.id
     file_format  = "raw"
     interface    = "virtio0"
-    size         = 20
+    size         = var.controller_config.disk
   }
 
   operating_system {
@@ -35,11 +36,10 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
   }
 
   initialization {
-    datastore_id = "local-lvm"
     ip_config {
       ipv4 {
-        address = "${var.talos_cp_01_ip_addr}/24"
-        gateway = var.default_gateway
+        address = "${local.controller_nodes[count.index].address}/24"
+        gateway = var.cluster_node_network_gateway
       }
     }
   }
@@ -47,18 +47,19 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
 
 resource "proxmox_virtual_environment_vm" "talos_worker_01" {
   depends_on = [proxmox_virtual_environment_vm.control_plane]
-  name       = "worker-01"
-  tags       = sort(["talos", "worker", "terraform"])
-  node_name  = "proxmox"
-  on_boot    = true
+  count     = var.worker_config.count
+  name      = "${var.prefix}-${local.worker_nodes[count.index].name}"
+  tags      = sort(["talos", "worker", "terraform"])
+  node_name = var.proxmox_pve_node_name
+  on_boot   = true
 
   cpu {
-    cores = 4
+    cores = var.worker_config.cpu
     type  = "x86-64-v2-AES"
   }
 
   memory {
-    dedicated = 8 * 1024
+    dedicated = var.worker_config.memory
   }
 
   agent {
@@ -74,7 +75,7 @@ resource "proxmox_virtual_environment_vm" "talos_worker_01" {
     file_id      = proxmox_virtual_environment_download_file.talos_nocloud_image.id
     file_format  = "raw"
     interface    = "virtio0"
-    size         = 20
+    size         = var.worker_config.disk
   }
 
   operating_system {
@@ -82,11 +83,10 @@ resource "proxmox_virtual_environment_vm" "talos_worker_01" {
   }
 
   initialization {
-    datastore_id = "local-lvm"
     ip_config {
       ipv4 {
-        address = "${var.talos_worker_01_ip_addr}/24"
-        gateway = var.default_gateway
+        address = "${local.worker_nodes[count.index].address}/24"
+        gateway = var.cluster_node_network_gateway
       }
     }
   }
