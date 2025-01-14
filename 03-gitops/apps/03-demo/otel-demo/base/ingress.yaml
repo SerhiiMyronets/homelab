@@ -19,10 +19,10 @@ spec:
                 name: frontend-proxy
                 port:
                   number: 8080
-#  tls:
-#    - hosts:
-#        - otel-demo.cluster
-#      secretName: otel-demo-tls
+  tls:
+    - hosts:
+        - otel-demo.cluster
+      secretName: otel-demo-tls
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -45,7 +45,7 @@ spec:
                 name: load-generator
                 port:
                   number: 8089
-#  tls:
-#    - hosts:
-#        - otel-demo-loadgen.cluster
-#      secretName: otel-demo-loadgen-tls
+  tls:
+    - hosts:
+        - otel-demo-loadgen.cluster
+      secretName: otel-demo-loadgen-tls
