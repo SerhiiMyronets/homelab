@@ -58,7 +58,7 @@ grafana:
       type: tempo
       uid: tempo
       access: proxy
-      url: http://tempo.monitoring.svc.cluster.local:4318
+      url: http://tempo.monitoring.svc.cluster.local:3100
     - name: Loki
       type: loki
       uid: webstore-logs
