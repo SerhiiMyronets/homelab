@@ -98,6 +98,8 @@ config:
 
 
   service:
+    extensions:
+      - health_check
     pipelines:
       traces:
         exporters:
@@ -128,3 +130,15 @@ config:
         receivers: [otlp]
         processors: []
         exporters: [logging]
+    telemetry:
+      metrics:
+        address: ${env:MY_POD_IP}:8888
+        level: detailed
+        readers:
+          - periodic:
+              exporter:
+                otlp:
+                  endpoint: otel-collector:4318
+                  protocol: grpc
+              interval: 10000
+              timeout: 5000
