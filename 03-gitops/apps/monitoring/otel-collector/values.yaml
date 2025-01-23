@@ -7,6 +7,8 @@ image:
   tag: 0.98.0
 
 config:
+  connectors:
+    spanmetrics: {}
   receivers:
     otlp:
       protocols:
@@ -19,7 +21,12 @@ config:
     pipelines:
       traces:
         receivers: [otlp]
-        exporters: [logging]
+        processors: [batch]
+        exporters: [spanmetrics, logging]
+      metrics:
+        receivers: [ spanmetrics ]
+        processors: [ batch ]
+        exporters: [ prometheus ]
 
 ports:
   metrics:
