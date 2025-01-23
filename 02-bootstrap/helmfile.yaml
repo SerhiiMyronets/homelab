@@ -153,10 +153,21 @@ releases:
     values:
       - meshConfig:
           defaultConfig:
+            proxyMetadata:
+              ISTIO_META_ENABLE_B3_HEADER: "true"
             tracing:
               sampling: 100.0
               zipkin:
                 address: jaeger-collector.monitoring.svc.cluster.local:9411
+      - global:
+          proxy:
+            resources:
+              requests:
+                cpu: 10m
+                memory: 40Mi
+              limits:
+                cpu: 100m
+                memory: 128Mi
 
   - name: istio-ingressgateway
     namespace: istio-ingress
