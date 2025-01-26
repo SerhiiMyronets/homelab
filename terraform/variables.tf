@@ -132,3 +132,15 @@ variable "worker_config" {
     disk   = 40   // 40 GB
   }
 }
+
+variable "cluster_vip" {
+  description = "The virtual IP (VIP) address of the Kubernetes API server. Ensure it is synchronized with the 'cluster_endpoint' variable."
+  type        = string
+  default     = "10.1.1.50"
+}
+
+variable "cluster_endpoint" {
+  description = "The virtual IP (VIP) endpoint of the Kubernetes API server. Ensure it is synchronized with the 'cluster_vip' variable."
+  type        = string
+  default     = "https://10.1.1.50:6443"
+}

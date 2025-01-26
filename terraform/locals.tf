@@ -11,15 +11,30 @@ locals {
       address = cidrhost(var.cluster_node_network, var.cluster_node_network_first_worker_hostnum + i)
     }
   ]
-
-
 }
 
 locals {
-  patch_files = fileset("${path.module}/patches", "*.yaml")
+  patch_base_path = "${path.module}/patches"
 
-  patches = [
-    for patch_file in local.patch_files : yamldecode(file("${path.module}/patches/${patch_file}"))
+  common_patch_files     = fileset("${local.patch_base_path}/common", "*.yaml")
+  worker_patch_files     = fileset("${local.patch_base_path}/worker", "*.yaml")
+  controller_patch_files = fileset("${local.patch_base_path}/controller", "*.yaml")
+
+  shared_patches = [
+    for f in local.common_patch_files :
+    yamlencode(yamldecode(file("${local.patch_base_path}/common/${f}")))
+  ]
+
+  worker_patches = [
+    for f in local.worker_patch_files :
+    yamlencode(yamldecode(file("${local.patch_base_path}/worker/${f}")))
+  ]
+
+  controller_patches = [
+    for f in local.controller_patch_files :
+    yamlencode(yamldecode(templatefile("${local.patch_base_path}/controller/${f}", {
+      cluster_vip = var.cluster_vip
+    })))
   ]
 
   cilium_inline_manifest = {
@@ -33,14 +48,14 @@ locals {
     }
   }
 
-  config_patches_worker = [
-    for patch in local.patches : yamlencode(patch)
-  ]
+  config_patches_worker = concat(
+    local.shared_patches,
+    local.worker_patches
+  )
 
-  config_patches_controlplane = [
-    for patch in concat(
-      local.patches,
-      [local.cilium_inline_manifest]
-    ) : yamlencode(patch)
-  ]
+  config_patches_controller = concat(
+    local.shared_patches,
+    local.controller_patches,
+    [yamlencode(local.cilium_inline_manifest)]
+  )
 }
