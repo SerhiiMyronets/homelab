@@ -94,7 +94,7 @@ Below are sample screenshots of key components once the cluster is fully deploye
 
 GitOps view with synced applications.
 
-<img src="../../assets/argocd.png" width="800"/>
+<img src="../assets/argocd.png" width="800"/>
 
 ### Grafana
 
