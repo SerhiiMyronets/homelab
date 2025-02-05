@@ -4,19 +4,13 @@ metadata:
   name: ingress-apps
   namespace: argocd
 spec:
-  project: default
+  project: ingress
   source:
-    repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform
-    targetRevision: HEAD
-    path: 03-gitops/applications/ingress
-    directory:
-      recurse: true
+    repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
+    targetRevision: main
+    path: 03-gitops/apps/ingress
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+    automated: {}
