@@ -1,20 +1,33 @@
 apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: online-boutique-demo
+  namespace: argocd
+spec:
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: online-boutique
   namespace: argocd
 spec:
-  project: default
+  project: online-boutique-demo
   source:
-    repoURL: https://github.com/GoogleCloudPlatform/microservices-demo.git
+    repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
     targetRevision: main
-    path: kustomize/
+    path: 03-gitops/apps/demo/online-boutique
   destination:
     server: https://kubernetes.default.svc
     namespace: online-boutique
   syncPolicy:
-    automated:
-      selfHeal: true
-      prune: true
+    automated: {}
     syncOptions:
       - CreateNamespace=true
