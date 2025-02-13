@@ -132,6 +132,10 @@ releases:
           enabled: true
           storageClass: longhorn
           size: 10Gi
+      - tempo:
+          otlp:
+            grpc:
+              enabled: true
 
   - name: metallb
     namespace: metallb-system
