@@ -44,11 +44,11 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
   }
 
   disk {
-    datastore_id = "local-lvm"
+    datastore_id = var.controller_config.os_disk.datastore
     file_id      = proxmox_virtual_environment_download_file.talos_nocloud_image.id
     file_format  = "raw"
     interface    = "virtio0"
-    size         = var.controller_config.disk
+    size         = var.controller_config.os_disk.size
   }
 
   operating_system {
@@ -96,19 +96,19 @@ resource "proxmox_virtual_environment_vm" "talos_worker_01" {
 
   # OS disk (bootable Talos image)
   disk {
-    datastore_id = "local-lvm"
+    datastore_id = var.worker_config.os_disk.datastore
     interface    = "scsi0"
     file_id      = proxmox_virtual_environment_download_file.talos_nocloud_image.id
     file_format  = "raw"
-    size         = var.worker_config.disk_os
+    size         = var.worker_config.os_disk.size
   }
   #
-  # Data disk for SCI
+  # Data disk for longhorn SCI
   disk {
-    datastore_id = "local-lvm"
+    datastore_id = var.worker_config.longhorn_disk.datastore
     interface    = "scsi1"
     file_format  = "raw"
-    size         = var.worker_config.disk-longhorn
+    size         = var.worker_config.longhorn_disk.size
   }
 
   operating_system {

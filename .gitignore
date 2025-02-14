@@ -2,4 +2,3 @@
 */.terraform/
 .terraform.lock.hcl
 *.crt
-*.tfvars

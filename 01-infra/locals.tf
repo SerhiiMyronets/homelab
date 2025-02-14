@@ -43,8 +43,8 @@ locals {
     for f in local.controller_patch_files :
     yamlencode(yamldecode(templatefile("${local.patch_base_path}/controller/${f}", {
       cluster_vip = var.cluster_vip,
-      load_balancer_first_host = cidrhost(var.cluster_node_network, var.cluster_node_network_load_balancer_first_hostnum),
-      load_balancer_last_host  = cidrhost(var.cluster_node_network, var.cluster_node_network_load_balancer_last_hostnum)
+      load_balancer_first_host = cidrhost(var.cluster_node_network, var.load_balancer_ip_range.first),
+      load_balancer_last_host  = cidrhost(var.cluster_node_network, var.load_balancer_ip_range.last)
     })))
   ]
 

@@ -83,49 +83,43 @@ variable "kubernetes_version" {
 variable "cluster_node_network" {
   description = "The CIDR block for the Kubernetes nodes network."
   type        = string
-  default     = "10.1.1.0/24"
+  default     = "192.168.100.0/24"
 }
 
 variable "cluster_node_network_gateway" {
   description = "The gateway IP address for the Kubernetes nodes network."
   type        = string
-  default     = "10.1.1.1"
+  default     = "192.168.100.1"
+}
+
+variable "cluster_vip" {
+  description = "The Virtual IP used by controller nodes for the Kubernetes API (should be in same subnet)."
+  type        = string
+  default     = "192.168.100.50"
+}
+
+locals {
+  cluster_endpoint = "https://${var.cluster_vip}:6443"
 }
 
 variable "cluster_node_network_first_controller_hostnum" {
-  description = <<-EOT
-    Host number for the first controlplane node.
-    Example: If network is 10.1.1.0/24 and hostnum is 80, the node IP will be 10.1.1.80.
-  EOT
+  description = "Host number for the first controlplane node (e.g. 192.168.100.60)."
   type        = number
-  default     = 80
+  default     = 60
 }
 
 variable "cluster_node_network_first_worker_hostnum" {
-  description = <<-EOT
-    Host number for the first worker node.
-    Example: If network is 10.1.1.0/24 and hostnum is 90, the node IP will be 10.1.1.90.
-  EOT
+  description = "Host number for the first worker node (e.g. 168.168.100.70)."
   type        = number
-  default     = 90
+  default     = 70
 }
 
-variable "cluster_node_network_load_balancer_first_hostnum" {
-  description = <<-EOT
-    Host number for the first IP address allocated to LoadBalancer services.
-    Example: If the network is 10.1.1.0/24 and this is set to 130, the IP will be 10.1.1.130.
-  EOT
-  type        = number
-  default     = 130
-}
-
-variable "cluster_node_network_load_balancer_last_hostnum" {
-  description = <<-EOT
-    Host number for the last IP address allocated to LoadBalancer services.
-    Example: If this is set to 230, the last IP will be 10.1.1.230.
-  EOT
-  type        = number
-  default     = 230
+variable "load_balancer_ip_range" {
+  description = "Range of host numbers to allocate for LoadBalancer services."
+  default = {
+    first = 80
+    last  = 85
+  }
 }
 
 // ==============================================================================
@@ -133,49 +127,56 @@ variable "cluster_node_network_load_balancer_last_hostnum" {
 // ==============================================================================
 
 variable "controller_config" {
-  description = "Resource configuration for controlplane nodes."
+  description = "Resources for control plane nodes."
   type = object({
-    count  = number
-    cpu    = number
-    memory = number
-    disk   = number
+    count          = number
+    cpu            = number
+    memory         = number
+    os_disk = object({
+      size      = number
+      datastore = string
+    })
   })
   default = {
-    count  = 1
-    cpu    = 4
-    memory = 4096 * 2
-    disk   = 40
+    count          = 1
+    cpu            = 2
+    memory         = 4096
+
+    os_disk = {
+      size      = 40
+      datastore = "local-lvm"
+    }
   }
 }
 
 variable "worker_config" {
-  description = "Resource configuration for worker nodes."
+  description = "Resources for worker nodes."
   type = object({
-    count         = number
-    cpu           = number
-    memory        = number
-    disk_os       = number
-    disk-longhorn = number
+    count     = number
+    cpu       = number
+    memory    = number
+    os_disk = object({
+      size      = number
+      datastore = string
+    })
+    longhorn_disk = object({
+      size      = number
+      datastore = string
+    })
   })
   default = {
-    count         = 1
-    cpu           = 16
-    memory        = 16384 * 3
-    disk_os       = 40
-    disk-longhorn = 60
+    count  = 1
+    cpu    = 4
+    memory = 8192
+
+    os_disk = {
+      size      = 40
+      datastore = "local-lvm"
+    }
+
+    longhorn_disk = {
+      size      = 60
+      datastore = "local-lvm"
+    }
   }
-}
-
-// ==============================================================================
-// Kubernetes API VIP Settings
-// ==============================================================================
-
-variable "cluster_vip" {
-  description = "The Virtual IP used by controller nodes for the Kubernetes API (should be in same subnet)."
-  type        = string
-  default     = "10.1.1.50"
-}
-
-locals {
-  cluster_endpoint = "https://${var.cluster_vip}:6443"
 }

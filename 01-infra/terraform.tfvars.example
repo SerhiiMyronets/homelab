@@ -1,3 +1,3 @@
 proxmox_endpoint = "https://10.1.1.100:8006/"
-proxmox_username = "tata3846"
-proxmox_password = "changeme"
+proxmox_username = "root@pam"
+proxmox_password = "tata3846"
