@@ -111,7 +111,6 @@ config:
           - batch
         receivers:
           - otlp
-
       metrics:
         exporters:
           - otlphttp/prometheus
