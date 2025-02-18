@@ -31,8 +31,7 @@ A static route to `192.168.100.0/24` must be configured on the developer worksta
 * GitOps with Argo CD and Helmfile
 * Cilium CNI with kube-proxy disabled
 * Longhorn for persistent volumes
-* OpenTelemetry-based observability (Tempo, Loki, Prometheus, Grafana)
-* Configured OpenTelemetry Collector with receivers, spanmetrics processor, and exporters for metrics, traces, and logs
+* Full observability stack with OpenTelemetry Collector (metrics, logs, traces via Tempo, Loki, Prometheus, Grafana)
 * *Demo microservices instrumented for end-to-end tracing and performance metrics collection*
 
 ## Directory Structure
@@ -43,18 +42,17 @@ A static route to `192.168.100.0/24` must be configured on the developer worksta
 | [`01-infrastructure/`](./01-infrastructure/README.md) | Terraform configurations for Proxmox VM provisioning and Talos injection                   |
 | [`02-bootstrap/`](./02-bootstrap/README.md)           | Installs base components (cert-manager, ingress, Argo CD, Longhorn, etc.) using Helmfile   |
 | [`03-gitops/`](./03-gitops/README.md)                 | Deploys applications via Argo CD, including observability stack and demo workloads         |
-| `README.md`                                           | Project overview and step-by-step deployment guide                                         |
-
+| `README.md`                                           | Main entry point with project overview and deployment workflow                             |
 
 ## UI Preview
 
 Below is a preview of the cluster after deployment. For a complete set of UI screenshots, see the [03-gitops UI Previews](./03-gitops/README.md#ui-previews).
 
-| Tool    | Preview                                       |
-| ------- | --------------------------------------------- |
-| Argo CD | <img src="./assets/argocd.png" width="300"/>  |
-| Grafana | <img src="./assets/grafana.png" width="300"/> |
+| Tool    | Preview |
+| ------- | ------- |
+| Argo CD |         |
+| Grafana |         |
 
 ## Getting Started
 
-To begin, go to [00-prerequisite](./00-prerequisite/README.md), which describes the initial setup and requirements for your system.
+To get started, begin with [00-prerequisite](./00-prerequisite/README.md), which walks through system setup, required dependencies, and network configuration.
