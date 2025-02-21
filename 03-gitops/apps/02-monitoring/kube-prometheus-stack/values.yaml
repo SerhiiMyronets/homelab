@@ -44,6 +44,7 @@ grafana:
     auth.anonymous:
       enabled: true
       org_role: Admin
+  defaultDatasourceEnabled: false
   additionalDataSources:
     - name: Prometheus
       isDefault: true
