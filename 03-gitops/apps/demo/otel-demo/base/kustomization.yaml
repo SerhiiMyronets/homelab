@@ -1,3 +1,21 @@
 resources:
   - namespace.yaml
-  - opentelemetry-demo.yaml
+  - accounting.yaml
+  - ad.yaml
+  - cart.yaml
+  - checkout.yaml
+  - currency.yaml
+  - email.yaml
+  - flagd.yaml
+  - fraud-detection.yaml
+  - frontend.yaml
+  - frontend-proxy.yaml
+  - image-provider.yaml
+  - kafka.yaml
+  - load-generator.yaml
+  - payment.yaml
+  - product-catalog.yaml
+  - quote.yaml
+  - recommendation.yaml
+  - shipping.yaml
+  - valkey-cart.yaml

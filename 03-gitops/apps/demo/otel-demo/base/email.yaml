@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: email
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.37.1
+
+    opentelemetry.io/name: email
+    app.kubernetes.io/instance: otel-demo
+    app.kubernetes.io/component: email
+    app.kubernetes.io/name: email
+    app.kubernetes.io/version: "2.0.2"
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      name: tcp-service
+      targetPort: 8080
+  selector:
+
+    opentelemetry.io/name: email
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.37.1
+
+    opentelemetry.io/name: email
+    app.kubernetes.io/instance: otel-demo
+    app.kubernetes.io/component: email
+    app.kubernetes.io/name: email
+    app.kubernetes.io/version: "2.0.2"
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+
+      opentelemetry.io/name: email
+  template:
+    metadata:
+      labels:
+
+        opentelemetry.io/name: email
+        app.kubernetes.io/instance: otel-demo
+        app.kubernetes.io/component: email
+        app.kubernetes.io/name: email
+    spec:
+      serviceAccountName: otel-demo
+      containers:
+        - name: email
+          image: 'ghcr.io/open-telemetry/demo:2.0.2-email'
+          imagePullPolicy: IfNotPresent
+          ports:
+
+            - containerPort: 8080
+              name: service
+          env:
+            - name: OTEL_SERVICE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.labels['app.kubernetes.io/component']
+            - name: OTEL_COLLECTOR_NAME
+              value: my-otel-collector.opentelemetry-ns
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: EMAIL_PORT
+              value: "8080"
+            - name: APP_ENV
+              value: production
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: http://$(OTEL_COLLECTOR_NAME):4318/v1/traces
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.name=$(OTEL_SERVICE_NAME),service.namespace=opentelemetry-demo,service.version=2.0.2
+          resources:
+            limits:
+              memory: 100Mi
+          volumeMounts:
+      volumes:
