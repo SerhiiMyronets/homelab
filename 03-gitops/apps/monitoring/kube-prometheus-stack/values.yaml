@@ -24,6 +24,14 @@ alertmanager:
               storage: 2Gi
 
 grafana:
+  grafana.ini: |
+    [auth.anonymous]
+    enabled = true
+    org_name = Main Org.
+    org_role = Admin
+    [server]
+    root_url = %(protocol)s://%(domain)s:%(http_port)s/grafana
+    serve_from_sub_path = true
   defaultDatasourceUid: prometheus
   additionalDataSources:
     - name: Prometheus
