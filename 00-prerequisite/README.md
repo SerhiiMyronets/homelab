@@ -135,5 +135,5 @@ Replace `192.168.1.100` with your Proxmox host's IP address.
 
 ## Navigation
 
-* [→ Continue to 01-infrastructure](../01-infrastructure/README.md)
+[← Back to Main project README](../README.md) • [→ Continue to 01-infrastructure](../01-infrastructure/README.md)
 
