@@ -13,6 +13,7 @@ config:
   connectors:
     spanmetrics: { }
   receivers:
+    spanmetrics: {}
     httpcheck/frontend-proxy:
       targets:
         - endpoint: http://frontend-proxy:8080
