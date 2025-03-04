@@ -1,8 +1,6 @@
 # Talos Kubernetes Cluster on Proxmox with Terraform
 
-This repository contains infrastructure-as-code configurations for deploying a minimal, production-grade Kubernetes cluster using Talos Linux and Terraform on Proxmox VE. The entire setup process is fully declarative and does not rely on any shell scripts. Talos is configured and installed directly through Terraform.
-
-This project demonstrates how to build a fully automated, production-grade Kubernetes cluster from scratch on bare-metal using modern GitOps and observability tooling. It is designed to simulate real-world infrastructure workflows in a home lab environment, suitable for DevOps learning, testing, and experimentation.
+This repository contains infrastructure-as-code configurations for deploying a minimal, production-grade Kubernetes cluster using Talos Linux and Terraform on Proxmox VE. The entire setup process is fully declarative and does not rely on any shell scripts. The entire deployment avoids shell scripts or manual steps — Talos is configured and installed as part of the VM provisioning process via Terraform.
 
 ## Overview
 
@@ -26,53 +24,36 @@ A static route to `192.168.100.0/24` must be configured on the developer worksta
 
 ## Features
 
-* GitOps-first deployment flow with Argo CD and Helmfile
-* No shell scripts or imperative commands — full Infrastructure-as-Code
-* High availability for control-plane nodes (HA-ready)
+* Support for high availability across control-plane nodes
+* Fully declarative setup (no shell scripts)
 * Talos Linux installed and configured via Terraform
 * Proxmox-native VM provisioning
+* GitOps with Argo CD and Helmfile
 * Cilium CNI with kube-proxy disabled
 * Longhorn for persistent volumes
 * OpenTelemetry-based observability (Tempo, Loki, Prometheus, Grafana)
-* Demo services with instrumentation for tracing and metrics
+* Configured OpenTelemetry Collector with receivers, spanmetrics processor, and exporters for metrics, traces, and logs
+* *Demo microservices instrumented for end-to-end tracing and performance metrics collection*
 
 ## Directory Structure
 
-| Path                                                 | Description                                                                                |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| [`00-prerequisite/`](./00-prerequisite/README.md)    | Environment preparation: hardware requirements, dependencies, Proxmox and networking setup |
-| [`01-infrastructure/`](.01-infrastructure/README.md) | Terraform configurations for Proxmox VM provisioning and Talos injection                   |
-| [`02-bootstrap/`](./02-bootstrap/README.md)          | Installs base components (cert-manager, ingress, Argo CD, Longhorn, etc.) using Helmfile   |
-| [`03-gitops/`](./03-gitops/README.md)                | Deploys applications via Argo CD, including observability stack and demo workloads         |
-| `README.md`                                          | Project overview and step-by-step deployment guide                                         |
+| Path                                                  | Description                                                                                |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [`00-prerequisite/`](./00-prerequisite/README.md)     | Environment preparation: hardware requirements, dependencies, Proxmox and networking setup |
+| [`01-infrastructure/`](./01-infrastructure/README.md) | Terraform configurations for Proxmox VM provisioning and Talos injection                   |
+| [`02-bootstrap/`](./02-bootstrap/README.md)           | Installs base components (cert-manager, ingress, Argo CD, Longhorn, etc.) using Helmfile   |
+| [`03-gitops/`](./03-gitops/README.md)                 | Deploys applications via Argo CD, including observability stack and demo workloads         |
+| `README.md`                                           | Project overview and step-by-step deployment guide                                         |
 
-## Stack Overview
 
-* **Terraform** – Proxmox VM provisioning & Talos configuration
-* **Talos Linux** – Minimal, secure OS for Kubernetes nodes
-* **Cilium** – eBPF CNI with kube-proxy replacement and Hubble
-* **Longhorn** – Distributed block storage for Kubernetes
-* **Helmfile** – Declarative Helm chart manager
-* **Argo CD** – GitOps delivery of all apps
-* **Prometheus / Grafana** – Metrics collection and dashboards
-* **Loki / Tempo / Jaeger** – Logging and distributed tracing
-* **otel-demo** – Sample microservices for observability testing
+## UI Preview
 
-## UI Preview (Production-ready Tools in Action)
+Below is a preview of the cluster after deployment. For a complete set of UI screenshots, see the [03-gitops UI Previews](./03-gitops/README.md#ui-previews).
 
-| Tool    | Preview                          |
-| ------- | -------------------------------- |
-| Proxmox | ![Proxmox](./assets/proxmox.png) |
-| Argo CD | ![Argo CD](./assets/argocd.png)  |
-| Grafana | ![Grafana](./assets/grafana.png) |
-| Hubble  | ![Hubble](./assets/hubble.png)   |
-
-## Use Cases
-
-* Home lab experiments with real-world Kubernetes stack
-* GitOps training ground with complete app + infra lifecycle
-* Observability sandbox for debugging and tracing practices
-* CI/CD testing platform with self-hosted GitOps workflows
+| Tool    | Preview                                       |
+| ------- | --------------------------------------------- |
+| Argo CD | <img src="./assets/argocd.png" width="300"/>  |
+| Grafana | <img src="./assets/grafana.png" width="300"/> |
 
 ## Getting Started
 
