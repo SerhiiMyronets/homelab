@@ -42,12 +42,13 @@ To make Ingress hosts resolvable, you can:
 * Update your local `/etc/hosts` file (example below):
 
 ```bash
-192.168.100.80  argocd.cluster hubble.cluster longhorn.cluster alertmanager.cluster grafana.cluster \
-                jaeger.cluster loki.cluster prometheus.cluster tempo.cluster \
-                otel-demo.cluster otel-demo-loadgen.cluster
+192.168.100.80  argocd.homelab.local grafana.homelab.local prometheus.homelab.local \
+                alertmanager.homelab.local loki.homelab.local tempo.homelab.local \
+                jaeger.homelab.local longhorn.homelab.local \
+                otel-demo.homelab.local otel-demo-loadgen.homelab.local
 ```
 
-* Or configure wildcard DNS entries (e.g., \*.cluster) pointing to the Ingress IP.
+* Or configure wildcard DNS entries (e.g., \*.homelab.local) pointing to the Ingress IP.
 
 ## Usage
 
@@ -86,9 +87,23 @@ kubectl apply -f applications/03-otel-demo.yaml
   * Deploys the `otel-demo`, an OpenTelemetry example application representing a 21-microservice online store
   * Exposes the frontend and load generator via Ingress resources
 
+Once all applications are synced, your cluster will be fully equipped with GitOps management, observability, and demo workloads for instrumentation testing.
+
 ## UI Previews
 
 Below are sample screenshots of key components once the cluster is fully deployed.
+
+### Proxmox VM view
+
+Talos VMs running in the Proxmox Virtual Environment.
+
+<img src="../assets/proxmox.png" width="800"/>
+
+### Talos Cluster Status
+
+Cluster status as seen via `k9s`.
+
+<img src="../assets/k9s.png" width="800"/>
 
 ### Argo CD
 
@@ -100,34 +115,34 @@ GitOps view with synced applications.
 
 Dashboards for service-level latency and metrics.
 
-<img src="../../assets/file-YXTPFkGNXv2qYqYiXvD65V.jpeg" width="800"/>
+<img src="../assets/grafana.png" width="800"/>
 
 ### Longhorn
 
 Storage status and volume health.
 
-<img src="../../assets/file-6boSrXdxuM3mSmm6pWjrck.jpeg" width="800"/>
+<img src="../assets/longhorn.png" width="800"/>
 
 ### Hubble
 
 Service map from Cilium showing network flows.
 
-<img src="../../assets/file-2HrzYyJVFX3oojk9vYqgnv.jpeg" width="800"/>
+<img src="../assets/hubble.png" width="800"/>
 
-### Talos Cluster Status
+### OpenTelemetry Demo
 
-Cluster status as seen via `k9s`.
+Main frontend page of the demo application.
 
-<img src="../../assets/file-4hTgGiS1cnvhwn72wUhqT9.png" width="800"/>
+<img src="../assets/otel-demo.png" width="800"/>
 
-### Proxmox VM view
+### Load Generator
 
-Talos VMs running in the Proxmox Virtual Environment.
+Locust UI generating traffic to the demo.
 
-<img src="../../assets/file-CWh6EXmEdbZ5Bt3VyzZFyy.jpeg" width="800"/>
+<img src="../assets/load-gen.png" width="800"/>
 
 ## Navigation
 
 [← 02-bootstrap](../02-bootstrap/README.md) • [↑ Main project README](../../README.md)
 
-Once all applications are synced, your cluster will be fully equipped with GitOps management, observability, and demo workloads for instrumentation testing. with GitOps management, observability, and demo workloads for instrumentation testing.
+
