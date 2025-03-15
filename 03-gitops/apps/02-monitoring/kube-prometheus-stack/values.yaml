@@ -67,3 +67,5 @@ grafana:
     dashboards:
       enabled: true
       label: grafana_dashboard
+  datasources:
+    enabled: false
