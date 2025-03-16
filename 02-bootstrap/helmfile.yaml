@@ -53,6 +53,10 @@ releases:
     chart: argo/argo-cd
     version: 7.7.7
     createNamespace: true
+    values:
+      - configs:
+          cm:
+            kustomize.buildOptions: "--enable-helm"
 
   - name: longhorn
     namespace: longhorn-system
