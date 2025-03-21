@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform
+    targetRevision: HEAD
+    path: kubernetes/apps/longhorn
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: longhorn-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
