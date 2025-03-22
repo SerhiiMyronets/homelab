@@ -1,8 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
+metadata:
+  name: frontend
 spec:
   template:
     metadata:
       annotations:
         proxy.istio.io/config: |
-          {"tracing":{"sampling":100,"custom_tags":{"service":{"literal":{"value":"$(POD_NAMESPACE)"}}}}}
+          {"tracing":{"sampling":100,"custom_tags":{"service":{"literal":{"value":"frontend"}}}}}
