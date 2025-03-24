@@ -1,95 +1,145 @@
-# Homelab Kubernetes Cluster with Talos, Terraform, and Proxmox
+# 🏡 Homelab Kubernetes Cluster with Talos, Terraform, and Proxmox
 
-This project sets up a minimal, production-like Kubernetes cluster in a home environment using **Talos Linux**, **Terraform**, **Proxmox VE**, and **Cilium** for networking.
+This project sets up a fully automated Kubernetes cluster tailored for homelab environments. It leverages:
 
-The goal is to create a clean, easily reproducible infrastructure that is lightweight, secure, and a perfect platform for experimentation, learning, and self-hosted applications.
-
----
-
-## 🚀 Project Overview
-
-- **Hypervisor:** Proxmox VE (PVE)
-- **Operating System:** Talos Linux (Immutable Kubernetes OS)
-- **Infrastructure as Code:** Terraform
-- **Networking:** Cilium (kube-proxy replacement with eBPF)
-- **Bootstrap Method:** KubePrism on Talos, Helm templated Cilium installation
-- **Future Extensibility:** ArgoCD GitOps, monitoring stack, ingress controllers
+* **Talos Linux** — a secure, immutable Kubernetes OS
+* **Terraform** — Infrastructure as Code (IaC) for reproducible deployments
+* **Proxmox VE** — as the virtualization platform
+* **Cilium** — an eBPF-based CNI replacing kube-proxy
+* **Helm, Kustomize, and ArgoCD** — for declarative app and infra management
 
 ---
 
-## 📦 Project Structure
+## 🔍 Why this structure?
 
 ```plaintext
 homelab/
-├── kubernetes/            # Reserved for GitOps apps and ArgoCD manifests
-├── terraform/
-│   ├── cluster/
-│   │   ├── patches/            # Talos configuration patches (kubeprism, hostdns, etc.)
-│   │   │   ├── 00-enable-kubeprism.yaml
-│   │   │   ├── 01-enable-hostdns.yaml
-│   │   │   ├── 02-enable-cluster_discovery.yaml
-│   │   │   ├── 03-disable-network_cni.yaml
-│   │   │   ├── 04-disable-kubeproxy.yaml
-│   │   │   └── 05-enable-drbd-modules.yaml
-│   │   ├── cilium-bootstrap.tf # Bootstrap minimal Cilium network layer
-│   │   ├── cluster_nodes.tf    # Virtual machines definition for controlplanes and workers
-│   │   ├── locals.tf           # Local variables, patches handling
-│   │   ├── outputs.tf          # Terraform outputs
-│   │   ├── providers.tf        # Required providers and backend config
-│   │   ├── proxmox_provider.tf # Proxmox provider credentials and connection
-│   │   ├── talos_configs.tf    # Talos machine configurations (controlplane and worker)
-│   │   └── variables.tf        # All input variables
+├── 01-infra/                 # Terraform code: Proxmox VMs, Talos config, patches
+│   ├── locals.tf             # Local values used in the Terraform module
+│   ├── outputs.tf            # Output definitions for Terraform
+│   ├── providers.tf          # Terraform provider declarations
+│   ├── proxmox_nodes.tf      # Proxmox VM resource definitions
+│   ├── talos_configs.tf      # Talos config generation and machine patches
+│   ├── variables.tf          # Input variables for customization
+│   └── patches/              # Talos machine configuration patches
+│       ├── common/           # Shared patches for all nodes
+│       ├── controller/       # Controller-specific patches (VIP, Cilium, etc.)
+│       └── worker/           # Worker-specific patches (Longhorn disk)
+├── 02-bootstrap/            # Helmfile-based bootstrapping of core services
+│   └── helmfile.yaml        # Defines cert-manager, nginx, argocd, longhorn
+├── 03-gitops/               # GitOps-managed app manifests via ArgoCD + Kustomize
+│   ├── applications/        # ArgoCD Application CRDs
+│   └── apps/                # App directories (argocd-ingress, cert-bootstrap, etc.)
+├── extract-root-cert.sh     # Script to extract Talos root certificate
 ├── .gitignore
-└── README.md (this file)
+└── README.md
+```
 
+The project is split into 3 main layers for clarity and modularity:
 
----
+### `01-infra/` — Infrastructure Layer
 
-## ⚙️ Requirements
+Contains all Terraform code for provisioning virtual machines on Proxmox, generating Talos configurations, and injecting patches.
 
-- Proxmox VE running with a working network bridge (e.g., `vmbr0`)
-- Terraform `>= 1.5`
-- Access to your Proxmox API (`https://<your-pve-ip>:8006/`)
-- Basic knowledge of Kubernetes and Talos concepts
+* `patches/common/` — shared Talos patches (e.g., KubePrism, HostDNS, Discovery)
+* `patches/controller/` — patches for controller nodes (e.g., VIP, Cilium, LB manifest)
+* `patches/worker/` — patches for workers (e.g., Longhorn disk mounting)
 
----
+This separation allows more control over Talos behavior per node role.
 
-## 🔧 How to Deploy
+### `02-bootstrap/` — Bootstrap Layer
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/SerhiiMyronets/homelab.git
-    cd homelab/terraform/cluster
-    ```
+Contains `helmfile.yaml` to bootstrap core components before GitOps takes over:
 
-2. Adjust Proxmox credentials in `variables.tf` or pass them as variables/environment variables.
+* `cert-manager` — TLS certificate management
+* `ingress-nginx` — basic ingress controller
+* `argo-cd` — GitOps tool for syncing Kubernetes manifests
+* `longhorn` — persistent storage solution
 
-3. Initialize Terraform:
-    ```bash
-    terraform init
-    ```
+### `03-gitops/` — GitOps Layer
 
-4. Apply the configuration:
-    ```bash
-    terraform apply
-    ```
+Defines all ArgoCD applications and Kustomize overlays:
 
-5. Wait for your Kubernetes cluster to bootstrap.  
-   After Talos nodes are up and Cilium is deployed, you can install ArgoCD, monitoring, ingress controllers, and other components.
+* `applications/` — ArgoCD Application CRDs
+* `apps/` — actual app manifests structured by name:
 
----
+    * `argocd-ingress/`
+    * `cert-bootstrap/` (self-signed CA issuer setup)
+    * `longhorn-ingress/`
 
-## 📜 Notes
-
-- Cilium is installed in a **minimal configuration** — only what is necessary for Kubernetes networking to function without kube-proxy.
-- LoadBalancer IP management (`CiliumLoadBalancerIPPool`) and advanced features like Hubble UI are deferred to the **GitOps phase** with ArgoCD.
-- Talos extensions such as DRBD and qemu-guest-agent are prepared but optional.
+This layout supports progressive GitOps and makes onboarding additional apps straightforward.
 
 ---
 
-## 🎯 Future Plans
+## 🌐 Networking
 
-- Install and configure ArgoCD for GitOps management
-- Deploy monitoring stack (Prometheus, Grafana, Loki)
-- Setup cert-manager and ingress-nginx
-- Integrate storage layer with Longhorn or Rook Ceph
+* VLAN: `10.1.1.0/24`
+* VIP: defined via Talos `controller` patches
+* Cilium handles all east-west and north-south traffic (no kube-proxy)
+
+---
+
+## ⚙️ How to Use
+
+### 1. Customize variables
+
+Adjust the Terraform variables and Talos patches to match your homelab hardware and desired settings.
+
+### 2. Apply infrastructure
+
+```bash
+cd 01-infra
+terraform init
+terraform apply
+```
+
+This will:
+
+* Create Proxmox VMs
+* Generate Talos configs
+* Apply machine config patches
+
+### 3. Bootstrap Helm dependencies
+
+```bash
+cd 02-bootstrap
+helmfile apply
+```
+
+This will install:
+
+* `cert-manager`
+* `ingress-nginx`
+* `argo-cd`
+* `longhorn`
+
+### 4. Deploy GitOps layer
+
+Use `argocd` or CLI to sync the `03-gitops/applications`.
+
+---
+
+## 🎓 Motivation
+
+This repo is built for:
+
+* Home experimentation and platform engineering practice
+* Testing Talos, GitOps, Cilium, and K8s internals in a safe isolated way
+* Serving as a template for lightweight, secure self-hosted infrastructure
+
+---
+
+## 📖 Future Plans
+
+* Add OpenTelemetry/Observability stack
+* Automate backups (ETCD, Longhorn)
+* HA ArgoCD with ApplicationSets
+* FluxCD optional support
+
+---
+
+## 🙏 Credits
+
+Created and maintained by [Serhii Myronets](https://github.com/SerhiiMyronets)
+
+Inspired by Talos, Proxmox, ArgoCD, and Cilium communities.
