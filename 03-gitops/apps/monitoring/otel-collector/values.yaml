@@ -1,3 +1,6 @@
+image:
+  repository: otel/opentelemetry-collector-contrib
+  tag: 0.98.0 # або інша відповідна версія, яку ти використовуєш
 nameOverride: otel-collector
 fullnameOverride: otel-collector
 mode: deployment
