@@ -46,6 +46,8 @@ config:
       endpoint: jaeger-collector.monitoring:4317
       tls:
         insecure: true
+    prometheus:
+      endpoint: "0.0.0.0:8888"
   extensions:
     health_check:
       endpoint: ${env:MY_POD_IP}:13133
@@ -111,7 +113,7 @@ config:
           - zipkin
       metrics:
         exporters:
-          - otlphttp/prometheus
+          - prometheus
           - debug
         processors:
           - k8sattributes
