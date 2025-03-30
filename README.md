@@ -44,22 +44,20 @@ A static route to `192.168.100.0/24` must be configured on the developer worksta
 | [`03-gitops/`](./03-gitops/README.md)                 | Deploys applications via Argo CD, including observability stack and demo workloads         |
 | `README.md`                                           | Project overview and step-by-step deployment guide                                         |
 
+## UI Preview
+
+Below are sample screenshots showcasing key parts of the deployed cluster:
+
+| Proxmox                          | Argo CD                        |
+| -------------------------------- | ------------------------------ |
+| ![proxmox](./assets/proxmox.png) | ![argocd](./assets/argocd.png) |
+
+| Grafana                          | Hubble                         |
+| -------------------------------- | ------------------------------ |
+| ![grafana](./assets/grafana.png) | ![hubble](./assets/hubble.png) |
+
+
 ## Getting Started
 
 To begin, go to [00-prerequisite](./00-prerequisite/README.md), which describes the initial setup and requirements for your system.
 
-## UI Preview
-
-Below are example UIs from the deployed cluster to showcase the GitOps workflow, observability, and demo workloads.
-
-| Argo CD                        | Grafana                          |
-| ------------------------------ | -------------------------------- |
-| ![argocd](./assets/argocd.png) | ![grafana](./assets/grafana.png) |
-
-| otel-demo                            | Longhorn                           |
-| ------------------------------------ | ---------------------------------- |
-| ![otel-demo](./assets/otel-demo.png) | ![longhorn](./assets/longhorn.png) |
-
-| Lens                       |
-| -------------------------- |
-| ![lens](./assets/lens.png) |
