@@ -4,6 +4,8 @@ This repository contains infrastructure-as-code configurations for deploying a m
 
 ## Overview
 
+This project is designed for enthusiasts, students, or professionals who want to gain hands-on experience with a production-grade GitOps Kubernetes cluster using modest hardware — such as an old laptop or mini PC. It offers a fully automated deployment pipeline without requiring cloud resources or expensive infrastructure.
+
 The Kubernetes cluster is composed of multiple control plane and worker nodes provisioned on a Proxmox host using Terraform. Talos Linux is injected and configured automatically as part of the VM provisioning step. The configuration supports high availability (HA) and uses a virtual IP for the control plane endpoint. The deployment includes core platform components (ingress, certificate management, GitOps), observability stack (metrics, logs, traces), and demo microservices applications for testing.
 
 ## Architecture
