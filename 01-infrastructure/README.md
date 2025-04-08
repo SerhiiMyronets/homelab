@@ -70,13 +70,13 @@ This screenshot shows Talos VMs created in the Proxmox Virtual Environment, incl
 
 > ⚠️ The screenshot shows a 5-node cluster. The default configuration provisions 2 nodes (1 control-plane, 1 worker).
 
-<img src="../assets/proxmox.png" width="800"/>
+<img src="../assets/proxmox.png" width="1000"/>
 
 ### Talos Cluster Status
 
 Cluster node status as seen via `k9s`, a terminal-based UI for managing Kubernetes clusters. Make sure `k9s` is installed locally to use this view.
 
-<img src="../assets/k9s.png" width="800"/>
+<img src="../assets/k9s.png" width="1000"/>
 
 ## Navigation
 
