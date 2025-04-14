@@ -5,3 +5,4 @@ resources:
   - hubble-ui
   - longhorn
   - monitoring
+  - loki
