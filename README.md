@@ -35,4 +35,4 @@ A static route to `192.168.100.0/24` must be configured on the developer worksta
 
 ## Getting Started
 
-To begin, go to [00-prerequisite](./homelab/00-prerequisite/README.md), which describes the initial setup and requirements for your system.
+To begin, go to [00-prerequisite](./00-prerequisite/README.md), which describes the initial setup and requirements for your system.
