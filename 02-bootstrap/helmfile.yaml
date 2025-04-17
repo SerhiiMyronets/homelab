@@ -149,16 +149,17 @@ releases:
     namespace: istio-system
     chart: istio/istiod
     version: 1.26.0
+    createNamespace: true
     values:
       - meshConfig:
+          enablePrometheusMerge: true  # 🔑 додай цей рядок!
           defaultConfig:
-            proxyMetadata:
-              ISTIO_META_TRACING_CUSTOM_TAGS: |
-                {"service":{"literal":{"value":"frontend"}}}
             tracing:
               sampling: 100.0
               zipkin:
                 address: jaeger-collector.monitoring.svc.cluster.local:9411
+            proxyMetadata:
+              ISTIO_META_TRACING_CUSTOM_TAGS: "{\"service\":{\"literal\":{\"value\":\"frontend\"}}}"
           accessLogFile: /dev/stdout
         global:
           proxy:
