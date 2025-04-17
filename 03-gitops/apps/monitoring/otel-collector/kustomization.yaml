@@ -1,5 +1,5 @@
-resources:
-  - dashboard-otel.yaml
+#resources:
+#  - dashboard-otel.yaml
 
 helmCharts:
   - name: opentelemetry-collector
