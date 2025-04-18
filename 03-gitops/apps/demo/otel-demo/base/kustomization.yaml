@@ -2,6 +2,7 @@ resources:
   - namespace.yaml
   - accounting.yaml
   - product-catalog-products.yaml
+  - flagd-config.yaml
   - ad.yaml
   - cart.yaml
   - checkout.yaml
