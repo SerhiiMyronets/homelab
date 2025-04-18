@@ -2,7 +2,7 @@
 
 This stage installs essential platform components into the Kubernetes cluster using Helmfile.
 
-It assumes that the cluster is already initialized and accessible using the generated `kubeconfig` and `talosconfig` from the previous stage (`01-infrastructure`).
+It assumes that the cluster is already initialized and accessible using the generated `kubeconfig` from the previous stage (`01-infrastructure`).
 
 ## Purpose
 
@@ -23,7 +23,7 @@ The components installed in this phase are required for certificate management, 
 Before running this stage, make sure you have:
 
 * Access to the cluster via `kubeconfig`
-* Talos nodes fully bootstrapped and ready
+* Talos cluster is fully bootstrapped and reachable
 * Helmfile and Helm installed on your machine
 
 To apply the bootstrap components:
@@ -32,12 +32,9 @@ To apply the bootstrap components:
 helmfile apply
 ```
 
-This command will install all defined charts in the correct namespaces with the specified configurations.
+This command installs all defined charts with their default or overridden configurations.
 
-## Notes
-
-* Argo CD is configured with `--disable-auth` to simplify local testing
-* cert-manager installs its own CRDs via values override
+Note: After applying, it may take 1–2 minutes for Longhorn to become fully ready as it initializes its internal components.
 
 ## Next steps
 

@@ -140,7 +140,7 @@ variable "controller_config" {
   default = {
     count          = 1
     cpu            = 2
-    memory         = 1024 * 2
+    memory         = 1024 * 3
 
     os_disk = {
       size      = 20
