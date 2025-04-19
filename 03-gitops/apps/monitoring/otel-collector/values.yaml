@@ -64,14 +64,9 @@ config:
       protocols:
         grpc: {}
         http: {}
-    prometheus:
-      config:
-        scrape_configs:
-          - job_name: opentelemetry-collector
-            scrape_interval: 10s
-            static_configs:
-              - targets:
-                  - ${env:MY_POD_IP}:8888
+    redis:
+      collection_interval: 10s
+      endpoint: valkey-cart:6379
 
 ##############################################
 
@@ -90,14 +85,14 @@ config:
     extensions:
     - health_check
     pipelines:
+      metrics:
+        receivers: [ httpcheck/frontend-proxy, redis, otlp, spanmetrics ]
+        processors: [ k8sattributes, memory_limiter, resource batch ]
+        exporters: [ prometheus ]
       traces:
         receivers: [otlp]
         processors: [k8sattributes, memory_limiter, resource, transform, batch]
         exporters: [spanmetrics, otlp, debug]
-      metrics:
-        receivers: [ spanmetrics ]
-        processors: [ batch ]
-        exporters: [ prometheus ]
     telemetry:
       metrics:
         address: "0.0.0.0:8888"
