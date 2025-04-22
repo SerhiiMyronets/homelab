@@ -1,122 +1,104 @@
-# 🛠️ Prerequisites for Running Talos Kubernetes Cluster on Proxmox
 
-This guide will walk you through preparing your machine to run a Kubernetes cluster using Talos and Terraform on Proxmox. It's designed for home lab enthusiasts and beginners who want to experiment with modern infrastructure using simple and affordable hardware.
+# Prerequisites for Running Talos Kubernetes Cluster on Proxmox
 
----
-
-## 💻 Minimum Server Requirements
-
-You don’t need any special server or enterprise hardware. A spare laptop or mini PC with virtualization support is enough to get started. This setup is designed to be beginner-friendly and lightweight.
-
-| Resource  | Minimum (for testing) | Recommended (for smooth usage) |
-| --------- | --------------------- | ------------------------------ |
-| CPU Cores | 4                     | 8+                             |
-| RAM       | 8 GB                  | 16 GB+                         |
-
-> 💡 For running the full GitOps setup (including observability stack, demo apps, and load generator), 12 GB+ RAM is minimum.
+This document describes the prerequisites and initial environment setup required to deploy a Kubernetes cluster using Talos Linux, Terraform, and Proxmox VE.
 
 ---
 
-## 📦 Software Dependencies
+## Minimum Hardware Requirements
 
-To deploy and manage the cluster, you’ll need to install a few command-line tools. Most of them are cross-platform and easy to install using your system’s package manager. Below are the commands for macOS and Ubuntu/Debian.
+A physical server, mini PC, or spare laptop with virtualization support is sufficient.
 
-You'll need a few command-line tools installed on your **local machine** (not inside Proxmox). Below are the required and optional ones:
+| Resource    | Minimum (testing) | Recommended (production-like) |
+|-------------|-------------------|-------------------------------|
+| CPU Cores   | 4                 | 8+                            |
+| RAM         | 8 GB              | 16 GB+                        |
 
-### ✅ Required
+> For running the full GitOps stack (observability, demo apps, load generation), at least 12 GB RAM is recommended.
 
-These are essential to deploy and manage the cluster:
+---
 
-* `terraform` — for provisioning the infrastructure
-* `kubectl` — to interact with the Kubernetes cluster
-* `helmfile` — to manage Helm charts declaratively
-* `helm` — needed by `helmfile`
+## Required Software
 
-### 🧩 Optional
+Install the following CLI tools on your **local workstation** (not inside Proxmox):
 
-These tools are useful but not strictly required:
+### Mandatory
 
-* `talosctl` — to interact with Talos Linux nodes (e.g., logs, debugging)
-* `cilium` — CLI for Cilium CNI management and troubleshooting
+- `terraform`: Infrastructure provisioning
+- `kubectl`: Kubernetes control interface
+- `helmfile`: Declarative Helm release management
+- `helm`: Dependency of `helmfile`
 
+### Optional
+
+- `talosctl`: Talos Linux management CLI
+- `cilium`: Cilium CLI for CNI diagnostics
+
+#### Installation (macOS / Ubuntu)
+
+**macOS (Homebrew):**
 ```bash
-# macOS (Homebrew)
 brew install terraform kubectl helmfile helm
 brew install talosctl cilium
-
-# Ubuntu/Debian (APT)
-sudo apt update && sudo apt install -y terraform kubectl helmfile helm
-# talosctl and cilium usually require manual install or downloading binaries
 ```
 
-Or use your distro's package manager if on Linux.
+**Ubuntu/Debian (APT + manual binaries):**
+```bash
+sudo apt update && sudo apt install -y terraform kubectl helmfile helm
+# talosctl and cilium must be downloaded manually
+```
 
 ---
 
-## 🖥️ Install Proxmox VE
+## Proxmox VE Installation
 
-Proxmox is a free and powerful tool that lets you run virtual machines on your PC. You’ll need to install it directly on the machine that will host your Kubernetes cluster.
+Proxmox must be installed directly on the host machine that will run the cluster.
 
-Download the ISO here: [https://www.proxmox.com/en/downloads](https://www.proxmox.com/en/downloads)
+1. Download ISO: https://www.proxmox.com/en/downloads
+2. Flash to USB (e.g., with Balena Etcher)
+3. Boot the machine and install Proxmox
+4. Access the UI: `https://<proxmox-ip>:8006`
 
-**Steps:**
-
-1. Download the ISO and flash it to a USB stick using a tool like Balena Etcher or Raspberry Pi Imager
-2. Boot your PC or laptop from the USB and install Proxmox
-3. Once installed, access the Proxmox web interface from another device: `https://<your-proxmox-ip>:8006`
-
-> 💡 Tip: You may need to enable virtualization in BIOS (look for Intel VT-x or AMD-V)
+> Ensure virtualization support (VT-x / AMD-V) is enabled in BIOS/UEFI.
 
 ---
 
-## ⚙️ Post-Install Configuration for Proxmox
+## Post-Install Configuration
 
-After installing Proxmox, it's a good idea to run a quick setup script that configures repositories, enables community features, and sets up basic networking defaults.
-
-💡 This will save time and avoid common issues with missing packages or unconfigured interfaces.
-
-### 🔧 Run Post-Install Script
-
-You can execute the following script directly on your Proxmox host:
+Run a standard setup script to configure repositories and base settings:
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh)"
 ```
 
-This script will:
-
-* Enable community repositories
-* Update package lists
-* Fix subscription-related prompts in the UI
-* Configure basic system settings
-
-Once done, continue with the network configuration below.
+This will:
+- Enable community repositories
+- Update package lists
+- Remove subscription notices
+- Apply default Proxmox tweaks
 
 ---
 
-### 🧩 Network Interface Configuration
+## Proxmox Network Configuration
 
-To make the Kubernetes cluster work in a separate and clean environment, I recommend creating an **isolated bridge with NAT**. This keeps your home network untouched and avoids changing router settings. You’ll need to modify the network interface settings on your Proxmox host.
+To isolate the Kubernetes cluster, configure a dedicated bridge (`vmbr1`) with NAT on the Proxmox host. This prevents interference with your home network.
 
-> 🖍️ **Important:** Your real network interface (e.g. `enp3s0`) will likely be **different** from mine. Make sure to replace it everywhere — it appears **4 times** in the config below.
-> Run `ip a` or `ip link` on the Proxmox host to find the correct interface and replace `enp3s0` in the config below.
+> Replace all instances of `enp3s0` with your actual network interface (check via `ip a` or `ip link`).
 
-Also, if `192.168.1.100` is available on your home network, **I recommend keeping it**, since the rest of this project assumes that IP by default — this way you'll avoid extra configuration changes later.
-
-Here’s an example `/etc/network/interfaces` config:
+Example `/etc/network/interfaces`:
 
 ```ini
 # loopback
 auto lo
 iface lo inet loopback
 
-# main physical interface
+# main interface
 auto enp3s0
 iface enp3s0 inet static
     address  192.168.1.100/24
     gateway  192.168.1.1
 
-# isolated bridge for Kubernetes cluster
+# isolated bridge for cluster
 auto vmbr1
 iface vmbr1 inet static
     address  192.168.100.1/24
@@ -131,7 +113,7 @@ iface vmbr1 inet static
 source /etc/network/interfaces.d/*
 ```
 
-Once you’ve made changes, apply the config with:
+Apply changes with:
 
 ```bash
 ifreload -a
@@ -139,18 +121,18 @@ ifreload -a
 
 ---
 
-## 🌍 Route Setup on Your Local Machine (Mac/Linux)
+## Static Route (Local Machine)
 
-To connect to the Kubernetes cluster from your regular computer (e.g. laptop), you’ll need to add a static route for the cluster subnet. Without this route, Terraform won’t be able to communicate with the Talos nodes to complete the setup.
-
-If your Proxmox host IP is `192.168.1.100`, you can add the route like this:
+To allow your workstation to reach Talos nodes inside the isolated network, add a static route:
 
 ```bash
 sudo route -n add 192.168.100.0/24 192.168.1.100
 ```
 
-This tells your system to forward all traffic for the cluster (192.168.100.x) through the Proxmox host.
+Replace `192.168.1.100` with your Proxmox host's IP address.
 
 ---
 
-Ready? ➡️ Move on to [01-infrastructure](../01-infrastructure/README.md) to start deploying your cluster!
+## Next Step
+
+Once the environment is ready, proceed to [`01-infrastructure`](../01-infrastructure/README.md) to provision the cluster infrastructure using Terraform.
