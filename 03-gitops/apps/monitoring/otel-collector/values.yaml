@@ -16,14 +16,6 @@ config:
     httpcheck/frontend-proxy:
       targets:
         - endpoint: http://frontend-proxy:8080
-    jaeger:
-      protocols:
-        grpc:
-          endpoint: ${env:MY_POD_IP}:14250
-        thrift_compact:
-          endpoint: ${env:MY_POD_IP}:6831
-        thrift_http:
-          endpoint: ${env:MY_POD_IP}:14268
     otlp:
       protocols:
         grpc:
@@ -37,8 +29,6 @@ config:
     redis:
       collection_interval: 10s
       endpoint: valkey-cart:6379
-    zipkin:
-      endpoint: ${env:MY_POD_IP}:9411
   exporters:
     debug: {}
     otlp:
@@ -108,8 +98,6 @@ config:
           - batch
         receivers:
           - otlp
-          - jaeger
-          - zipkin
       metrics:
         exporters:
           - prometheus
