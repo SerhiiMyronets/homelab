@@ -1,0 +1,2 @@
+resources:
+  - alertmanager-ingress.yaml
