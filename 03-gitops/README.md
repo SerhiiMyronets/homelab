@@ -54,7 +54,7 @@ To make Ingress hosts resolvable, you can:
 
 > **Pre-requisite**: Ensure Argo CD is already running in your cluster. It was installed via Helm in the previous stage (`02-bootstrap`).
 
-It is recommended to apply the Argo CD Applications in order, as each layer builds upon the previous one.
+It is recommended to apply the Argo CD Applications in order, as each layer builds upon the previous one (e.g., monitoring components depend on platform services such as cert-manager and ingress).
 
 ### Step-by-step deployment
 
@@ -91,53 +91,59 @@ Once all applications are synced, your cluster will be fully equipped with GitOp
 
 ## UI Previews
 
-Below are sample screenshots of key components once the cluster is fully deployed.
+Below are sample screenshots of key components that become available after deploying this layer. All of them are exposed via Ingress with optional TLS.
+
+### Lens
+
+Cluster workloads and sync events visualized in Lens — a Kubernetes dashboard for developers and operators.
+
+<img src="../assets/lens.png" width="800"/>
 
 ### Argo CD
 
-GitOps view with synced applications.
+Argo CD web interface showing synced applications and their health/status.
 
 <img src="../assets/argocd.png" width="800"/>
 
 ### Grafana
 
-Dashboards for service-level latency and metrics.
+Observability dashboards with real-time service-level metrics and performance data.
 
 <img src="../assets/grafana.png" width="800"/>
 
 ### Longhorn
 
-Storage status and volume health.
+Web UI displaying storage volumes, replicas, and system health status.
 
 <img src="../assets/longhorn.png" width="800"/>
 
 ### Hubble
 
-Service map from Cilium showing network flows.
+Cilium-powered service map visualizing real-time network traffic flows.
 
 <img src="../assets/hubble.png" width="800"/>
 
 ### Jaeger
 
-Distributed trace captured via OpenTelemetry.
+UI for exploring distributed traces captured by the OpenTelemetry instrumentation.
 
-[<img src="../assets/jaeger.png" width="800"/>](../assets/jaeger.png)
+<img src="../assets/jaeger.png" width="800"/>
 
 ### Tempo
 
-Trace timeline visualized inside Grafana Explore (Tempo datasource).
+Trace timeline visualization inside Grafana using the Tempo datasource.
 
 <img src="../assets/tempo.png" width="800"/>
 
 ### OpenTelemetry Demo
 
-Main frontend page of the demo application.
+The main frontend page of the otel-demo microservices-based e-commerce application.
 
 <img src="../assets/otel-demo.png" width="800"/>
 
 ### Load Generator
 
-Locust UI generating traffic to the demo.
+Locust UI that generates synthetic traffic to simulate real user behavior.
 
 <img src="../assets/load-gen.png" width="800"/>
 
