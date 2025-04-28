@@ -7,7 +7,7 @@ data "talos_client_configuration" "talosconfig" {
 }
 
 resource "talos_cluster_kubeconfig" "kubeconfig" {
-  depends_on = talos_machine_bootstrap.bootstrap
+  depends_on = [talos_machine_bootstrap.bootstrap]
 
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   node                 = local.controller_nodes[0].address
