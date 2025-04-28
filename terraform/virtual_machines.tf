@@ -47,11 +47,11 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
 
 resource "proxmox_virtual_environment_vm" "talos_worker_01" {
   depends_on = [proxmox_virtual_environment_vm.control_plane]
-  count     = var.worker_config.count
-  name      = "${var.prefix}-${local.worker_nodes[count.index].name}"
-  tags      = sort(["talos", "worker", "terraform"])
-  node_name = var.proxmox_pve_node_name
-  on_boot   = true
+  count      = var.worker_config.count
+  name       = "${var.prefix}-${local.worker_nodes[count.index].name}"
+  tags       = sort(["talos", "worker", "terraform"])
+  node_name  = var.proxmox_pve_node_name
+  on_boot    = true
 
   cpu {
     cores = var.worker_config.cpu
