@@ -13,12 +13,34 @@ locals {
   ]
 
 
+}
+
+locals {
   patch_files = fileset("${path.module}/patches", "*.yaml")
 
   patches = [
-    for patch_file in local.patch_files : yamlencode(
-      yamldecode(file("${path.module}/patches/${patch_file}"))
-    )
+    for patch_file in local.patch_files : yamldecode(file("${path.module}/patches/${patch_file}"))
+  ]
+
+  cilium_inline_manifest = {
+    cluster = {
+      inlineManifests = [
+        {
+          name     = "cilium"
+          contents = data.helm_template.cilium.manifest
+        }
+      ]
+    }
+  }
+
+  config_patches_worker = [
+    for patch in local.patches : yamlencode(patch)
+  ]
+
+  config_patches_controlplane = [
+    for patch in concat(
+      local.patches,
+      [local.cilium_inline_manifest]
+    ) : yamlencode(patch)
   ]
 }
-
