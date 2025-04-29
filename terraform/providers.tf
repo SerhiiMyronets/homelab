@@ -1,3 +1,7 @@
+// ==============================================================================
+// Terraform Settings
+// ==============================================================================
+
 terraform {
   required_providers {
     proxmox = {
@@ -9,6 +13,7 @@ terraform {
       version = "0.7.1"
     }
   }
+
   backend "s3" {
     bucket  = "serhii-myronets"
     key     = "homelab/cluster.tfstate"
@@ -16,6 +21,10 @@ terraform {
     encrypt = true
   }
 }
+
+// ==============================================================================
+// Proxmox Provider
+// ==============================================================================
 
 provider "proxmox" {
   endpoint = var.proxmox_endpoint

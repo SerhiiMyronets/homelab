@@ -1,6 +1,6 @@
-// =============================
+// ==============================================================================
 // Proxmox Credentials
-// =============================
+// ==============================================================================
 
 variable "proxmox_endpoint" {
   description = "Proxmox API endpoint URL."
@@ -18,12 +18,12 @@ variable "proxmox_password" {
   description = "Proxmox API password."
   type        = string
   sensitive   = true
-  default     = "tata3846" // ⚡ Replace with your actual Proxmox password before deploying
+  default     = "tata3846" // Replace with your actual Proxmox password before deploying.
 }
 
-// =============================
+// ==============================================================================
 // Global Cluster Settings
-// =============================
+// ==============================================================================
 
 variable "cluster_name" {
   description = "The name of the Kubernetes cluster. Used in resource naming."
@@ -37,9 +37,9 @@ variable "prefix" {
   default     = "talos"
 }
 
-// =============================
-// Proxmox Settings
-// =============================
+// ==============================================================================
+// Proxmox Node Settings
+// ==============================================================================
 
 variable "proxmox_node_name" {
   description = "The name of the Proxmox node where virtual machines are created."
@@ -48,33 +48,33 @@ variable "proxmox_node_name" {
 }
 
 variable "proxmox_network_bridge" {
-  description = "The name of the network bridge interface on Proxmox used by virtual machines."
+  description = "The network bridge interface on Proxmox used by virtual machines."
   type        = string
   default     = "vmbr0"
 }
 
-// =============================
+// ==============================================================================
 // Talos Settings
-// =============================
+// ==============================================================================
 
 locals {
   talos = {
-    version = "v1.9.4" // Current Talos Linux version used for provisioning.
+    version = "v1.9.4" // Talos Linux version to provision.
   }
 }
 
-// =============================
+// ==============================================================================
 // Cluster Network Settings
-// =============================
+// ==============================================================================
 
 variable "cluster_node_network" {
-  description = "The CIDR network block for Kubernetes nodes."
+  description = "The CIDR block for the Kubernetes nodes network."
   type        = string
   default     = "10.1.1.0/24"
 }
 
 variable "cluster_node_network_gateway" {
-  description = "The IP address of the network gateway for Kubernetes nodes."
+  description = "The gateway IP address for the Kubernetes nodes network."
   type        = string
   default     = "10.1.1.1"
 }
@@ -82,7 +82,7 @@ variable "cluster_node_network_gateway" {
 variable "cluster_node_network_first_controller_hostnum" {
   description = <<-EOT
     Host number for the first controlplane node.
-    Example: In network 10.1.1.0/24 and hostnum 80, the node IP will be 10.1.1.80.
+    Example: If network is 10.1.1.0/24 and hostnum is 80, the node IP will be 10.1.1.80.
   EOT
   type        = number
   default     = 80
@@ -91,15 +91,15 @@ variable "cluster_node_network_first_controller_hostnum" {
 variable "cluster_node_network_first_worker_hostnum" {
   description = <<-EOT
     Host number for the first worker node.
-    Example: In network 10.1.1.0/24 and hostnum 90, the node IP will be 10.1.1.90.
+    Example: If network is 10.1.1.0/24 and hostnum is 90, the node IP will be 10.1.1.90.
   EOT
   type        = number
   default     = 90
 }
 
-// =============================
+// ==============================================================================
 // Node Resource Configuration
-// =============================
+// ==============================================================================
 
 variable "controller_config" {
   description = "Resource configuration for controlplane nodes."
@@ -133,14 +133,18 @@ variable "worker_config" {
   }
 }
 
+// ==============================================================================
+// Kubernetes API VIP Settings
+// ==============================================================================
+
 variable "cluster_vip" {
-  description = "The virtual IP (VIP) address of the Kubernetes API server. Ensure it is synchronized with the 'cluster_endpoint' variable."
+  description = "The Virtual IP (VIP) address used by Kubernetes API server."
   type        = string
   default     = "10.1.1.50"
 }
 
 variable "cluster_endpoint" {
-  description = "The virtual IP (VIP) endpoint of the Kubernetes API server. Ensure it is synchronized with the 'cluster_vip' variable."
+  description = "The Kubernetes API server endpoint address, typically matching the VIP."
   type        = string
   default     = "https://10.1.1.50:6443"
 }
