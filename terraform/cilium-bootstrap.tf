@@ -52,3 +52,20 @@ data "helm_template" "cilium" {
     })
   ]
 }
+
+// ==============================================================================
+// Cilium Inline Manifest for Talos
+// ==============================================================================
+
+locals {
+  cilium_inline_manifest = {
+    cluster = {
+      inlineManifests = [
+        {
+          name     = "cilium"
+          contents = data.helm_template.cilium.manifest
+        }
+      ]
+    }
+  }
+}
