@@ -42,22 +42,22 @@ locals {
       enabled = true
     }
     devices = ["eth0"]
-    ingressController = {
-      enabled          = true
-      default          = true
-      loadbalancerMode = "shared"
-      enforceHttps     = false
-    }
-    envoy = {
-      enabled = true
-    }
+    # ingressController = {
+    #   enabled          = true
+    #   default          = true
+    #   loadbalancerMode = "shared"
+    #   enforceHttps     = false
+    # }
+    # envoy = {
+    #   enabled = true
+    # }
     hubble = {
       relay = {
         enabled = true
       }
-      ui = {
-        enabled = true
-      }
+      # ui = {
+      #   enabled = true
+      # }
     }
   }
 }

@@ -26,6 +26,7 @@ locals {
   patch_base_path = "${path.module}/patches"
 
   common_patch_files     = fileset("${local.patch_base_path}/common", "*.yaml")
+  worker_patch_files     = fileset("${local.patch_base_path}/worker", "*.yaml")
   controller_patch_files = fileset("${local.patch_base_path}/controller", "*.yaml")
 
   shared_patches = [
@@ -33,6 +34,10 @@ locals {
     yamlencode(yamldecode(file("${local.patch_base_path}/common/${f}")))
   ]
 
+  worker_patches = [
+    for f in local.worker_patch_files :
+    yamlencode(yamldecode(file("${local.patch_base_path}/worker/${f}")))
+  ]
 
   controller_patches = [
     for f in local.controller_patch_files :
@@ -41,7 +46,10 @@ locals {
     })))
   ]
 
-  config_patches_worker = local.shared_patches
+  config_patches_worker = concat(
+    local.shared_patches,
+    local.worker_patches
+  )
 
   config_patches_controller = concat(
     local.shared_patches,

@@ -93,12 +93,21 @@ resource "proxmox_virtual_environment_vm" "talos_worker_01" {
     bridge = var.proxmox_network_bridge
   }
 
+  # OS disk (bootable Talos image)
   disk {
     datastore_id = "local-lvm"
+    interface    = "scsi0"
     file_id      = proxmox_virtual_environment_download_file.talos_nocloud_image.id
     file_format  = "raw"
-    interface    = "virtio0"
-    size         = var.worker_config.disk
+    size         = var.worker_config.disk_os
+  }
+
+  # Longhorn data disk
+  disk {
+    datastore_id = "local-lvm"
+    interface    = "scsi1"
+    file_format  = "raw"
+    size         = var.worker_config.disk_longhorn
   }
 
   operating_system {
