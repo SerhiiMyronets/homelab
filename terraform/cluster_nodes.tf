@@ -3,14 +3,14 @@
 // ==============================================================================
 
 resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
-  content_type             = "iso"
-  datastore_id             = "local"
-  node_name                = var.proxmox_node_name
-  file_name                = local.talos_image_filename
-  url                      = local.talos_image_url
-  decompression_algorithm  = "gz"
-  overwrite                = true
-  overwrite_unmanaged      = true
+  content_type            = "iso"
+  datastore_id            = "local"
+  node_name               = var.proxmox_node_name
+  file_name               = local.talos_image_filename
+  url                     = local.talos_image_url
+  decompression_algorithm = "gz"
+  overwrite               = true
+  overwrite_unmanaged     = true
 }
 
 // ==============================================================================
