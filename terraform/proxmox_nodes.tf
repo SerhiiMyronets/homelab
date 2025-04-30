@@ -19,7 +19,7 @@ resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
 
 resource "proxmox_virtual_environment_vm" "control_plane" {
   count           = var.controller_config.count
-  vm_id           = count.index + 100
+  vm_id = count.index + 100
   name            = "${var.prefix}-${local.controller_nodes[count.index].name}"
   tags            = sort(["talos", "control_plane", "terraform"])
   stop_on_destroy = true
@@ -101,6 +101,14 @@ resource "proxmox_virtual_environment_vm" "talos_worker_01" {
     file_id      = proxmox_virtual_environment_download_file.talos_nocloud_image.id
     file_format  = "raw"
     size         = var.worker_config.disk_os
+  }
+  #
+  # Data disk for SCI
+  disk {
+    datastore_id = "local-lvm"
+    interface    = "scsi1"
+    file_format  = "raw"
+    size         = var.worker_config.disk_sci
   }
 
   operating_system {
