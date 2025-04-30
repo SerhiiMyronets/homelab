@@ -13,7 +13,7 @@ You don’t need any special server or enterprise hardware. A spare laptop or mi
 | CPU Cores | 4                     | 8+                             |
 | RAM       | 8 GB                  | 16 GB+                         |
 
-> 💡 For running the full GitOps setup (including observability stack, demo apps, and load generator), 12 GB+ RAM is minimal.
+> 💡 For running the full GitOps setup (including observability stack, demo apps, and load generator), 12 GB+ RAM is minimum.
 
 ---
 
