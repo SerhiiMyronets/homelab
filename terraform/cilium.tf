@@ -48,16 +48,16 @@ locals {
     #   loadbalancerMode = "shared"
     #   enforceHttps     = false
     # }
-    # envoy = {
-    #   enabled = true
-    # }
+    envoy = {
+      enabled = false
+    }
     hubble = {
       relay = {
         enabled = true
       }
-      # ui = {
-      #   enabled = true
-      # }
+      ui = {
+        enabled = true
+      }
     }
   }
 }
