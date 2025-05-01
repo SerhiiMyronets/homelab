@@ -160,14 +160,14 @@ variable "worker_config" {
     cpu           = number
     memory        = number
     disk_os       = number
-    disk_sci = number
+    disk-longhorn = number
   })
   default = {
     count         = 2
     cpu           = 2
     memory        = 4096 // 4 GB
     disk_os       = 40   // 40 GB
-    disk_sci = 60  // 60 GB
+    disk-longhorn = 60  // 60 GB
   }
 }
 
