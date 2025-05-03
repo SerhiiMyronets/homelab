@@ -120,8 +120,8 @@ variable "cluster_node_network_load_balancer_first_hostnum" {
     Host number for the first IP address allocated to LoadBalancer services.
     Example: If the network is 10.1.1.0/24 and this is set to 130, the IP will be 10.1.1.130.
   EOT
-  type    = number
-  default = 130
+  type        = number
+  default     = 130
 }
 
 variable "cluster_node_network_load_balancer_last_hostnum" {
@@ -129,8 +129,8 @@ variable "cluster_node_network_load_balancer_last_hostnum" {
     Host number for the last IP address allocated to LoadBalancer services.
     Example: If this is set to 230, the last IP will be 10.1.1.230.
   EOT
-  type    = number
-  default = 230
+  type        = number
+  default     = 230
 }
 
 // ==============================================================================
@@ -167,7 +167,7 @@ variable "worker_config" {
     cpu           = 2
     memory        = 4096 // 4 GB
     disk_os       = 40   // 40 GB
-    disk-longhorn = 60  // 60 GB
+    disk-longhorn = 60   // 60 GB
   }
 }
 

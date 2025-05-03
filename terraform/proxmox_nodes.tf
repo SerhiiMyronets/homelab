@@ -19,7 +19,7 @@ resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
 
 resource "proxmox_virtual_environment_vm" "control_plane" {
   count           = var.controller_config.count
-  vm_id = count.index + 100
+  vm_id           = count.index + 100
   name            = "${var.prefix}-${local.controller_nodes[count.index].name}"
   tags            = sort(["talos", "control_plane", "terraform"])
   stop_on_destroy = true
