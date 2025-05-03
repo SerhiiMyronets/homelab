@@ -54,7 +54,8 @@ locals {
   config_patches_controller = concat(
     local.shared_patches,
     local.controller_patches,
-    [yamlencode(local.cilium_inline_manifest)],
-    [yamlencode(local.argocd_inline_manifest)]
+    # [yamlencode(local.cilium_inline_manifest)],
+    # [yamlencode(local.longhorn_inline_manifest)],
+    # [yamlencode(local.argocd_inline_manifest)]
   )
 }

@@ -1,8 +1,4 @@
 # longhorn-values.yaml
-defaultSettings:
-  defaultDataPath: /var/mnt/longhorn
-
-longhornManager:
-  extraEnv:
-    - name: LONGHORN_PRECHECK_DISABLE
-      value: "true"
+serviceAccount:
+  name: longhorn-service-account
+  create: false
