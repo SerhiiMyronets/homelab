@@ -71,23 +71,23 @@
 #   }
 # }
 
-resource "helm_release" "longhorn" {
-  provider   = helm
-  name       = "longhorn"
-  namespace  = "longhorn-system"
-  repository = "https://charts.longhorn.io"
-  chart      = "longhorn"
-  version    = "1.5.3"
-
-  create_namespace = true
-
-  values = [
-    yamlencode({
-      serviceAccount = {
-        create = true
-      }
-    })
-  ]
-
-  depends_on = [talos_machine_bootstrap.bootstrap]
-}
+# resource "helm_release" "longhorn" {
+#   provider   = helm
+#   name       = "longhorn"
+#   namespace  = "longhorn-system"
+#   repository = "https://charts.longhorn.io"
+#   chart      = "longhorn"
+#   version    = "1.5.3"
+#
+#   create_namespace = true
+#
+#   values = [
+#     yamlencode({
+#       serviceAccount = {
+#         create = true
+#       }
+#     })
+#   ]
+#
+#   depends_on = [talos_machine_bootstrap.bootstrap]
+# }

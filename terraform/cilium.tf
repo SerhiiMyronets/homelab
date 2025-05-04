@@ -41,13 +41,6 @@
 #     l2announcements = {
 #       enabled = true
 #     }
-#     devices = ["eth0"]
-#     # ingressController = {
-#     #   enabled          = true
-#     #   default          = true
-#     #   loadbalancerMode = "shared"
-#     #   enforceHttps     = false
-#     # }
 #     envoy = {
 #       enabled = false
 #     }
@@ -120,52 +113,52 @@
 #     }
 #   }
 # }
-resource "helm_release" "cilium" {
-  name       = "cilium"
-  namespace  = "kube-system"
-  repository = "https://helm.cilium.io"
-  chart      = "cilium"
-  version    = "1.16.4"
-
-  create_namespace = false
-
-  values = [
-    yamlencode({
-      ipam = {
-        mode = "kubernetes"
-      },
-      securityContext = {
-        capabilities = {
-          ciliumAgent      = ["CHOWN", "KILL", "NET_ADMIN", "NET_RAW", "IPC_LOCK", "SYS_ADMIN", "SYS_RESOURCE", "DAC_OVERRIDE", "FOWNER", "SETGID", "SETUID"]
-          cleanCiliumState = ["NET_ADMIN", "SYS_ADMIN", "SYS_RESOURCE"]
-        }
-      },
-      cgroup = {
-        autoMount = {
-          enabled = false
-        },
-        hostRoot = "/sys/fs/cgroup"
-      },
-      k8sServiceHost       = "localhost"
-      k8sServicePort       = "7445"
-      kubeProxyReplacement = true
-      l2announcements = {
-        enabled = true
-      },
-      devices = ["eth0"],
-      envoy = {
-        enabled = false
-      },
-      hubble = {
-        relay = {
-          enabled = true
-        },
-        ui = {
-          enabled = true
-        }
-      }
-    })
-  ]
-
-  depends_on = [talos_machine_bootstrap.bootstrap]
-}
+# resource "helm_release" "cilium" {
+#   name       = "cilium"
+#   namespace  = "kube-system"
+#   repository = "https://helm.cilium.io"
+#   chart      = "cilium"
+#   version    = "1.16.4"
+#
+#   create_namespace = false
+#
+#   values = [
+#     yamlencode({
+#       ipam = {
+#         mode = "kubernetes"
+#       },
+#       securityContext = {
+#         capabilities = {
+#           ciliumAgent      = ["CHOWN", "KILL", "NET_ADMIN", "NET_RAW", "IPC_LOCK", "SYS_ADMIN", "SYS_RESOURCE", "DAC_OVERRIDE", "FOWNER", "SETGID", "SETUID"]
+#           cleanCiliumState = ["NET_ADMIN", "SYS_ADMIN", "SYS_RESOURCE"]
+#         }
+#       },
+#       cgroup = {
+#         autoMount = {
+#           enabled = false
+#         },
+#         hostRoot = "/sys/fs/cgroup"
+#       },
+#       k8sServiceHost       = "localhost"
+#       k8sServicePort       = "7445"
+#       kubeProxyReplacement = true
+#       l2announcements = {
+#         enabled = true
+#       },
+#       devices = ["eth0"],
+#       envoy = {
+#         enabled = false
+#       },
+#       hubble = {
+#         relay = {
+#           enabled = true
+#         },
+#         ui = {
+#           enabled = true
+#         }
+#       }
+#     })
+#   ]
+#
+#   depends_on = [talos_machine_bootstrap.bootstrap]
+# }
