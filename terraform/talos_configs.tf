@@ -15,7 +15,7 @@ data "talos_client_configuration" "talosconfig" {
 // ==============================================================================
 
 resource "talos_cluster_kubeconfig" "kubeconfig" {
-  depends_on           = [talos_machine_bootstrap.bootstrap, data.talos_cluster_health.health]
+  depends_on           = [talos_machine_bootstrap.bootstrap]
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   node                 = local.controller_nodes[0].address
 }
@@ -73,13 +73,4 @@ resource "talos_machine_bootstrap" "bootstrap" {
   endpoint             = local.controller_nodes[0].address
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   node                 = local.controller_nodes[0].address
-}
-
-
-data "talos_cluster_health" "health" {
-  depends_on = [talos_machine_bootstrap.bootstrap]
-  client_configuration = data.talos_client_configuration.talosconfig.client_configuration
-  control_plane_nodes = [for node in local.controller_nodes : node.address]
-  worker_nodes = [for node in local.worker_nodes : node.address]
-  endpoints            = [local.cluster_endpoint]
 }

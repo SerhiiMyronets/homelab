@@ -36,18 +36,3 @@ provider "proxmox" {
   password = var.proxmox_password
   insecure = true
 }
-
-resource "local_file" "kubeconfig" {
-  content  = talos_cluster_kubeconfig.kubeconfig.kubeconfig_raw
-  filename = "${path.module}/kubeconfig_generated.yaml"
-}
-
-provider "kubernetes" {
-  config_path = local_file.kubeconfig.filename
-}
-
-provider "helm" {
-  kubernetes {
-    config_path = local_file.kubeconfig.filename
-  }
-}
