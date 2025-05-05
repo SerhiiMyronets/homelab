@@ -1,3 +1,4 @@
+# This patch enables cluster discovery for Talos.
 cluster:
   discovery:
     enabled: true

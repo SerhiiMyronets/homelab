@@ -1,3 +1,4 @@
+# This file is defined to mount the longhorn disk on the worker nodes.
 machine:
   disks:
     - device: /dev/sdb
