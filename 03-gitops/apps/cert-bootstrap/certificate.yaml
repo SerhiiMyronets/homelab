@@ -13,7 +13,7 @@ spec:
   duration: 4320h
   subject:
     organizations:
-      - cluster.local
+      - cluster
     organizationalUnits:
       - Kubernetes
   issuerRef:
