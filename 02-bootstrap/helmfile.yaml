@@ -5,6 +5,8 @@ repositories:
     url: https://kubernetes.github.io/ingress-nginx
   - name: argo
     url: https://argoproj.github.io/argo-helm
+  - name: longhorn
+    url: https://charts.longhorn.io
 
 releases:
   - name: cert-manager
@@ -31,7 +33,9 @@ releases:
     chart: argo/argo-cd
     version: 7.7.7
     createNamespace: true
-    values:
-        configs:
-          cm:
-            kustomize.buildOptions: "--enable-helm"
+
+  - name: longhorn
+    namespace: longhorn-system
+    chart: longhorn/longhorn
+    version: 1.8.1
+    createNamespace: false
