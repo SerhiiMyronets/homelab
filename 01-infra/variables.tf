@@ -176,7 +176,7 @@ variable "worker_config" {
 // ==============================================================================
 
 variable "cluster_vip" {
-  description = "The Virtual IP (VIP) address used by Kubernetes API server."
+  description = "The Virtual IP used by controller nodes for the Kubernetes API (should be in same subnet)."
   type        = string
   default     = "10.1.1.50"
 }
