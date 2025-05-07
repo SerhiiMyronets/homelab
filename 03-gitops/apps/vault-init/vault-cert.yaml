@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vault-tls
+  namespace: vault
+spec:
+  secretName: ingress-tls
+  commonName: vault.cluster
+  dnsNames:
+    - vault.cluster
+  issuerRef:
+    name: ingress
+    kind: ClusterIssuer
