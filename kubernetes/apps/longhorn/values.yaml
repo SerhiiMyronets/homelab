@@ -1,4 +1,0 @@
-# longhorn-values.yaml
-serviceAccount:
-  name: longhorn-service-account
-  create: false
