@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: longhorn-ingress
-  namespace: longhorn-system
+  namespace: argocd
 spec:
   destination:
     namespace: longhorn-system
