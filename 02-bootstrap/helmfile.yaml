@@ -7,6 +7,8 @@ repositories:
     url: https://argoproj.github.io/argo-helm
   - name: longhorn
     url: https://charts.longhorn.io
+  - name: hashicorp
+    url: https://helm.releases.hashicorp.com
 
 releases:
   - name: cert-manager
@@ -39,3 +41,21 @@ releases:
     chart: longhorn/longhorn
     version: 1.8.1
     createNamespace: false
+
+  - name: vault
+    namespace: vault
+    chart: hashicorp/vault
+    version: 0.27.0
+    createNamespace: true
+    values:
+      - server:
+          dataStorage:
+            enabled: true
+            size: 10Gi
+            storageClass: longhorn
+          ha:
+            enabled: false
+          extraEnvironmentVars:
+            VAULT_API_ADDR: http://$(POD_IP):8200
+      - ui:
+          enabled: true
