@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform
-    path: 03-gitops/apps/longhorn-ingress
+    path: 03-gitops/apps/ingress/longhorn
     targetRevision: HEAD
     directory:
       recurse: true
