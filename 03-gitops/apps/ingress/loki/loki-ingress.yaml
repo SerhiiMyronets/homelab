@@ -20,6 +20,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: loki
+                name: loki-stack
                 port:
                   number: 3100
