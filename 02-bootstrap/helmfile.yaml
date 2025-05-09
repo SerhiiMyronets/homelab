@@ -9,6 +9,8 @@ repositories:
     url: https://charts.longhorn.io
   - name: prometheus-community
     url: https://prometheus-community.github.io/helm-charts
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
 
 releases:
   - name: cert-manager
@@ -70,3 +72,18 @@ releases:
                   resources:
                     requests:
                       storage: 2Gi
+
+  - name: loki-stack
+    namespace: monitoring
+    chart: grafana/loki-stack
+    version: 2.10.1
+    values:
+      - loki:
+          persistence:
+            enabled: true
+            storageClassName: longhorn
+            size: 10Gi
+      - promtail:
+          enabled: true
+      - grafana:
+          enabled: false
