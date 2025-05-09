@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-server
+  name: argocd-server-ui
   namespace: argocd
   annotations:
     cert-manager.io/cluster-issuer: ingress
