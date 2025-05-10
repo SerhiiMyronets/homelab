@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: online-boutique
+spec:
+  template:
+    metadata:
+      annotations:
+        proxy.istio.io/config: |
+          tracing:
+            custom_tags:
+              service:
+                literal:
+                  value: frontend
