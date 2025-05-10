@@ -2,15 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - base
+
 patches:
-  - target:
+  - path: custom-tracing-patch.yaml
+    target:
       kind: Deployment
-    patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
-      spec:
-        template:
-          metadata:
-            annotations:
-              proxy.istio.io/config: |
-                {"tracing":{"sampling":100,"custom_tags":{"service":{"literal":{"value":"$(POD_NAMESPACE)"}}}}}
