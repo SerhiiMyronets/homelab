@@ -152,6 +152,9 @@ releases:
     values:
       - meshConfig:
           defaultConfig:
+            proxyMetadata:
+              ISTIO_META_TRACING_CUSTOM_TAGS: |
+                {"service":{"literal":{"value":"frontend"}}}
             tracing:
               sampling: 100.0
               zipkin:
