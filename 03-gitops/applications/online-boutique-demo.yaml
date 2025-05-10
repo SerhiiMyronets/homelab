@@ -31,20 +31,20 @@ spec:
     automated: {}
     syncOptions:
       - CreateNamespace=true
-#---
-#apiVersion: argoproj.io/v1alpha1
-#kind: Application
-#metadata:
-#  name: online-boutique-ingress-cert
-#  namespace: argocd
-#spec:
-#  project: online-boutique-demo
-#  source:
-#    repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
-#    targetRevision: main
-#    path: 03-gitops/apps/demo/online-boutique/ingress-cert
-#  destination:
-#    server: https://kubernetes.default.svc
-#    namespace: istio-ingress
-#  syncPolicy:
-#    automated: {}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: online-boutique-ingress-cert
+  namespace: argocd
+spec:
+  project: online-boutique-demo
+  source:
+    repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
+    targetRevision: main
+    path: 03-gitops/apps/demo/online-boutique/ingress-cert
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: istio-ingress
+  syncPolicy:
+    automated: {}
