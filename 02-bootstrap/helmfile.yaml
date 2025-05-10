@@ -17,6 +17,8 @@ repositories:
     url: https://metallb.github.io/metallb
   - name: metrics-server
     url: https://kubernetes-sigs.github.io/metrics-server
+  - name: jaegertracing
+    url: https://jaegertracing.github.io/helm-charts
 
 releases:
   - name: metrics-server
@@ -149,6 +151,11 @@ releases:
     version: 1.26.0
     values:
       - meshConfig:
+          defaultConfig:
+            tracing:
+              sampling: 100.0
+              zipkin:
+                address: jaeger-collector.observability.svc.cluster.local:9411
           accessLogFile: /dev/stdout
         global:
           proxy:
@@ -166,3 +173,22 @@ releases:
     values:
       - image:
           tag: 1.26.0
+
+  - name: jaeger
+    namespace: monitoring
+    chart: jaegertracing/jaeger
+    version: 3.4.1
+    createNamespace: true
+    values:
+      - provisionDataStore:
+          cassandra: false
+        allInOne:
+          enabled: true
+        storage:
+          type: memory
+        agent:
+          enabled: false
+        collector:
+          enabled: false
+        query:
+          enabled: false

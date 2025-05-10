@@ -7,3 +7,4 @@ resources:
   - alertmanager
   - prometheus
   - grafana
+  - jaeger
