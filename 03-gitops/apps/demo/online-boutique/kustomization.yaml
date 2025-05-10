@@ -3,5 +3,8 @@ kind: Kustomization
 resources:
   - base
 
-patchesStrategicMerge:
-  - frontend-tracing-patch.yaml
+patches:
+  - path: custom-tracing-patch.yaml
+    target:
+      kind: Deployment
+      name: frontend
