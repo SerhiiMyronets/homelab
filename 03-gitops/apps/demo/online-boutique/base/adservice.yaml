@@ -43,7 +43,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: volkamana/adservice:otel
+        image: volkamana/adservice:otel1
         ports:
         - containerPort: 9555
         env:
