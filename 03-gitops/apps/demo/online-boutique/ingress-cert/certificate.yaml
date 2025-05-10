@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: online-boutique-tls
-  namespace: online-boutique
+  namespace: istio-ingress
 spec:
   secretName: online-boutique-tls
   dnsNames:
