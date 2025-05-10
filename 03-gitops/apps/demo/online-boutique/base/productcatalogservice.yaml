@@ -47,6 +47,10 @@ spec:
         ports:
         - containerPort: 3550
         env:
+        - name: ENABLE_TRACING
+          value: "1"
+        - name: COLLECTOR_SERVICE_ADDR
+          value: "tempo.monitoring.svc.cluster.local:4317"
         - name: PORT
           value: "3550"
         - name: DISABLE_PROFILER
