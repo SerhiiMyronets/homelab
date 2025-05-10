@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: online-boutique-cert
+  namespace: online-boutique
+spec:
+  secretName: online-boutique-cert-tls
+  issuerRef:
+    name: ingress
+    kind: ClusterIssuer
+  commonName: online-boutique.cluster
+  dnsNames:
+    - online-boutique.cluster
