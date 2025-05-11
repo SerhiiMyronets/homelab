@@ -28,3 +28,6 @@ default:
       value: "http://localhost:4318/v1/metrics"
     - name: OTEL_EXPORTER_OTLP_LOGS_ENDPOINT
       value: "http://localhost:4318/v1/logs"
+
+serviceAccount:
+  create: false
