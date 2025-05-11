@@ -1,6 +1,7 @@
 resources:
   - namespace.yaml
   - accounting.yaml
+  - product-catalog-products.yaml
   - ad.yaml
   - cart.yaml
   - checkout.yaml
