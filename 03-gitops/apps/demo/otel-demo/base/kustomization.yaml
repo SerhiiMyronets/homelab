@@ -19,3 +19,4 @@ resources:
   - recommendation.yaml
   - shipping.yaml
   - valkey-cart.yaml
+  - opensearch.yaml
