@@ -1,0 +1,95 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.37.1
+
+    opentelemetry.io/name: kafka
+    app.kubernetes.io/instance: otel-demo
+    app.kubernetes.io/component: kafka
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/version: "2.0.2"
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9092
+      name: plaintext
+      targetPort: 9092
+    - port: 9093
+      name: controller
+      targetPort: 9093
+  selector:
+
+    opentelemetry.io/name: kafka
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.37.1
+
+    opentelemetry.io/name: kafka
+    app.kubernetes.io/instance: otel-demo
+    app.kubernetes.io/component: kafka
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/version: "2.0.2"
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+
+      opentelemetry.io/name: kafka
+  template:
+    metadata:
+      labels:
+
+        opentelemetry.io/name: kafka
+        app.kubernetes.io/instance: otel-demo
+        app.kubernetes.io/component: kafka
+        app.kubernetes.io/name: kafka
+    spec:
+      serviceAccountName: otel-demo
+      containers:
+        - name: kafka
+          image: 'ghcr.io/open-telemetry/demo:2.0.2-kafka'
+          imagePullPolicy: IfNotPresent
+          ports:
+
+            - containerPort: 9092
+              name: plaintext
+            - containerPort: 9093
+              name: controller
+          env:
+            - name: OTEL_SERVICE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.labels['app.kubernetes.io/component']
+            - name: OTEL_COLLECTOR_NAME
+              value: my-otel-collector.opentelemetry-ns
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: PLAINTEXT://kafka:9092
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://$(OTEL_COLLECTOR_NAME):4318
+            - name: KAFKA_HEAP_OPTS
+              value: -Xmx400M -Xms400M
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.name=$(OTEL_SERVICE_NAME),service.namespace=opentelemetry-demo,service.version=2.0.2
+          resources:
+            limits:
+              memory: 600Mi
+          securityContext:
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+      volumes:

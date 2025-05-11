@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.37.1
+
+    opentelemetry.io/name: payment
+    app.kubernetes.io/instance: otel-demo
+    app.kubernetes.io/component: payment
+    app.kubernetes.io/name: payment
+    app.kubernetes.io/version: "2.0.2"
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      name: tcp-service
+      targetPort: 8080
+  selector:
+
+    opentelemetry.io/name: payment
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.37.1
+
+    opentelemetry.io/name: payment
+    app.kubernetes.io/instance: otel-demo
+    app.kubernetes.io/component: payment
+    app.kubernetes.io/name: payment
+    app.kubernetes.io/version: "2.0.2"
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+
+      opentelemetry.io/name: payment
+  template:
+    metadata:
+      labels:
+
+        opentelemetry.io/name: payment
+        app.kubernetes.io/instance: otel-demo
+        app.kubernetes.io/component: payment
+        app.kubernetes.io/name: payment
+    spec:
+      serviceAccountName: otel-demo
+      containers:
+        - name: payment
+          image: 'ghcr.io/open-telemetry/demo:2.0.2-payment'
+          imagePullPolicy: IfNotPresent
+          ports:
+
+            - containerPort: 8080
+              name: service
+          env:
+            - name: OTEL_SERVICE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.labels['app.kubernetes.io/component']
+            - name: OTEL_COLLECTOR_NAME
+              value: my-otel-collector.opentelemetry-ns
+            - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+              value: cumulative
+            - name: PAYMENT_PORT
+              value: "8080"
+            - name: FLAGD_HOST
+              value: flagd
+            - name: FLAGD_PORT
+              value: "8013"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: http://$(OTEL_COLLECTOR_NAME):4317
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              value: service.name=$(OTEL_SERVICE_NAME),service.namespace=opentelemetry-demo,service.version=2.0.2
+          resources:
+            limits:
+              memory: 120Mi
+          securityContext:
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+      volumes:
