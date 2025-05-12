@@ -98,7 +98,7 @@ spec:
             - name: JAEGER_PORT
               value: "16686"
             - name: LOCUST_WEB_HOST
-              value: load-generator.otel-demo
+              value: load-generator
             - name: LOCUST_WEB_PORT
               value: "8089"
             - name: OTEL_COLLECTOR_HOST
