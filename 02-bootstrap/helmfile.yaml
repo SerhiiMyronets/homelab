@@ -19,6 +19,8 @@ repositories:
     url: https://kubernetes-sigs.github.io/metrics-server
   - name: jaegertracing
     url: https://jaegertracing.github.io/helm-charts
+  - name: open-telemetry
+    url: https://open-telemetry.github.io/opentelemetry-helm-charts
 
 releases:
   - name: metrics-server
@@ -202,3 +204,34 @@ releases:
           enabled: false
         query:
           enabled: false
+
+  - name: otel-collector
+    namespace: monitoring
+    chart: open-telemetry/opentelemetry-collector
+    version: 0.82.0
+    createNamespace: true
+    values:
+      - mode: deployment
+      - config:
+          receivers:
+            otlp:
+              protocols:
+                grpc: {}
+                http: {}
+          processors: {}
+          exporters:
+            logging: {}
+          service:
+            pipelines:
+              traces:
+                receivers: [otlp]
+                processors: []
+                exporters: [logging]
+              metrics:
+                receivers: [otlp]
+                processors: []
+                exporters: [logging]
+              logs:
+                receivers: [otlp]
+                processors: []
+                exporters: [logging]
