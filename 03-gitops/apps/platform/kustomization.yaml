@@ -4,4 +4,3 @@ resources:
   - argocd
   - cert-manager
   - longhorn
-  - metallb
