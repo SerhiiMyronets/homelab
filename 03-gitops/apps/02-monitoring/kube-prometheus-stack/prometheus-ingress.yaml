@@ -1,25 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: longhorn-ui
-  namespace: longhorn-system
+  name: prometheus-ui
+  namespace: monitoring
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     cert-manager.io/cluster-issuer: ingress
 spec:
   ingressClassName: nginx
   rules:
-    - host: longhorn.cluster
+    - host: prometheus.cluster
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: longhorn-frontend
+                name: kube-prometheus-stack-prometheus
                 port:
-                  number: 80
-  tls:
-    - hosts:
-        - longhorn.cluster
-      secretName: longhorn-ui-tls
+                  number: 9090
+#  tls:
+#    - hosts:
+#        - prometheus.cluster
+#      secretName: prometheus-ui-tls

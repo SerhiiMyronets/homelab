@@ -1,25 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: grafana-ui
-  namespace: monitoring
+  name: longhorn-ui
+  namespace: longhorn-system
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     cert-manager.io/cluster-issuer: ingress
 spec:
   ingressClassName: nginx
   rules:
-    - host: grafana.cluster
+    - host: longhorn.cluster
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: kube-prometheus-stack-grafana
+                name: longhorn-frontend
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - grafana.cluster
-      secretName: grafana-ui-tls
+#  tls:
+#    - hosts:
+#        - longhorn.cluster
+#      secretName: longhorn-ui-tls

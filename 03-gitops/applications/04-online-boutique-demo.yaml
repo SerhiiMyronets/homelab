@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: otel-demo
+  name: online-boutique-demo
   namespace: argocd
 spec:
   sourceRepos:
@@ -16,17 +16,17 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: otel-demo
+  name: online-boutique-demo
   namespace: argocd
 spec:
-  project: otel-demo
+  project: online-boutique-demo
   source:
     repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
     targetRevision: main
-    path: 03-gitops/apps/demo/otel-demo
+    path: 03-gitops/apps/03-demo/online-boutique
   destination:
     server: https://kubernetes.default.svc
-    namespace: otel-demo
+    namespace: online-boutique
   syncPolicy:
     automated: {}
     syncOptions:

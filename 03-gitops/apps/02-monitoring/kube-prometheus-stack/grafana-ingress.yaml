@@ -1,25 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: tempo-ui
+  name: grafana-ui
   namespace: monitoring
   annotations:
-    cert-manager.io/cluster-issuer: ingress
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    cert-manager.io/cluster-issuer: ingress
 spec:
   ingressClassName: nginx
   rules:
-    - host: tempo.cluster
+    - host: grafana.cluster
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: tempo
+                name: kube-prometheus-stack-grafana
                 port:
-                  number: 3100
-  tls:
-    - hosts:
-        - tempo.cluster
-      secretName: tempo-tls
+                  number: 80
+#  tls:
+#    - hosts:
+#        - grafana.cluster
+#      secretName: grafana-ui-tls
