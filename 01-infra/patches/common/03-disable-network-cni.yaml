@@ -1,0 +1,5 @@
+# This patch disables the CNI network plugin in Talos.
+cluster:
+  network:
+    cni:
+      name: none

@@ -11,10 +11,6 @@ repositories:
     url: https://prometheus-community.github.io/helm-charts
   - name: grafana
     url: https://grafana.github.io/helm-charts
-  - name: istio
-    url: https://istio-release.storage.googleapis.com/charts
-  - name: metallb
-    url: https://metallb.github.io/metallb
   - name: metrics-server
     url: https://kubernetes-sigs.github.io/metrics-server
   - name: jaegertracing
@@ -70,7 +66,6 @@ releases:
     namespace: monitoring
     chart: prometheus-community/kube-prometheus-stack
     version: 56.6.2
-    createNamespace: true
     values:
       - crds:
           enabled: true
@@ -132,7 +127,6 @@ releases:
     namespace: monitoring
     chart: grafana/tempo
     version: 1.7.1
-    createNamespace: false
     values:
       - persistence:
           enabled: true
@@ -143,54 +137,10 @@ releases:
             grpc:
               enabled: true
 
-  - name: metallb
-    namespace: metallb-system
-    createNamespace: true
-    chart: metallb/metallb
-    version: 0.14.9
-
-  - name: istio-base
-    namespace: istio-system
-    chart: istio/base
-    version: 1.26.0
-    createNamespace: true
-
-  - name: istiod
-    namespace: istio-system
-    chart: istio/istiod
-    version: 1.26.0
-    createNamespace: true
-    values:
-      - meshConfig:
-          defaultConfig:
-            tracing:
-              sampling: 100.0
-              zipkin:
-                address: jaeger-collector.monitoring.svc.cluster.local:9411
-      - global:
-          proxy:
-            resources:
-              requests:
-                cpu: 10m
-                memory: 40Mi
-              limits:
-                cpu: 100m
-                memory: 128Mi
-
-  - name: istio-ingressgateway
-    namespace: istio-ingress
-    chart: istio/gateway
-    version: 1.26.0
-    createNamespace: true
-    values:
-      - image:
-          tag: 1.26.0
-
   - name: jaeger
     namespace: monitoring
     chart: jaegertracing/jaeger
     version: 3.4.1
-    createNamespace: true
     values:
       - provisionDataStore:
           cassandra: false
@@ -209,7 +159,6 @@ releases:
     namespace: monitoring
     chart: open-telemetry/opentelemetry-collector
     version: 0.82.0
-    createNamespace: true
     values:
       - nameOverride: otel-collector
       - fullnameOverride: otel-collector
