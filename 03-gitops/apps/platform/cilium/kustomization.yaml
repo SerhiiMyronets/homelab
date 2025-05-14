@@ -10,7 +10,3 @@ helmCharts:
     releaseName: cilium
     namespace: kube-system
     valuesFile: values.yaml
-
-
-resources:
-  - hubble-ui-ingress.yaml
