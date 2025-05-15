@@ -108,34 +108,34 @@ releases:
 #              access: proxy
 #              url: http://loki-stack.monitoring.svc.cluster.local:3100
 
-  - name: loki-stack
-    namespace: monitoring
-    chart: grafana/loki-stack
-    version: 2.10.1
-    values:
-      - loki:
-          persistence:
-            enabled: true
-            storageClassName: longhorn
-            size: 10Gi
-      - promtail:
-          enabled: true
-      - grafana:
-          enabled: false
+#  - name: loki-stack
+#    namespace: monitoring
+#    chart: grafana/loki-stack
+#    version: 2.10.1
+#    values:
+#      - loki:
+#          persistence:
+#            enabled: true
+#            storageClassName: longhorn
+#            size: 10Gi
+#      - promtail:
+#          enabled: true
+#      - grafana:
+#          enabled: false
 
-  - name: tempo
-    namespace: monitoring
-    chart: grafana/tempo
-    version: 1.7.1
-    values:
-      - persistence:
-          enabled: true
-          storageClass: longhorn
-          size: 10Gi
-      - tempo:
-          otlp:
-            grpc:
-              enabled: true
+#  - name: tempo
+#    namespace: monitoring
+#    chart: grafana/tempo
+#    version: 1.7.1
+#    values:
+#      - persistence:
+#          enabled: true
+#          storageClass: longhorn
+#          size: 10Gi
+#      - tempo:
+#          otlp:
+#            grpc:
+#              enabled: true
 
   - name: jaeger
     namespace: monitoring

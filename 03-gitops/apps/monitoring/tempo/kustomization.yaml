@@ -1,2 +1,10 @@
 resources:
   - tempo-ingress.yaml
+
+helmCharts:
+  - name: tempo
+    releaseName: tempo
+    version: 1.7.1
+    repo: https://grafana.github.io/helm-charts
+    namespace: monitoring
+    valuesFile: values.yaml

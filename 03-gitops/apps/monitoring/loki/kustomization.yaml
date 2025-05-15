@@ -1,2 +1,10 @@
 resources:
   - loki-ingress.yaml
+
+helmCharts:
+  - name: loki-stack
+    releaseName: loki-stack
+    version: 2.10.1
+    repo: https://grafana.github.io/helm-charts
+    namespace: monitoring
+    valuesFile: values.yaml

@@ -1,0 +1,32 @@
+nameOverride: otel-collector
+fullnameOverride: otel-collector
+mode: deployment
+
+config:
+  receivers:
+    otlp:
+      protocols:
+        grpc: {}
+        http: {}
+  processors:
+    batch: {}
+  exporters:
+    logging: {}
+    otlp:
+      endpoint: jaeger-collector.monitoring:4317
+      tls:
+        insecure: true
+  service:
+    pipelines:
+      traces:
+        receivers: [otlp]
+        processors: [batch]
+        exporters: [otlp]
+      metrics:
+        receivers: [otlp]
+        processors: []
+        exporters: [logging]
+      logs:
+        receivers: [otlp]
+        processors: []
+        exporters: [logging]
