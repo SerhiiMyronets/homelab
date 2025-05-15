@@ -9,6 +9,8 @@ repositories:
     url: https://charts.longhorn.io
   - name: metrics-server
     url: https://kubernetes-sigs.github.io/metrics-server
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
 
 releases:
   - name: metrics-server
@@ -53,6 +55,64 @@ releases:
     chart: longhorn/longhorn
     version: 1.8.1
     createNamespace: false
+    hooks:
+      - events: [ "post-install" ]
+        showlogs: true
+        command: kubectl
+        args:
+          - patch
+          - settings.longhorn.io
+          - replica-count
+          - --type=merge
+          - -p
+          - '{"value": "2"}'
+
+  - name: kube-prometheus-stack
+    namespace: monitoring
+    chart: prometheus-community/kube-prometheus-stack
+    version: 56.6.2
+    createNamespace: true
     values:
-      - defaultSettings:
-          replicaCount: 2
+      - crds:
+          enabled: true
+        kubeEtcd:
+          enabled: false
+        prometheus:
+          prometheusSpec:
+            maximumStartupDurationSeconds: 180
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: longhorn
+                  accessModes: [ "ReadWriteOnce" ]
+                  resources:
+                    requests:
+                      storage: 10Gi
+        alertmanager:
+          alertmanagerSpec:
+            storage:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: longhorn
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 2Gi
+        grafana:
+          defaultDatasourceUid: prometheus
+          additionalDataSources:
+            - name: Prometheus
+              type: prometheus
+              uid: prometheus
+              access: proxy
+              url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+            - name: Tempo
+              type: tempo
+              uid: tempo
+              access: proxy
+              url: http://tempo.monitoring.svc.cluster.local:3100
+            - name: Loki
+              type: loki
+              uid: loki
+              access: proxy
+              url: http://loki-stack.monitoring.svc.cluster.local:3100
