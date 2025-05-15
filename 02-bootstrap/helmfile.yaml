@@ -7,16 +7,8 @@ repositories:
     url: https://argoproj.github.io/argo-helm
   - name: longhorn
     url: https://charts.longhorn.io
-  - name: prometheus-community
-    url: https://prometheus-community.github.io/helm-charts
-  - name: grafana
-    url: https://grafana.github.io/helm-charts
   - name: metrics-server
     url: https://kubernetes-sigs.github.io/metrics-server
-  - name: jaegertracing
-    url: https://jaegertracing.github.io/helm-charts
-  - name: open-telemetry
-    url: https://open-telemetry.github.io/opentelemetry-helm-charts
 
 releases:
   - name: metrics-server
@@ -137,57 +129,57 @@ releases:
 #            grpc:
 #              enabled: true
 
-  - name: jaeger
-    namespace: monitoring
-    chart: jaegertracing/jaeger
-    version: 3.4.1
-    values:
-      - provisionDataStore:
-          cassandra: false
-        allInOne:
-          enabled: true
-        storage:
-          type: memory
-        agent:
-          enabled: false
-        collector:
-          enabled: false
-        query:
-          enabled: false
-
-  - name: otel-collector
-    namespace: monitoring
-    chart: open-telemetry/opentelemetry-collector
-    version: 0.82.0
-    values:
-      - nameOverride: otel-collector
-      - fullnameOverride: otel-collector
-      - mode: deployment
-      - config:
-          receivers:
-            otlp:
-              protocols:
-                grpc: {}
-                http: {}
-          processors:
-            batch: {}
-          exporters:
-            logging: {}
-            otlp:
-              endpoint: jaeger-collector.monitoring:4317
-              tls:
-                insecure: true
-          service:
-            pipelines:
-              traces:
-                receivers: [otlp]
-                processors: [batch]
-                exporters: [otlp]
-              metrics:
-                receivers: [otlp]
-                processors: []
-                exporters: [logging]
-              logs:
-                receivers: [otlp]
-                processors: []
-                exporters: [logging]
+#  - name: jaeger
+#    namespace: monitoring
+#    chart: jaegertracing/jaeger
+#    version: 3.4.1
+#    values:
+#      - provisionDataStore:
+#          cassandra: false
+#        allInOne:
+#          enabled: true
+#        storage:
+#          type: memory
+#        agent:
+#          enabled: false
+#        collector:
+#          enabled: false
+#        query:
+#          enabled: false
+#
+#  - name: otel-collector
+#    namespace: monitoring
+#    chart: open-telemetry/opentelemetry-collector
+#    version: 0.82.0
+#    values:
+#      - nameOverride: otel-collector
+#      - fullnameOverride: otel-collector
+#      - mode: deployment
+#      - config:
+#          receivers:
+#            otlp:
+#              protocols:
+#                grpc: {}
+#                http: {}
+#          processors:
+#            batch: {}
+#          exporters:
+#            logging: {}
+#            otlp:
+#              endpoint: jaeger-collector.monitoring:4317
+#              tls:
+#                insecure: true
+#          service:
+#            pipelines:
+#              traces:
+#                receivers: [otlp]
+#                processors: [batch]
+#                exporters: [otlp]
+#              metrics:
+#                receivers: [otlp]
+#                processors: []
+#                exporters: [logging]
+#              logs:
+#                receivers: [otlp]
+#                processors: []
+#                exporters: [logging]
