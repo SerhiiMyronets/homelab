@@ -171,13 +171,17 @@ releases:
                 http: {}
           processors: {}
           exporters:
+            jaeger:
+              endpoint: jaeger-collector.monitoring:14250
+              tls:
+                insecure: true
             logging: {}
           service:
             pipelines:
               traces:
                 receivers: [otlp]
                 processors: []
-                exporters: [logging]
+                exporters: [jaeger]
               metrics:
                 receivers: [otlp]
                 processors: []
