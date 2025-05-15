@@ -55,8 +55,9 @@ hubble:
       auto:
         enabled: true
   ui:
-    enabled: true
-    frontend:
-      enabled: true
     backend:
       enabled: true
+      address: https://hubble-relay.kube-system.svc.cluster.local:443
+    frontend:
+      enabled: true
+    enabled: true
