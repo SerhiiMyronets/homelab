@@ -13,7 +13,7 @@ config:
   processors:
     batch: {}
   exporters:
-    logging: {}
+    debug: {}
     otlp:
       endpoint: jaeger-collector.monitoring:4317
       tls:
@@ -27,8 +27,8 @@ config:
       metrics:
         receivers: [otlp]
         processors: []
-        exporters: [logging]
+        exporters: [debug]
       logs:
         receivers: [otlp]
         processors: []
-        exporters: [logging]
+        exporters: [debug]
