@@ -52,7 +52,6 @@ config:
   exporters:
     logging: {}
     otlp:
-      debug: {}
       endpoint: jaeger-collector.monitoring:4317
       tls:
         insecure: true
