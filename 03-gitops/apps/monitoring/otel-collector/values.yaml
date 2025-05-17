@@ -72,20 +72,31 @@ config:
       traces:
         exporters:
           - otlp
+          - debug
           - spanmetrics
-        receivers:
-          - otlp
         processors:
           - k8sattributes
           - memory_limiter
           - resource
           - transform
           - batch
+        receivers:
+          - otlp
 
-      metrics:
-        receivers: [otlp]
-        processors: []
-        exporters: [logging]
+        metrics:
+          exporters:
+            - otlphttp/prometheus
+            - debug
+          processors:
+            - k8sattributes
+            - memory_limiter
+            - resource
+            - batch
+          receivers:
+            - httpcheck/frontend-proxy
+            - redis
+            - otlp
+            - spanmetrics
       logs:
         receivers: [otlp]
         processors: []
