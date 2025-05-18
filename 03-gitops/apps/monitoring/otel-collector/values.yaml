@@ -3,6 +3,9 @@ fullnameOverride: otel-collector
 mode: deployment
 serviceMonitor:
   enabled: true
+  endpoints:
+    - port: spanmetrics
+      interval: 15s
 
 config:
   connectors:
