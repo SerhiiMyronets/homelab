@@ -2,7 +2,7 @@ resources:
   - grafana-ingress.yaml
   - alertmanager-ingress.yaml
   - prometheus-ingress.yaml
-  - otel-collector-servicemonitor.yaml
+#  - otel-collector-servicemonitor.yaml
 
 helmCharts:
   - name: kube-prometheus-stack
