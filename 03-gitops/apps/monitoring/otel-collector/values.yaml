@@ -1,6 +1,8 @@
 nameOverride: otel-collector
 fullnameOverride: otel-collector
 mode: deployment
+serviceMonitor:
+  enabled: true
 
 config:
   connectors:
