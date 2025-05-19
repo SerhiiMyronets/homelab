@@ -16,8 +16,7 @@ config:
   connectors:
     spanmetrics: { }
   receivers:
-    spanmetrics:
-      endpoint: ${env:MY_POD_IP}:8889
+    spanmetrics: { }
     httpcheck/frontend-proxy:
       targets:
         - endpoint: http://frontend-proxy:8080
@@ -101,7 +100,7 @@ config:
       - health_check
     pipelines:
       traces:
-        receivers: [ otlp, jaeger, zipkin, spanmetrics ]
+        receivers: [ otlp, jaeger, zipkin ]
         processors: [ k8sattributes, memory_limiter, resource, transform, batch ]
         exporters: [ spanmetrics, otlp, debug ]
 
