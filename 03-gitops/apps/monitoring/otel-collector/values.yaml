@@ -35,7 +35,7 @@ config:
         exporters: [ prometheus ]
 
 ports:
-  spanmetrics:
+  metrics:
     enabled: true
     containerPort: 8889
     servicePort: 8889
@@ -47,7 +47,7 @@ service:
 serviceMonitor:
   enabled: true
   metricsEndpoints:
-    - port: spanmetrics
+    - port: metrics
       interval: 15s
   extraLabels:
     release: kube-prometheus-stack
