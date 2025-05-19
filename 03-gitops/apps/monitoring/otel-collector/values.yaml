@@ -10,9 +10,9 @@ serviceMonitor:
     release: kube-prometheus-stack
 
 config:
+  connectors:
+    spanmetrics: { }
   receivers:
-    spanmetrics:
-      endpoint: ${env:MY_POD_IP}:8889
     httpcheck/frontend-proxy:
       targets:
         - endpoint: http://frontend-proxy:8080
@@ -123,6 +123,7 @@ config:
           - httpcheck/frontend-proxy
           - redis
           - otlp
+          - spanmetrics
       logs:
         receivers: [otlp]
         processors: []
