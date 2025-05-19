@@ -101,7 +101,7 @@ config:
       - health_check
     pipelines:
       traces:
-        receivers: [ otlp, jaeger, zipkin ]
+        receivers: [ otlp, jaeger, zipkin, spanmetrics ]
         processors: [ k8sattributes, memory_limiter, resource, transform, batch ]
         exporters: [ spanmetrics, otlp, debug ]
 
