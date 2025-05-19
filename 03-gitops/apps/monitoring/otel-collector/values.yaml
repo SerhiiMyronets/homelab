@@ -35,9 +35,16 @@ config:
         receivers: [ spanmetrics ]
         processors: [ batch ]
         exporters: [ prometheus ]
+    telemetry:
+      metrics:
+        address: "0.0.0.0:8888"
 
 ports:
   metrics:
+    enabled: true
+    containerPort: 8888
+    servicePort: 8888
+  spanmetrics:
     enabled: true
     containerPort: 8889
     servicePort: 8889
@@ -46,9 +53,12 @@ service:
   enabled: true
   type: ClusterIP
 
+
 serviceMonitor:
   enabled: true
   metricsEndpoints:
+    - port: spanmetrics
+      interval: 15s
     - port: metrics
       interval: 15s
   extraLabels:
