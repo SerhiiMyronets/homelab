@@ -15,7 +15,6 @@ config:
         grpc: {}
         http: {}
   processors:
-    spanmetrics: { }
     batch: { }
   exporters:
     otlp:
@@ -30,7 +29,7 @@ config:
     pipelines:
       traces:
         receivers: [otlp]
-        processors: [spanmetrics, batch]
+        processors: [batch]
         exporters: [spanmetrics, otlp, logging]
       metrics:
         receivers: [ spanmetrics ]
