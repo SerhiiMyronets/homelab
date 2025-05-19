@@ -15,8 +15,7 @@ config:
         grpc: {}
         http: {}
   exporters:
-    prometheus:
-      endpoint: ${env:MY_POD_IP}:8889
+    prometheus: {}
     logging:
       loglevel: debug
   service:
@@ -31,10 +30,6 @@ config:
         exporters: [ prometheus ]
 
 ports:
-  metrics:
-    enabled: true
-    containerPort: 8888
-    servicePort: 8888
   spanmetrics:
     enabled: true
     containerPort: 8889
@@ -47,8 +42,6 @@ service:
 serviceMonitor:
   enabled: true
   metricsEndpoints:
-    - port: metrics
-      interval: 15s
     - port: spanmetrics
       interval: 15s
   extraLabels:
