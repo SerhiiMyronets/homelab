@@ -49,5 +49,7 @@ serviceMonitor:
   metricsEndpoints:
     - port: metrics
       interval: 15s
+    - port: spanmetrics
+      interval: 15s
   extraLabels:
     release: kube-prometheus-stack
