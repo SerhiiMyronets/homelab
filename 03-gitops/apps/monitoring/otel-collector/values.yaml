@@ -6,19 +6,20 @@ image:
   repository: otel/opentelemetry-collector-contrib
   tag: 0.98.0
 
-configMap:
-  create: true
-  name: otel-collector-config
-  key: relay.yaml
+command:
+  - "/otelcontribcol"
+args:
+  - "--config=/conf/relay.yaml"
 
-extraArgs:
-  - --config=/conf/relay.yaml
+extraVolumes:
+  - name: otel-collector-config
+    configMap:
+      name: otel-collector-config
 
-configMapMounts:
+extraVolumeMounts:
   - name: otel-collector-config
     mountPath: /conf
     subPath: relay.yaml
-    configMap: otel-collector-config
 
 ports:
   metrics:
@@ -33,6 +34,8 @@ ports:
 serviceMonitor:
   enabled: true
   metricsEndpoints:
+    - port: metrics
+      interval: 15s
     - port: spanmetrics
       interval: 15s
   extraLabels:
