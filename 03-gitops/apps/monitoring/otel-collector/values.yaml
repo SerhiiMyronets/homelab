@@ -111,7 +111,6 @@ config:
           - httpcheck/frontend-proxy
           - redis
           - otlp
-          - spanmetrics
       logs:
         receivers: [otlp]
         processors: []
