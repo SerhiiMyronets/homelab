@@ -10,8 +10,8 @@ config:
   receivers:
     otlp:
       protocols:
-        grpc:
-        http:
+        grpc: {}
+        http: {}
   exporters:
     logging:
       loglevel: debug
