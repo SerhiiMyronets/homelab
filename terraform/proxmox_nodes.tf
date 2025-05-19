@@ -103,14 +103,6 @@ resource "proxmox_virtual_environment_vm" "talos_worker_01" {
     size         = var.worker_config.disk_os
   }
 
-  # Longhorn data disk
-  disk {
-    datastore_id = "local-lvm"
-    interface    = "scsi1"
-    file_format  = "raw"
-    size         = var.worker_config.disk_longhorn
-  }
-
   operating_system {
     type = "l26"
   }

@@ -63,7 +63,7 @@ locals {
 }
 
 // ==============================================================================
-// Cilium Inline Manifests for Talos
+// Cilium Load Balancer Inline Manifests for Talos
 // ==============================================================================
 
 locals {
