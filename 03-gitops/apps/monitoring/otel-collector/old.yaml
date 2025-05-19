@@ -86,13 +86,32 @@ config:
       - health_check
     pipelines:
       traces:
-        receivers: [otlp]
-        processors: [k8sattributes, memory_limiter, resource, batch]
-        exporters: [spanmetrics, otlp]
+        exporters:
+          - otlp
+          - debug
+          - spanmetrics
+        processors:
+          - k8sattributes
+          - memory_limiter
+          - resource
+          - transform
+          - batch
+        receivers:
+          - otlp
       metrics:
-        receivers: [otlp, spanmetrics]
-        processors: [k8sattributes, memory_limiter, resource, batch]
-        exporters: [prometheus]
+        exporters:
+          - prometheus
+          - debug
+        processors:
+          - k8sattributes
+          - memory_limiter
+          - resource
+          - batch
+        receivers:
+          - httpcheck/frontend-proxy
+          - redis
+          - otlp
+          - spanmetrics
       logs:
         receivers: [otlp]
         processors: []
