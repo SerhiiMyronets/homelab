@@ -6,11 +6,8 @@ image:
   repository: otel/opentelemetry-collector-contrib
   tag: 0.98.0
 
-command:
-  command:
-    name: otelcontribcol
-    args:
-      - "--config=/conf/relay.yaml"
+args:
+  - "--config=/conf/relay.yaml"
 
 extraVolumes:
   - name: otel-collector-config
@@ -41,9 +38,3 @@ serviceMonitor:
       interval: 15s
   extraLabels:
     release: kube-prometheus-stack
-
-resources:
-  limits:
-    memory: 300Mi
-  requests:
-    memory: 150Mi
