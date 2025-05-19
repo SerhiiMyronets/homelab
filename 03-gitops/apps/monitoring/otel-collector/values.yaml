@@ -1,6 +1,3 @@
-image:
-  repository: otel/opentelemetry-collector-contrib
-  tag: 0.98.0
 nameOverride: otel-collector
 fullnameOverride: otel-collector
 mode: deployment
@@ -13,10 +10,9 @@ serviceMonitor:
     release: kube-prometheus-stack
 
 config:
-  connectors:
-    spanmetrics: { }
   receivers:
-    spanmetrics: { }
+    spanmetrics:
+      endpoint: ${env:MY_POD_IP}:8889
     httpcheck/frontend-proxy:
       targets:
         - endpoint: http://frontend-proxy:8080
@@ -100,19 +96,37 @@ config:
       - health_check
     pipelines:
       traces:
-        receivers: [ otlp, jaeger, zipkin ]
-        processors: [ k8sattributes, memory_limiter, resource, transform, batch ]
-        exporters: [ spanmetrics, otlp, debug ]
-
+        exporters:
+          - otlp
+          - debug
+          - spanmetrics
+        processors:
+          - k8sattributes
+          - memory_limiter
+          - resource
+          - transform
+          - batch
+        receivers:
+          - otlp
+          - jaeger
+          - zipkin
       metrics:
-        receivers: [ spanmetrics, otlp, redis, httpcheck/frontend-proxy ]
-        processors: [ k8sattributes, memory_limiter, resource, batch ]
-        exporters: [ prometheus, debug ]
-
+        exporters:
+          - prometheus
+          - debug
+        processors:
+          - k8sattributes
+          - memory_limiter
+          - resource
+          - batch
+        receivers:
+          - httpcheck/frontend-proxy
+          - redis
+          - otlp
       logs:
-        receivers: [ otlp ]
-        processors: [ ]
-        exporters: [ debug ]
+        receivers: [otlp]
+        processors: []
+        exporters: [debug]
 ports:
   metrics:
     enabled: false
