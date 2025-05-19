@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: monitoring-apps
+  name: otel-collector
   namespace: argocd
 spec:
   project: default
