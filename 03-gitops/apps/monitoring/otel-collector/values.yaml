@@ -66,7 +66,7 @@ config:
         http: {}
     redis:
       collection_interval: 10s
-      endpoint: valkey-cart:6379
+      endpoint: valkey-cart.otel-demo.svc.cluster.local:6379
 
 ##############################################
 
