@@ -130,3 +130,18 @@ serviceMonitor:
       interval: 15s
   extraLabels:
     release: kube-prometheus-stack
+
+
+serviceAccount:
+  create: true
+  name: otel-collector
+
+rbac:
+  create: true
+  rules:
+    - apiGroups: [""]
+      resources: ["pods"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: ["apps"]
+      resources: ["replicasets"]
+      verbs: ["get", "list", "watch"]
