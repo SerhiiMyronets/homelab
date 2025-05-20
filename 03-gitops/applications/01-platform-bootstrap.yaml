@@ -16,16 +16,36 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-apps
+  name: kube-prometheus-stack
   namespace: argocd
 spec:
   project: platform
   source:
     repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
     targetRevision: main
-    path: 03-gitops/apps/platform
+    path: 03-gitops/apps/platform/kube-prometheus-stack
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
   syncPolicy:
     automated: {}
+
+
+
+
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: platform-apps
+#  namespace: argocd
+#spec:
+#  project: platform
+#  source:
+#    repoURL: https://github.com/SerhiiMyronets/homelab-talos-kubernetes-terraform.git
+#    targetRevision: main
+#    path: 03-gitops/apps/platform
+#  destination:
+#    server: https://kubernetes.default.svc
+#    namespace: argocd
+#  syncPolicy:
+#    automated: {}
