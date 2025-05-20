@@ -15,7 +15,7 @@ configMapGenerator:
   - name: demo-dashboard
     namespace: monitoring
     files:
-      - dashboards/demo-dashboard.cleaned.json
+      - dashboards/demo-dashboard-updated.json
     options:
       labels:
         grafana_dashboard: "1"
