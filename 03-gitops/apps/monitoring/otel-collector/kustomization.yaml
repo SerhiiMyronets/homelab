@@ -6,5 +6,5 @@ helmCharts:
     namespace: monitoring
     valuesFile: values.yaml
 
-#resources:
-#  - otel-collector-rbac.yaml
+resources:
+  - otel-collector-rbac.yaml
