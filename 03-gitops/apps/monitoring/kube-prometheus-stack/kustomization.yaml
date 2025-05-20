@@ -12,16 +12,38 @@ helmCharts:
     valuesFile: values.yaml
 
 configMapGenerator:
-  - name: otel-dashboard
+  - name: demo-dashboard
     namespace: monitoring
     files:
       - dashboards/demo-dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+
+  - name: exemplars-dashboard
+    namespace: monitoring
+    files:
       - dashboards/exemplars-dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+
+  - name: otel-collector-dashboard
+    namespace: monitoring
+    files:
       - dashboards/opentelemetry-collector.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+
+  - name: spanmetrics-dashboard
+    namespace: monitoring
+    files:
       - dashboards/spanmetrics-dashboard.json
     options:
       labels:
         grafana_dashboard: "1"
+
 generatorOptions:
   disableNameSuffixHash: true
   annotations: {}
