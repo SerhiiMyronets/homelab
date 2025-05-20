@@ -1,6 +1,20 @@
 crds:
   enabled: true
 
+kubeScheduler:
+  enabled: true
+  service:
+    enabled: false
+  serviceMonitor:
+    enabled: false
+
+kubeControllerManager:
+  enabled: true
+  service:
+    enabled: false
+  serviceMonitor:
+    enabled: false
+
 prometheus:
   prometheusSpec:
     storageSpec:
