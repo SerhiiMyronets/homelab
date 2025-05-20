@@ -6013,9 +6013,7 @@
   "preload": false,
   "refresh": "",
   "schemaVersion": 40,
-  "tags": [
-    "opentelemetry"
-  ],
+  "tags": ["otel-demo", "opentelemetry"],
   "templating": {
     "list": [
       {

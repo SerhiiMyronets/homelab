@@ -969,7 +969,7 @@
   "preload": false,
   "refresh": "5m",
   "schemaVersion": 40,
-  "tags": [],
+  "tags": ["otel-demo"],
   "templating": {
     "list": [
       {
