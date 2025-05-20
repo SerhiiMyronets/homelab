@@ -9,22 +9,86 @@ image:
 config:
   connectors:
     spanmetrics: { }
+  extensions:
+    health_check:
+      endpoint: ${env:MY_POD_IP}:13133
+  processors:
+    batch: { }
+    k8sattributes:
+      extract:
+        metadata:
+          - k8s.namespace.name
+          - k8s.deployment.name
+          - k8s.statefulset.name
+          - k8s.daemonset.name
+          - k8s.cronjob.name
+          - k8s.job.name
+          - k8s.node.name
+          - k8s.pod.name
+          - k8s.pod.uid
+          - k8s.pod.start_time
+      passthrough: false
+      pod_association:
+        - sources:
+            - from: resource_attribute
+              name: k8s.pod.ip
+        - sources:
+            - from: resource_attribute
+              name: k8s.pod.uid
+        - sources:
+            - from: connection
+    memory_limiter:
+      check_interval: 5s
+      limit_percentage: 80
+      spike_limit_percentage: 25
+    resource:
+      attributes:
+        - action: insert
+          from_attribute: k8s.pod.uid
+          key: service.instance.id
+    transform:
+      error_mode: ignore
+      trace_statements:
+        - context: span
+          statements:
+            - replace_pattern(name, "\\?.*", "")
+            - replace_match(name, "GET /api/products/*", "GET /api/products/{productId}")
+
+##############################################
+
   receivers:
+    httpcheck/frontend-proxy:
+      targets:
+        - endpoint: http://frontend-proxy:8080
     otlp:
       protocols:
         grpc: {}
         http: {}
-  processors:
-    batch: { }
+    prometheus:
+      config:
+        scrape_configs:
+          - job_name: opentelemetry-collector
+            scrape_interval: 10s
+            static_configs:
+              - targets:
+                  - ${env:MY_POD_IP}:8888
+
+##############################################
+
   exporters:
+    debug: {}
     otlp:
       endpoint: jaeger-collector.monitoring:4317
       tls:
         insecure: true
     prometheus:
       endpoint: "0.0.0.0:8889"
-    debug: {}
+
+##############################################
+
   service:
+    extensions:
+    - health_check
     pipelines:
       traces:
         receivers: [otlp]
@@ -37,6 +101,9 @@ config:
     telemetry:
       metrics:
         address: "0.0.0.0:8888"
+
+
+
 
 ports:
   metrics:
