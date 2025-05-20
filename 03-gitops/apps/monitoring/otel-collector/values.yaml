@@ -62,8 +62,14 @@ config:
         - endpoint: http://frontend-proxy:8080
     otlp:
       protocols:
-        grpc: {}
-        http: {}
+        grpc:
+          endpoint: ${env:MY_POD_IP}:4317
+        http:
+          cors:
+            allowed_origins:
+              - http://*
+              - https://*
+          endpoint: ${env:MY_POD_IP}:4318
     prometheus:
       config:
         scrape_configs:
