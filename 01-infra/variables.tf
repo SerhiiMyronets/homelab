@@ -47,7 +47,7 @@ variable "proxmox_node_name" {
 variable "proxmox_network_bridge" {
   description = "The network bridge interface on Proxmox used by virtual machines."
   type        = string
-  default     = "vmbr0"
+  default     = "vmbr1"
 }
 
 // ==============================================================================
