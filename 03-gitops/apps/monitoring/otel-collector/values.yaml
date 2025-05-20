@@ -76,6 +76,8 @@ config:
       endpoint: jaeger-collector.monitoring:4317
       tls:
         insecure: true
+    loki:
+      endpoint: http://loki-stack.monitoring.svc.cluster.local:3100/loki/api/v1/push
     prometheus:
       endpoint: "0.0.0.0:8889"
 
@@ -85,6 +87,10 @@ config:
     extensions:
     - health_check
     pipelines:
+      logs:
+        receivers: [ otlp ]
+        processors: [ k8sattributes, memory_limiter, resource, batch ]
+        exporters: [ loki ]
       metrics:
         receivers: [ httpcheck/frontend-proxy, redis, otlp, spanmetrics ]
         processors: [ k8sattributes, memory_limiter, resource, batch ]
