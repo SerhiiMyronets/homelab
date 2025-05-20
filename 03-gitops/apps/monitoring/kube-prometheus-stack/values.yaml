@@ -28,9 +28,14 @@ grafana:
   additionalDataSources:
     - name: Prometheus
       type: prometheus
-      uid: prometheus
+      uid: webstore-metrics
       access: proxy
       url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
+    - name: Jaeger
+      type: jaeger
+      uid: webstore-traces
+      access: proxy
+      url: http://jaeger-query.monitoring.svc.cluster.local:16686/jaeger/ui
     - name: Tempo
       type: tempo
       uid: tempo
