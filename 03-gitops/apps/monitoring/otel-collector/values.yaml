@@ -87,7 +87,7 @@ config:
     pipelines:
       metrics:
         receivers: [ httpcheck/frontend-proxy, redis, otlp, spanmetrics ]
-        processors: [ k8sattributes, memory_limiter, resource batch ]
+        processors: [ k8sattributes, memory_limiter, resource, batch ]
         exporters: [ prometheus ]
       traces:
         receivers: [otlp]
