@@ -6,8 +6,10 @@ image:
   repository: otel/opentelemetry-collector-contrib
   tag: 0.98.0
 
-args:
-  - "--config=/conf/relay.yaml"
+command:
+  name: otelcontribcol
+  extraArgs:
+    - "--config=/conf/relay.yaml"
 
 extraVolumes:
   - name: otel-collector-config
