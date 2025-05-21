@@ -7,7 +7,10 @@ data "talos_client_configuration" "talosconfig" {
 }
 
 resource "talos_cluster_kubeconfig" "kubeconfig" {
-  depends_on           = [talos_machine_bootstrap.bootstrap, data.talos_cluster_health.health]
+  depends_on = [
+    talos_machine_bootstrap.bootstrap,
+    # data.talos_cluster_health.health
+  ]
   client_configuration = talos_machine_secrets.machine_secrets.client_configuration
   node                 = local.controller_nodes[0].address
 }
@@ -17,6 +20,7 @@ data "talos_machine_configuration" "controller" {
   cluster_endpoint = "https://${local.controller_nodes[0].address}:6443"
   machine_type     = "controlplane"
   machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
+  config_patches   = local.patches
 }
 
 resource "talos_machine_configuration_apply" "controller" {
@@ -33,6 +37,7 @@ data "talos_machine_configuration" "worker" {
   cluster_endpoint = "https://${local.controller_nodes[0].address}:6443"
   machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
+  config_patches   = local.patches
 }
 
 resource "talos_machine_configuration_apply" "worker" {
@@ -51,10 +56,10 @@ resource "talos_machine_bootstrap" "bootstrap" {
   node                 = local.controller_nodes[0].address
 }
 
-data "talos_cluster_health" "health" {
-  depends_on           = [talos_machine_configuration_apply.controller, talos_machine_configuration_apply.worker]
-  client_configuration = data.talos_client_configuration.talosconfig.client_configuration
-  control_plane_nodes  = local.controller_nodes[*].address
-  worker_nodes         = local.worker_nodes[*].address
-  endpoints            = data.talos_client_configuration.talosconfig.endpoints
-}
+# data "talos_cluster_health" "health" {
+#   depends_on           = [talos_machine_configuration_apply.controller, talos_machine_configuration_apply.worker]
+#   client_configuration = data.talos_client_configuration.talosconfig.client_configuration
+#   control_plane_nodes  = local.controller_nodes[*].address
+#   worker_nodes         = local.worker_nodes[*].address
+#   endpoints            = data.talos_client_configuration.talosconfig.endpoints
+# }
