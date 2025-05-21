@@ -72,8 +72,12 @@ config:
 
   exporters:
     debug: {}
-    otlp:
+    otlp/jaeger:
       endpoint: jaeger-collector.monitoring:4317
+      tls:
+        insecure: true
+    otlp/tempo:
+      endpoint: tempo.monitoring.svc.cluster.local:4317
       tls:
         insecure: true
     loki:
@@ -98,7 +102,7 @@ config:
       traces:
         receivers: [otlp]
         processors: [k8sattributes, memory_limiter, resource, transform, batch]
-        exporters: [spanmetrics, otlp]
+        exporters: [spanmetrics, otlp/jaeger, otlp/tempo]
     telemetry:
       metrics:
         address: "0.0.0.0:8888"
