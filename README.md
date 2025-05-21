@@ -50,10 +50,11 @@ A static route to `192.168.100.0/24` must be configured on the developer worksta
 
 Below is a preview of the cluster after deployment. For a complete set of UI screenshots, see the [03-gitops UI Previews](./03-gitops/README.md#ui-previews).
 
-| Tool    | Preview                                       |
-| ------- | --------------------------------------------- |
-| Argo CD | <img src="./assets/argocd.png" width="300"/>  |
-| Grafana | <img src="./assets/grafana.png" width="300"/> |
+|                    Proxmox                    |                    Argocd                    |
+|:---------------------------------------------:|:--------------------------------------------:|
+| <img src="./assets/proxmox.png" width="300"/> | <img src="./assets/argocd.png" width="300"/> |
+|                   HubbleUI                    |                    Tempo                     |
+| <img src="./assets/hubble.png" width="300"/>  | <img src="./assets/tempo.png" width="300"/>  |
 
 ## Getting Started
 
