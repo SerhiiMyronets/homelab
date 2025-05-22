@@ -46,6 +46,7 @@ grafana:
       org_role: Admin
   additionalDataSources:
     - name: Prometheus
+      isDefault: true
       type: prometheus
       uid: webstore-metrics
       access: proxy
