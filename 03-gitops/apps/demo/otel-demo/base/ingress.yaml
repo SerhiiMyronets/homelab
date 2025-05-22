@@ -23,3 +23,29 @@ spec:
     - hosts:
         - otel-demo.cluster
       secretName: otel-demo-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: otel-demo-loadgen-ingress
+  namespace: otel-demo
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    cert-manager.io/cluster-issuer: ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: otel-demo-loadgen.cluster
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: load-generator
+                port:
+                  number: 8089
+  tls:
+    - hosts:
+        - otel-demo-loadgen.cluster
+      secretName: otel-demo-loadgen-tls
