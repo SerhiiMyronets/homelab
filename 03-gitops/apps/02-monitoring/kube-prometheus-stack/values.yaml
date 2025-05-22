@@ -42,7 +42,6 @@ grafana:
     - name: Prometheus
       type: prometheus
       uid: webstore-metrics
-      isDefault: true
       access: proxy
       url: http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090
       jsonData:
