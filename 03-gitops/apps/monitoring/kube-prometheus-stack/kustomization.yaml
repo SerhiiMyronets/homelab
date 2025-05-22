@@ -15,7 +15,7 @@ configMapGenerator:
   - name: demo-dashboard
     namespace: monitoring
     files:
-      - dashboards/demo-dashboard.json
+      - otel-grafana-dashboards/demo-dashboard.json
     options:
       labels:
         grafana_dashboard: "1"
@@ -23,7 +23,7 @@ configMapGenerator:
   - name: exemplars-dashboard
     namespace: monitoring
     files:
-      - dashboards/exemplars-dashboard.json
+      - otel-grafana-dashboards/exemplars-dashboard.json
     options:
       labels:
         grafana_dashboard: "1"
@@ -31,7 +31,7 @@ configMapGenerator:
   - name: otel-collector-dashboard
     namespace: monitoring
     files:
-      - dashboards/opentelemetry-collector.json
+      - otel-grafana-dashboards/opentelemetry-collector.json
     options:
       labels:
         grafana_dashboard: "1"
@@ -39,7 +39,7 @@ configMapGenerator:
   - name: spanmetrics-dashboard
     namespace: monitoring
     files:
-      - dashboards/spanmetrics-dashboard.json
+      - otel-grafana-dashboards/spanmetrics-dashboard.json
     options:
       labels:
         grafana_dashboard: "1"
