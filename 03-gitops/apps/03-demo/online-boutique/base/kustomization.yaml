@@ -27,4 +27,3 @@ resources:
 - productcatalogservice.yaml
 - recommendationservice.yaml
 - shippingservice.yaml
-- frontend-gateway.yaml
