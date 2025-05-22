@@ -27,3 +27,4 @@ resources:
 - productcatalogservice.yaml
 - recommendationservice.yaml
 - shippingservice.yaml
+- ingress.yaml
