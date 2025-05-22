@@ -1,25 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-server-ui
-  namespace: argocd
+  name: hubble-ui
+  namespace: kube-system
   annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     cert-manager.io/cluster-issuer: ingress
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx
   rules:
-    - host: argocd.cluster
+    - host: hubble.cluster
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: argocd-server
+                name: hubble-ui
                 port:
-                  number: 443
-  tls:
-    - hosts:
-        - argocd.cluster
-      secretName: argocd-server-tls
+                  number: 80
+#  tls:
+#    - hosts:
+#        - hubble.cluster
+#      secretName: hubble-ui-tls
