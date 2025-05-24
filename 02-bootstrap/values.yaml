@@ -1,0 +1,106 @@
+components:
+  accounting:
+    enabled: true
+    useDefault:
+      env: true
+  ad:
+    enabled: true
+    useDefault:
+      env: true
+  cart:
+    enabled: true
+    useDefault:
+      env: true
+  checkout:
+    enabled: true
+    useDefault:
+      env: true
+  currency:
+    enabled: true
+    useDefault:
+      env: true
+  email:
+    enabled: true
+    useDefault:
+      env: true
+  flagd:
+    enabled: true
+    useDefault:
+      env: true
+  fraud-detection:
+    enabled: true
+    useDefault:
+      env: true
+  frontend:
+    enabled: true
+    useDefault:
+      env: true
+  frontend-proxy:
+    enabled: true
+    useDefault:
+      env: true
+  image-provider:
+    enabled: true
+    useDefault:
+      env: true
+  kafka:
+    enabled: true
+    useDefault:
+      env: true
+  load-generator:
+    enabled: true
+    useDefault:
+      env: true
+  payment:
+    enabled: true
+    useDefault:
+      env: true
+  product-catalog:
+    enabled: true
+    useDefault:
+      env: true
+  quote:
+    enabled: true
+    useDefault:
+      env: true
+  recommendation:
+    enabled: true
+    useDefault:
+      env: true
+  shipping:
+    enabled: true
+    useDefault:
+      env: true
+  valkey-cart:
+    enabled: true
+    useDefault:
+      env: true
+default:
+  enabled: true
+
+  env:
+    - name: OTEL_EXPORTER_OTLP_ENDPOINT
+      value: http://otel.my-custom-collector.svc.cluster.local:4317
+    - name: OTEL_EXPORTER_OTLP_TRACES_PROTOCOL
+      value: http/protobuf
+    - name: OTEL_EXPORTER_OTLP_METRICS_PROTOCOL
+      value: http/protobuf
+    - name: OTEL_EXPORTER_OTLP_LOGS_PROTOCOL
+      value: http/protobuf
+    - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+      value: cumulative
+    - name: OTEL_RESOURCE_ATTRIBUTES
+      value: service.name=$(OTEL_SERVICE_NAME),service.namespace=opentelemetry-demo,service.version=2.0.2
+    - name: OTEL_SERVICE_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: "metadata.labels['app.kubernetes.io/component']"
+grafana:
+  enabled: false
+jaeger:
+  enabled: false
+opentelemetry-collector:
+  enabled: false
+prometheus:
+  enabled: false
