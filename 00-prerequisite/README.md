@@ -133,8 +133,8 @@ Replace `192.168.1.100` with your Proxmox host's IP address.
 
 ---
 
-**Next steps:**
+## Navigation
 
-* [← Back to root readme](../README.md)
+↑ Main project README
 * [→ Continue to 01-infrastructure](../01-infrastructure/README.md)
 

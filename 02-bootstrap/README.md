@@ -54,7 +54,7 @@ longhorn-driver-deployer   1/1     1            1           3m21s
 longhorn-ui                2/2     2            2           3m21s
 ```
 
-## Next steps
+## Navigation
 
 * [← Back to 01-infrastructure](../01-infrastructure/README.md)
 * [→ Continue to 03-gitops](../03-gitops/README.md)

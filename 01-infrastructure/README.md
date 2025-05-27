@@ -49,7 +49,7 @@ talos-controlplane-01   Ready    control-plane   3m24s   v1.32.0
 talos-worker-01         Ready    <none>          3m8s    v1.32.0
 ```
 
-**Next steps:**
+## Navigation
 
 * [← Back to 00-prerequisite](../00-prerequisite/README.md)
 * [→ Continue to 02-bootstrap](../02-bootstrap/README.md)

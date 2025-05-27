@@ -1,27 +1,22 @@
 # 03-gitops
 
-This stage enables full GitOps-driven management of the Kubernetes cluster using Argo CD. All components—including platform tools, observability stack, and demo applications—are defined as Argo CD Applications and managed declaratively.
+This stage defines and manages the full application lifecycle in the Kubernetes cluster using GitOps principles.
+Through Argo CD, all components—including platform services, observability tools, and workloads—are deployed in a declarative and reproducible manner.
 
 ## Purpose
 
-* Define Argo CD Applications declaratively using `applications/*.yaml`
-* Organize infrastructure and workloads by domain (platform, monitoring, demo)
-* Synchronize services automatically via Argo CD
+This layer defines the full GitOps deployment model for the cluster. It separates applications into logical stages—platform services, observability stack, and demo workloads—each managed by Argo CD Applications.
+
+Argo CD Applications are bootstrapped in a controlled order to ensure service readiness and interdependency handling. This approach enables reproducible, declarative deployment of all Kubernetes workloads via Git.
 
 ## Structure
 
-* `applications/` – Argo CD Application manifests to bootstrap each logical layer:
-
-    * `01-platform-bootstrap.yaml`
-    * `02-monitoring-bootstrap.yaml`
-    * `03-otel-demo.yaml`
-    * `04-online-boutique-demo.yaml`
-
-* `apps/` – Kustomize-based app definitions:
-
-    * `01-platform/` – `argocd`, `cert-manager`, `cilium`, `longhorn`
-    * `02-monitoring/` – `kube-prometheus-stack`, `tempo`, `loki`, `otel-collector`, `jaeger`, `hubble`
-    * `03-demo/` – `otel-demo`, `online-boutique`
+| Layer         | Path                  | Description                                    |
+| ------------- | --------------------- | ---------------------------------------------- |
+| Applications  | `applications/`       | Argo CD Application definitions (per stage)    |
+| Platform Apps | `apps/01-platform/`   | Argo CD, cert-manager, Cilium, Longhorn        |
+| Monitoring    | `apps/02-monitoring/` | Prometheus, Grafana, Tempo, Loki, Jaeger, etc. |
+| Demo          | `apps/03-demo/`       | OpenTelemetry Demo (`otel-demo`)               |
 
 ## Ingress Access
 
@@ -44,6 +39,8 @@ To make Ingress hosts resolvable, you can:
 
 ## Usage
 
+> **Pre-requisite**: Ensure Argo CD is already running in your cluster. It was installed via Helm in the previous stage (`02-bootstrap`).
+
 It is recommended to apply the Argo CD Applications in order, as each layer builds upon the previous one.
 
 ### Step-by-step deployment
@@ -63,20 +60,22 @@ kubectl apply -f applications/03-otel-demo.yaml
 
 * `01-platform-bootstrap.yaml`
 
-    * Adds Cilium to Argo CD management (already pre-installed)
-    * Installs cert-manager with self-signed CA
-    * Deploys Ingress resources for Argo CD and Longhorn UIs
+  * Adds Cilium to Argo CD management (already pre-installed)
+  * Installs cert-manager with self-signed CA
+  * Deploys Ingress resources for Argo CD and Longhorn UIs
 
 * `02-monitoring-bootstrap.yaml`
 
-    * Installs kube-prometheus-stack, OpenTelemetry Collector, Loki, Tempo, Jaeger, and Hubble
-    * Deploys Ingress resources for Hubble, Jaeger, Alertmanager, Grafana, Prometheus, Loki, and Tempo
+  * Installs kube-prometheus-stack, OpenTelemetry Collector, Loki, Tempo, Jaeger, and Hubble
+  * Deploys Ingress resources for Hubble, Jaeger, Alertmanager, Grafana, Prometheus, Loki, and Tempo
 
 * `03-otel-demo.yaml`
 
-    * Deploys the `otel-demo`, an OpenTelemetry example application representing a 21-microservice online store
-    * Exposes the frontend and load generator via Ingress resources
+  * Deploys the `otel-demo`, an OpenTelemetry example application representing a 21-microservice online store
+  * Exposes the frontend and load generator via Ingress resources
 
-## Next steps
+Once all applications are synced, your cluster will be fully equipped with GitOps management, observability, and demo workloads for instrumentation testing.
+
+## Navigation
 
 * [← Back to 02-bootstrap](../02-bootstrap/README.md)
