@@ -102,7 +102,7 @@ cluster:
                   - devices={eth0}
                   - --set
                   - envoy.enabled=false
-                  - --set
+#                  - --set
 #                  - hubble.relay.enabled=true
 #                  - --set
 #                  - hubble.ui.enabled=true
