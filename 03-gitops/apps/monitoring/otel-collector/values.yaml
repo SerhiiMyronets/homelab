@@ -9,7 +9,7 @@ image:
 command:
   name: otelcontribcol
   extraArgs:
-    - "--config=/conf/relay.yaml"
+    - "--config=/etc/otel-custom/relay.yaml"
 
 extraVolumes:
   - name: otel-collector-config
@@ -18,7 +18,7 @@ extraVolumes:
 
 extraVolumeMounts:
   - name: otel-collector-config
-    mountPath: /conf
+    mountPath: /etc/otel-custom
     subPath: relay.yaml
 
 ports:
