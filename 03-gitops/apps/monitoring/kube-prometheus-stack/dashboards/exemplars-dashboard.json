@@ -442,7 +442,7 @@
   ],
   "preload": false,
   "schemaVersion": 40,
-  "tags": [],
+  "tags": ["otel-demo"],
   "templating": {
     "list": []
   },
