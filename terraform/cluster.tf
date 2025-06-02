@@ -20,7 +20,7 @@ data "talos_machine_configuration" "controller" {
   cluster_endpoint = "https://${local.controller_nodes[0].address}:6443"
   machine_type     = "controlplane"
   machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
-  config_patches   = local.patches
+  config_patches = local.config_patches_controlplane
 }
 
 resource "talos_machine_configuration_apply" "controller" {
@@ -37,7 +37,7 @@ data "talos_machine_configuration" "worker" {
   cluster_endpoint = "https://${local.controller_nodes[0].address}:6443"
   machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.machine_secrets.machine_secrets
-  config_patches   = local.patches
+  config_patches = local.config_patches_worker
 }
 
 resource "talos_machine_configuration_apply" "worker" {
