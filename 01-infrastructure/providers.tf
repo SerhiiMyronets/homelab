@@ -18,12 +18,6 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket  = "serhii-myronets"
-    key     = "homelab/cluster.tfstate"
-    region  = "us-east-1"
-    encrypt = true
-  }
 }
 
 // ==============================================================================
